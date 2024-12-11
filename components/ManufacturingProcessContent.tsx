@@ -1,5 +1,5 @@
 'use client';
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import Container from './Container';
 import { FaFlask, FaBalanceScale, FaFire, FaIndustry, FaTemperatureLow, FaSearchPlus, FaBox } from 'react-icons/fa';
 import { IconType } from 'react-icons';
@@ -138,11 +138,11 @@ const ManufacturingProcessContent = memo(() => {
   }, []);
 
   const handlePrevStep = useCallback(() => {
-    // Your logic here
+    setActiveStep((prev) => (prev > 0 ? prev - 1 : prev));
   }, []);
 
   const handleNextStep = useCallback(() => {
-    // Your logic here
+    setActiveStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
   }, []);
 
   return (
@@ -240,7 +240,7 @@ const ManufacturingProcessContent = memo(() => {
                 {/* Navigation Arrows for Mobile */}
                 <div className="flex gap-2 md:hidden">
                   <button 
-                    onClick={() => setActiveStep(prev => Math.max(0, prev - 1))}
+                    onClick={handlePrevStep}
                     disabled={activeStep === 0}
                     className="p-2 rounded-full hover:bg-white/5 disabled:opacity-50
                              transition-colors duration-300"
@@ -248,7 +248,7 @@ const ManufacturingProcessContent = memo(() => {
                     ←
                   </button>
                   <button 
-                    onClick={() => setActiveStep(prev => Math.min(steps.length - 1, prev + 1))}
+                    onClick={handleNextStep}
                     disabled={activeStep === steps.length - 1}
                     className="p-2 rounded-full hover:bg-white/5 disabled:opacity-50
                              transition-colors duration-300"
