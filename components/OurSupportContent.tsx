@@ -1,5 +1,5 @@
 "use client"
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useState, useRef } from 'react'
 import Container from './Container'
 import Image from 'next/image'
 import { FaStar, FaChevronCircleDown } from "react-icons/fa"
@@ -37,6 +37,7 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   delay: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
@@ -45,53 +46,61 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   const handleClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const details = e.currentTarget.parentElement as HTMLDetailsElement;
-    const content = details?.querySelector('.supportList') as HTMLDivElement;
+    const content = contentRef.current;
     
     if (!details || !content) return;
 
-    const animateHeight = (startHeight: number, endHeight: number) => {
-      const duration = 400;
-      const startTime = performance.now();
+    // Prevent multiple clicks during animation
+    if (content.style.transition) return;
+
+    const animate = () => {
+      content.style.transition = 'height 300ms ease-in-out';
       
-      const animate = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+      if (details.hasAttribute('open')) {
+        const startHeight = content.scrollHeight;
+        content.style.height = `${startHeight}px`;
         
-        // Easing function for smoother animation
-        const easeInOutCubic = progress < 0.5
-          ? 4 * progress * progress * progress
-          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        // Force a reflow
+        content.offsetHeight;
         
-        const currentHeight = startHeight + (endHeight - startHeight) * easeInOutCubic;
-        content.style.height = `${currentHeight}px`;
+        content.style.height = '0px';
+        setIsOpen(false);
         
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          if (endHeight === 0) {
-            details.removeAttribute('open');
-          }
-          content.style.height = endHeight ? 'auto' : '0';
-        }
-      };
-      
-      requestAnimationFrame(animate);
+        const onTransitionEnd = () => {
+          details.removeAttribute('open');
+          content.style.transition = '';
+          content.removeEventListener('transitionend', onTransitionEnd);
+        };
+        
+        content.addEventListener('transitionend', onTransitionEnd, { once: true });
+      } else {
+        details.setAttribute('open', '');
+        setIsOpen(true);
+        
+        // Get the target height
+        const targetHeight = content.scrollHeight;
+        
+        // Start from 0
+        content.style.height = '0px';
+        
+        // Force a reflow
+        content.offsetHeight;
+        
+        // Animate to target height
+        content.style.height = `${targetHeight}px`;
+        
+        const onTransitionEnd = () => {
+          content.style.height = 'auto';
+          content.style.transition = '';
+          content.removeEventListener('transitionend', onTransitionEnd);
+        };
+        
+        content.addEventListener('transitionend', onTransitionEnd, { once: true });
+      }
     };
 
-    if (details.hasAttribute('open')) {
-      content.style.height = `${content.scrollHeight}px`;
-      requestAnimationFrame(() => {
-        animateHeight(content.scrollHeight, 0);
-        setIsOpen(false);
-      });
-    } else {
-      details.setAttribute('open', '');
-      setIsOpen(true);
-      content.style.height = '0';
-      requestAnimationFrame(() => {
-        animateHeight(0, content.scrollHeight);
-      });
-    }
+    // Use RAF to ensure smooth animation
+    requestAnimationFrame(animate);
   }, []);
 
   return (
@@ -115,10 +124,17 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
             {title}
           </h3>
         </div>
-        <FaChevronCircleDown className='text-darkYellow sm:size-[25px] max-sm:size-[20px] transition-transform duration-300 group-open:rotate-180'/>
+        <FaChevronCircleDown 
+          className={`text-darkYellow sm:size-[25px] max-sm:size-[20px] 
+                     transition-transform duration-300
+                     ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+        />
       </summary>
 
-      <div className='supportList mt-[26px] ml-1 mb-2 overflow-hidden will-change-[height]'>
+      <div 
+        ref={contentRef}
+        className='supportList mt-[26px] ml-1 mb-2 overflow-hidden'
+      >
         <h4 className='font-merriweather text-lightYellow sm:text-xl max-sm:text-lg mb-3'>
           {subtitle}
         </h4>
