@@ -80,10 +80,11 @@ const Footer = memo(() => {
 
   return (
     <footer 
-      className='w-full bg-gradient-to-b from-darkYellow to-darkYellow/95 text-white relative overflow-hidden'
+      className='w-full bg-[#C5A054] text-white relative overflow-hidden'
       role="contentinfo"
       aria-label="GVH Glass Packaging Solutions footer"
     >
+      <div className="absolute inset-0 bg-gradient-to-b from-darkYellow/95 to-darkYellow opacity-80" />
       <BackgroundEffects />
 
       <Container>

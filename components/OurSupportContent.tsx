@@ -47,34 +47,50 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     const details = e.currentTarget.parentElement as HTMLDetailsElement;
     const content = details?.querySelector('.supportList') as HTMLDivElement;
     
-    if (details) {
-      content.style.transition = 'height 400ms cubic-bezier(0.4, 0, 0.2, 1)';
+    if (!details || !content) return;
+
+    const animateHeight = (startHeight: number, endHeight: number) => {
+      const duration = 400;
+      const startTime = performance.now();
       
-      if (details.hasAttribute('open')) {
-        content.style.height = `${content.scrollHeight}px`;
-        requestAnimationFrame(() => {
-          content.style.height = '0px';
-          setIsOpen(false);
-        });
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
         
-        setTimeout(() => {
-          details.removeAttribute('open');
-          content.style.transition = '';
-        }, 400);
-      } else {
-        details.setAttribute('open', '');
-        setIsOpen(true);
-        const height = content.scrollHeight;
-        content.style.height = '0px';
-        requestAnimationFrame(() => {
-          content.style.height = `${height}px`;
-        });
+        // Easing function for smoother animation
+        const easeInOutCubic = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
         
-        setTimeout(() => {
-          content.style.height = 'auto';
-          content.style.transition = '';
-        }, 400);
-      }
+        const currentHeight = startHeight + (endHeight - startHeight) * easeInOutCubic;
+        content.style.height = `${currentHeight}px`;
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          if (endHeight === 0) {
+            details.removeAttribute('open');
+          }
+          content.style.height = endHeight ? 'auto' : '0';
+        }
+      };
+      
+      requestAnimationFrame(animate);
+    };
+
+    if (details.hasAttribute('open')) {
+      content.style.height = `${content.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        animateHeight(content.scrollHeight, 0);
+        setIsOpen(false);
+      });
+    } else {
+      details.setAttribute('open', '');
+      setIsOpen(true);
+      content.style.height = '0';
+      requestAnimationFrame(() => {
+        animateHeight(0, content.scrollHeight);
+      });
     }
   }, []);
 
