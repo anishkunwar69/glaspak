@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 'use client';
 import { memo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
