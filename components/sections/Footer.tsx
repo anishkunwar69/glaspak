@@ -22,20 +22,20 @@ const footerLinks = {
 } as const;
 
 const BackgroundEffects = memo(() => (
-  <div className="absolute inset-0 pointer-events-none opacity-50 md:opacity-70" aria-hidden="true">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_2px,_rgba(255,255,255,0.03)_2px)] 
-                   bg-[length:24px_24px] opacity-30" />
-    <div className="absolute inset-0 opacity-20"
+  <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_2px,_rgba(255,255,255,0.02)_2px)] 
+                   bg-[length:24px_24px] opacity-20" />
+    <div className="absolute inset-0 opacity-10"
          style={{
            backgroundImage: `repeating-linear-gradient(
              -45deg,
              transparent,
              transparent 100px,
-             rgba(255,255,255,0.1) 100px,
-             rgba(255,255,255,0.1) 101px
+             rgba(255,255,255,0.05) 100px,
+             rgba(255,255,255,0.05) 101px
            )`
          }} />
-    <div className="absolute inset-0 backdrop-blur-[100px] bg-gradient-to-b from-white/5 to-transparent" />
+    <div className="absolute inset-0 bg-gradient-to-b from-darkYellow/10 to-transparent" />
   </div>
 ));
 BackgroundEffects.displayName = 'BackgroundEffects';
@@ -80,11 +80,12 @@ const Footer = memo(() => {
 
   return (
     <footer 
-      className='w-full bg-[#C5A054] text-white relative overflow-hidden'
+      className="relative w-full overflow-hidden"
       role="contentinfo"
       aria-label="GVH Glass Packaging Solutions footer"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-darkYellow/95 to-darkYellow opacity-80" />
+      <div className="absolute inset-0 bg-darkYellow" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#C5A054] to-darkYellow opacity-90" />
       <BackgroundEffects />
 
       <Container>
