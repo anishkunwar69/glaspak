@@ -1,5 +1,5 @@
 "use client"
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import Container from './Container'
 import Image from 'next/image'
 import { FaStar, FaChevronCircleDown } from "react-icons/fa"
@@ -36,6 +36,7 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   items: readonly string[];
   delay: number;
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
@@ -45,36 +46,30 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     e.preventDefault();
     const details = e.currentTarget.parentElement as HTMLDetailsElement;
     const content = details?.querySelector('.supportList') as HTMLDivElement;
-    const summary = e.currentTarget;
     
     if (details) {
-      // Add smooth transition class
       content.style.transition = 'height 400ms cubic-bezier(0.4, 0, 0.2, 1)';
       
       if (details.hasAttribute('open')) {
-        // Closing animation
         content.style.height = `${content.scrollHeight}px`;
-        // Force a reflow
-        content.offsetHeight;
-        content.style.height = '0px';
-        summary.classList.remove('open');
+        requestAnimationFrame(() => {
+          content.style.height = '0px';
+          setIsOpen(false);
+        });
         
-        // Wait for animation to complete before closing
         setTimeout(() => {
           details.removeAttribute('open');
           content.style.transition = '';
         }, 400);
       } else {
-        // Opening animation
         details.setAttribute('open', '');
-        summary.classList.add('open');
+        setIsOpen(true);
         const height = content.scrollHeight;
         content.style.height = '0px';
-        // Force a reflow
-        content.offsetHeight;
-        content.style.height = `${height}px`;
+        requestAnimationFrame(() => {
+          content.style.height = `${height}px`;
+        });
         
-        // Remove transition after animation
         setTimeout(() => {
           content.style.height = 'auto';
           content.style.transition = '';
@@ -95,7 +90,8 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     >
       <summary 
         onClick={handleClick}
-        className='headingBox w-full flex items-center justify-between relative cursor-pointer'
+        className={`headingBox w-full flex items-center justify-between relative cursor-pointer
+                   ${isOpen ? 'open' : ''}`}
       >
         <div className='flex gap-x-4 items-center'>
           <FaStar className='text-darkYellow sm:size-[25px] max-sm:size-[20px]'/>
