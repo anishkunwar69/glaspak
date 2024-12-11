@@ -1,8 +1,6 @@
 import Hero from "@/components/sections/Hero";
-import AboutUs from "@/components/sections/AboutUs";
 import OurServices from "@/components/sections/OurServices";
 import OurProducts from "@/components/sections/OurProducts";
-import ImageGallery from "@/components/sections/ImageGallery";
 import Footer from "@/components/sections/Footer";
 import ContactUs from "@/components/sections/ContactUs";
 import OurSupport from "@/components/sections/OurSupport";
@@ -12,7 +10,7 @@ import ProcessFlow from "@/components/sections/ProcessFlow";
 import Tests from "@/components/sections/Tests";
 import ManufacturingProcess from "@/components/sections/ManufacturingProcess";
 
-export default function(){
+const Home = () => {
   return (
     <>
       {/* 1. Attention Grabber */}
@@ -46,3 +44,5 @@ export default function(){
     </>
   )
 }
+Home.displayName = 'Home';
+export default Home;

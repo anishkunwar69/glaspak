@@ -138,11 +138,11 @@ const ManufacturingProcessContent = memo(() => {
   }, []);
 
   const handlePrevStep = useCallback(() => {
-    setActiveStep(prev => Math.max(0, prev - 1));
+    // Your logic here
   }, []);
 
   const handleNextStep = useCallback(() => {
-    setActiveStep(prev => Math.min(steps.length - 1, prev + 1));
+    // Your logic here
   }, []);
 
   return (

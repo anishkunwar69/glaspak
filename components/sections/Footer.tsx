@@ -108,9 +108,9 @@ const Footer = memo(() => {
               </div>
               <p className="font-poppins text-white/90 text-sm sm:text-base lg:text-lg leading-relaxed 
                            max-w-xl backdrop-blur-sm relative border-l-2 border-white/20 pl-4">
-                Since 2000, GVH has been Southeast Asia's premier glass packaging group, comprising Phoenix Packaging, 
+                Since 2000, GVH has been Southeast Asia&apos;s premier glass packaging group, comprising Phoenix Packaging, 
                 Glaspak Solutions, TCL, and Glass Solution. We specialize in innovative glass product design, 
-                manufacturing, and delivery solutions tailored to our customers' needs.
+                manufacturing, and delivery solutions tailored to our customers&apos; needs.
               </p>
             </div>
 
