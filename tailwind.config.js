@@ -11,6 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors:{
+        premium: {
+          dark: '#0a231e',
+          light: '#1a3d34',
+        },
         bgColor:"#102B26",
         darkBgColor:"#0B2823",  
         headingColor:"#F3DB68",
@@ -19,6 +23,7 @@ module.exports = {
         darkYellow:"#FFB902",
         lightBgColor:"#3A6B62",
         darkGreen:"#0e362d"
+        
       },
       fontFamily:{
         merriweather: ['var(--font-merriweather)'],
@@ -43,6 +48,9 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
         }
+      },
+      boxShadow: {
+        'premium': '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
       }
     },
   },

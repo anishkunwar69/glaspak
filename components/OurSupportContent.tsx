@@ -45,24 +45,40 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     e.preventDefault();
     const details = e.currentTarget.parentElement as HTMLDetailsElement;
     const content = details?.querySelector('.supportList') as HTMLDivElement;
+    const summary = e.currentTarget;
     
     if (details) {
+      // Add smooth transition class
+      content.style.transition = 'height 400ms cubic-bezier(0.4, 0, 0.2, 1)';
+      
       if (details.hasAttribute('open')) {
-        const height = content.scrollHeight;
-        content.style.height = `${height}px`;
-        requestAnimationFrame(() => {
-          content.style.height = '0px';
-        });
+        // Closing animation
+        content.style.height = `${content.scrollHeight}px`;
+        // Force a reflow
+        content.offsetHeight;
+        content.style.height = '0px';
+        summary.classList.remove('open');
+        
+        // Wait for animation to complete before closing
         setTimeout(() => {
           details.removeAttribute('open');
-        }, 300);
+          content.style.transition = '';
+        }, 400);
       } else {
+        // Opening animation
         details.setAttribute('open', '');
+        summary.classList.add('open');
         const height = content.scrollHeight;
         content.style.height = '0px';
-        requestAnimationFrame(() => {
-          content.style.height = `${height}px`;
-        });
+        // Force a reflow
+        content.offsetHeight;
+        content.style.height = `${height}px`;
+        
+        // Remove transition after animation
+        setTimeout(() => {
+          content.style.height = 'auto';
+          content.style.transition = '';
+        }, 400);
       }
     }
   }, []);
@@ -73,7 +89,7 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
       className={`support-detail w-full rounded-[26px] p-4 sm:p-6 lg:p-8 
                 bg-gradient-to-br from-lightBgColor via-lightBgColor to-lightBgColor/80
                 backdrop-blur-md shadow-lg border-t border-l border-white/5
-                transition-all duration-700
+                transition-all duration-700 group
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -87,11 +103,10 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
             {title}
           </h3>
         </div>
-        <FaChevronCircleDown className='text-darkYellow sm:size-[25px] max-sm:size-[20px] transition-transform duration-300'/>
+        <FaChevronCircleDown className='text-darkYellow sm:size-[25px] max-sm:size-[20px] transition-transform duration-300 group-open:rotate-180'/>
       </summary>
 
-      <div className='supportList mt-[26px] ml-1 mb-2 overflow-hidden transition-[height] duration-300 ease-out' 
-           style={{ height: '0px' }}>
+      <div className='supportList mt-[26px] ml-1 mb-2 overflow-hidden will-change-[height]'>
         <h4 className='font-merriweather text-lightYellow sm:text-xl max-sm:text-lg mb-3'>
           {subtitle}
         </h4>
