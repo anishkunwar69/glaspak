@@ -50,7 +50,6 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     
     if (!details || !content) return;
 
-    // Prevent multiple clicks during animation
     if (content.style.transition) return;
 
     const animate = () => {
@@ -60,7 +59,6 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
         const startHeight = content.scrollHeight;
         content.style.height = `${startHeight}px`;
         
-        // Force a reflow
         content.offsetHeight;
         
         content.style.height = '0px';
@@ -77,16 +75,12 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
         details.setAttribute('open', '');
         setIsOpen(true);
         
-        // Get the target height
         const targetHeight = content.scrollHeight;
         
-        // Start from 0
         content.style.height = '0px';
         
-        // Force a reflow
         content.offsetHeight;
         
-        // Animate to target height
         content.style.height = `${targetHeight}px`;
         
         const onTransitionEnd = () => {
@@ -99,7 +93,6 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
       }
     };
 
-    // Use RAF to ensure smooth animation
     requestAnimationFrame(animate);
   }, []);
 
