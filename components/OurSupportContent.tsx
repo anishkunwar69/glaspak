@@ -1,11 +1,10 @@
 "use client"
-import React, { memo, useCallback, useState, useRef } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import Container from './Container'
 import Image from 'next/image'
 import { FaStar, FaChevronCircleDown } from "react-icons/fa"
 import { useInView } from 'react-intersection-observer'
 
-// Pre-defined support details for better performance
 const supportDetails = [
   {
     title: "Pre-Sales Support",
@@ -29,7 +28,6 @@ const supportDetails = [
   }
 ] as const;
 
-// Memoized accordion component for better performance
 const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   title: string;
   subtitle: string;
@@ -37,7 +35,6 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   delay: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
@@ -46,54 +43,37 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
   const handleClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const details = e.currentTarget.parentElement as HTMLDetailsElement;
-    const content = contentRef.current;
+    const content = details?.querySelector('.supportList') as HTMLDivElement;
     
-    if (!details || !content) return;
-
-    if (content.style.transition) return;
-
-    const animate = () => {
-      content.style.transition = 'height 300ms ease-in-out';
+    if (details) {
+      content.style.transition = 'height 400ms cubic-bezier(0.4, 0, 0.2, 1)';
       
       if (details.hasAttribute('open')) {
-        const startHeight = content.scrollHeight;
-        content.style.height = `${startHeight}px`;
+        content.style.height = `${content.scrollHeight}px`;
+        requestAnimationFrame(() => {
+          content.style.height = '0px';
+          setIsOpen(false);
+        });
         
-        content.offsetHeight;
-        
-        content.style.height = '0px';
-        setIsOpen(false);
-        
-        const onTransitionEnd = () => {
+        setTimeout(() => {
           details.removeAttribute('open');
           content.style.transition = '';
-          content.removeEventListener('transitionend', onTransitionEnd);
-        };
-        
-        content.addEventListener('transitionend', onTransitionEnd, { once: true });
+        }, 400);
       } else {
         details.setAttribute('open', '');
         setIsOpen(true);
-        
-        const targetHeight = content.scrollHeight;
-        
+        const height = content.scrollHeight;
         content.style.height = '0px';
+        requestAnimationFrame(() => {
+          content.style.height = `${height}px`;
+        });
         
-        content.offsetHeight;
-        
-        content.style.height = `${targetHeight}px`;
-        
-        const onTransitionEnd = () => {
+        setTimeout(() => {
           content.style.height = 'auto';
           content.style.transition = '';
-          content.removeEventListener('transitionend', onTransitionEnd);
-        };
-        
-        content.addEventListener('transitionend', onTransitionEnd, { once: true });
+        }, 400);
       }
-    };
-
-    requestAnimationFrame(animate);
+    }
   }, []);
 
   return (
@@ -117,17 +97,10 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
             {title}
           </h3>
         </div>
-        <FaChevronCircleDown 
-          className={`text-darkYellow sm:size-[25px] max-sm:size-[20px] 
-                     transition-transform duration-300
-                     ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-        />
+        <FaChevronCircleDown className='text-darkYellow sm:size-[25px] max-sm:size-[20px] transition-transform duration-300 group-open:rotate-180'/>
       </summary>
 
-      <div 
-        ref={contentRef}
-        className='supportList mt-[26px] ml-1 mb-2 overflow-hidden'
-      >
+      <div className='supportList mt-[26px] ml-1 mb-2 overflow-hidden will-change-[height]'>
         <h4 className='font-merriweather text-lightYellow sm:text-xl max-sm:text-lg mb-3'>
           {subtitle}
         </h4>
@@ -140,6 +113,7 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
     </details>
   );
 });
+
 SupportAccordion.displayName = 'SupportAccordion';
 
 const OurSupportContent = memo(() => {
