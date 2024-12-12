@@ -59,7 +59,7 @@ function AboutUs2() {
   return (
     <section 
       id="about-us"
-      className="relative min-h-screen w-full bg-gradient-to-b from-bgColor/80 via-[#1A2B25] to-bgColor/80 py-12 sm:py-16 overflow-hidden"
+      className="relative min-h-screen w-full bg-gradient-to-b from-bgColor/80 via-[#1A2B25] to-bgColor/80 py-12 sm:py-16 overflow-hidden scroll-mt-20"
       aria-label="About GVH Glass Packaging Solutions"
     >
       <BackgroundEffects />

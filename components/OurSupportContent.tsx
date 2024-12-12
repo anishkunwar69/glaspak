@@ -83,12 +83,24 @@ const SupportAccordion = memo(({ title, subtitle, items, delay }: {
                 bg-gradient-to-br from-lightBgColor via-lightBgColor to-lightBgColor/80
                 backdrop-blur-md shadow-lg border-t border-l border-white/5
                 transition-all duration-700 group
+                relative isolate overflow-hidden animate-float
+                before:absolute before:w-[200%] before:h-full
+                before:bg-gradient-to-r before:from-transparent 
+                before:via-darkYellow/20 before:to-transparent
+                before:-left-full before:top-0 before:z-[-1]
+                before:animate-shimmer
+                hover:scale-[1.01] cursor-pointer
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ 
+        transitionDelay: `${delay}ms`,
+        transform: 'translateZ(0)',
+        animationDelay: `${delay}ms`,
+      }}
     >
       <summary 
         onClick={handleClick}
-        className={`headingBox w-full flex items-center justify-between relative cursor-pointer
+        className={`headingBox w-full flex items-center justify-between relative
+                   transition-all duration-300 hover:brightness-110
                    ${isOpen ? 'open' : ''}`}
       >
         <div className='flex gap-x-4 items-center'>
@@ -144,13 +156,19 @@ const OurSupportContent = memo(() => {
           </div>
 
           <div className='lg:col-span-6 col-span-12 flex flex-col items-start justify-center gap-y-4'>
-            {supportDetails.map((detail, index) => (
+            <div className="float-up w-full">
               <SupportAccordion
-                key={detail.title}
-                {...detail}
-                delay={index * 200}
+                {...supportDetails[0]}
+                delay={0}
               />
-            ))}
+            </div>
+            
+            <div className="float-down w-full">
+              <SupportAccordion
+                {...supportDetails[1]}
+                delay={200}
+              />
+            </div>
           </div>
         </div>
       </div>

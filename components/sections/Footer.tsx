@@ -48,7 +48,7 @@ const LinkList = memo(({ title, links, className = '' }: {
   <div className={`p-2.5 sm:p-3 lg:p-4 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 
                   backdrop-blur-sm border border-white/10 
                   hover:bg-white/15 transition-colors duration-300 ${className}`}>
-    <h2 className='font-merriweather font-bold text-base sm:text-lg lg:text-xl mb-2 relative'>
+    <h2 className='font-merriweather font-bold text-base sm:text-lg lg:text-xl mb-2 relative text-white'>
       {title}
       <span className='absolute -bottom-2 left-0 w-1/2 h-0.5 
                      bg-gradient-to-r from-white/30 to-transparent'></span>
@@ -130,14 +130,13 @@ const Footer = memo(() => {
               <div className='p-2.5 sm:p-3 lg:p-4 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 
                             backdrop-blur-sm border border-white/10 
                             hover:bg-white/15 transition-colors duration-300'>
-                <h2 className='font-merriweather font-bold text-base sm:text-lg lg:text-xl mb-2 relative'>
+                <h2 className='font-merriweather font-bold text-base sm:text-lg lg:text-xl mb-2 relative text-white'>
                   Contact Information
                   <span className='absolute -bottom-2 left-0 w-1/2 h-0.5 
                                  bg-gradient-to-r from-white/30 to-transparent'></span>
                 </h2>
                 <address className='not-italic space-y-2'>
                   <div className='font-poppins text-sm sm:text-base text-white/80 space-y-1'>
-                    <p><strong className="text-white">GVH Glass Packaging Solutions</strong></p>
                     <p>Phoenix Packaging Sdn Bhd E-2-32</p>
                     <p>Taipan 2 Jalan PJU 1A/3A Ara</p>
                     <p>Damansara 47301 Petaling Jaya</p>

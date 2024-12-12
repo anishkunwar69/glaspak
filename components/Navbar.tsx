@@ -3,11 +3,12 @@ import React, { useState, useEffect, useCallback, memo } from 'react'
 import Container from './Container'
 import Image from 'next/image'
 import { IoMenu, IoClose } from "react-icons/io5"
+import Link from 'next/link'
 
 // Memoized navigation links to prevent unnecessary re-renders
 const navLinks = [
   { title: 'Home', href: '#hero', ariaLabel: 'Navigate to home section' },
-  { title: 'About', href: '#about', ariaLabel: 'Learn more about us' },
+  { title: 'About', href: '#about-us', ariaLabel: 'Learn more about us' },
   { title: 'Services', href: '#services', ariaLabel: 'View our services' },
   { title: 'Products', href: '#products', ariaLabel: 'Explore our products' },
   { title: 'Contact', href: '#contact', ariaLabel: 'Get in touch with us' }

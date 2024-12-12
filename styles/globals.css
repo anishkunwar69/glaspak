@@ -1,0 +1,73 @@
+@keyframes softPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(197, 160, 84, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(197, 160, 84, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(197, 160, 84, 0);
+  }
+}
+
+.clickable-pulse {
+  animation: softPulse 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
+@keyframes visibleFloatUp {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes visibleFloatDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.float-up {
+  animation: visibleFloatUp 6s ease-in-out infinite;
+}
+
+.float-down {
+  animation: visibleFloatDown 6s ease-in-out infinite 2s;
+}
+
+@keyframes subtleLift {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 0 20px rgba(197, 160, 84, 0.1);
+  }
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 25px rgba(197, 160, 84, 0.2);
+  }
+}
+
+.animate-subtle-lift {
+  animation: subtleLift 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+} 
