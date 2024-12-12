@@ -5,7 +5,7 @@ const HeroTextContent = memo(() => {
     <div className="textContent md:col-span-6 col-span-12 
                     flex items-center justify-center 
                     max-lg:pl-2 md:order-last order-first max-md:mt-8
-                    h-full">
+                    h-full md:translate-y-6">
       <div className="flex flex-col items-center md:items-start">
         <h1 className="uppercase font-merriweather font-bold
                       text-2xl sm:text-3xl lg:text-4xl xl:text-5xl

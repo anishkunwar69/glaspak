@@ -69,7 +69,7 @@ function HeroImageContent() {
                     rounded-md max-md:mb-16 h-full">
       <div className="relative flex justify-center items-center w-full">
         <div className="relative w-full max-w-[480px] md:max-w-[400px] lg:max-w-[480px] 
-                      aspect-[0.87] flex items-center justify-center">
+                      aspect-[0.87] flex items-center justify-center mt-12">
           <Image
             alt="Decorative Background Pattern"
             height={551}
