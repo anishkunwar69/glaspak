@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback, memo } from 'react'
 import Container from './Container'
 import Image from 'next/image'
 import { IoMenu, IoClose } from "react-icons/io5"
-import Link from 'next/link'
 
 // Memoized navigation links to prevent unnecessary re-renders
 const navLinks = [
