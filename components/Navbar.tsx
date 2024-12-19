@@ -14,17 +14,18 @@ const navLinks = [
 ] as const;
 
 // Optimized Logo component for HD display
+// Optimized Logo component for HD display
 const Logo = memo(() => (
   <Image
-    src="/mainlogo.png"
+    src="/logo.png"
     alt='Glaspak - Premium Glass Packaging Solutions'
     width={400}
-    height={178}
-    className='w-auto h-[46px] sm:h-[52px] md:h-[60px] lg:h-[66px]'
+    height={100}
+    className='w-auto h-[42px] sm:h-[50px] md:h-[58px] lg:h-[64px]' // Further increased heights
     priority
     quality={100}
     sizes="(max-width: 640px) 180px, 
-           (max-width: 768px) 200px, 
+           (max-width: 768px) 220px, 
            (max-width: 1024px) 300px, 
            400px"
     style={{
@@ -34,7 +35,6 @@ const Logo = memo(() => (
   />
 ));
 Logo.displayName = 'Logo';
-
 // Memoized NavLink component
 const NavLink = memo(({ href, title, ariaLabel, onClick }: { 
   href: string; 
@@ -45,13 +45,18 @@ const NavLink = memo(({ href, title, ariaLabel, onClick }: {
   <a href={href}
      onClick={onClick}
      aria-label={ariaLabel}
-     className='font-poppins font-medium text-white 
+     className='font-poppins font-medium
                 text-[16px] xl:text-[17px]
-                transition-all duration-300 hover:text-darkYellow
-                relative py-2 px-1'>
+                transition-all duration-300
+                bg-gradient-to-r from-emerald-800 to-emerald-700
+                hover:from-amber-700 hover:to-amber-600
+                bg-clip-text text-transparent
+                relative py-2 px-1 group'>
     {title}
-    <span className='absolute -bottom-1 left-0 w-full h-0.5 bg-darkYellow 
-                     transform origin-left scale-x-0 group-hover:scale-x-100 
+    <span className='absolute -bottom-1 left-0 w-full h-0.5 
+                     bg-gradient-to-r from-amber-700 to-amber-600
+                     transform origin-left scale-x-0 
+                     group-hover:scale-x-100 
                      transition-transform duration-300'/>
   </a>
 ));
@@ -108,16 +113,16 @@ function Navbar() {
     <div className="relative">
       <nav className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-500
                     ${isScrolled 
-                      ? 'bg-bgColor/90 backdrop-blur-md shadow-lg py-2' 
+                      ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' 
                       : 'bg-transparent py-4'}`}
            role="navigation"
            aria-label="Main navigation">
         {/* Premium border effect - only visible when not scrolled */}
         {!isScrolled && (
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r 
-                         from-transparent via-white/10 to-transparent
+          <div className="absolute bottom-0 left-0 right-0 h-[1px] 
+                         bg-gradient-to-r from-transparent via-emerald-800/10 to-transparent
                          after:absolute after:bottom-0 after:left-[5%] after:right-[5%] after:h-[1px]
-                         after:bg-gradient-to-r after:from-transparent after:via-darkYellow/20 after:to-transparent" />
+                         after:bg-gradient-to-r after:from-transparent after:via-amber-700/20 after:to-transparent" />
         )}
         
         <Container>
@@ -156,7 +161,7 @@ function Navbar() {
           <div 
             id="mobile-menu"
             className={`lg:hidden fixed top-[${isScrolled ? '66px' : '82px'}] left-0 right-0 
-                      bg-bgColor/95 backdrop-blur-md border-t border-white/10
+                      bg-white/98 backdrop-blur-md border-t border-emerald-900/10
                       transition-all duration-300 max-h-[calc(100vh-82px)] overflow-y-auto
                       ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
             role="menu"

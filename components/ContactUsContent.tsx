@@ -21,9 +21,14 @@ const contactInfo: readonly ContactInfo[] = [
   {
     icon: IoLocationOutline,
     title: "Location",
-    details: ["Phoenix Packaging Sdn Bhd E-2-32", "Taipan 2 Jalan PJU 1A/3A Ara", "Damansara 47301 Petaling Jaya", "Selangor, Malaysia"],
+    details: [
+      "Glaspak Solutions Sdn Bhd",
+      "E-2-32 Taipan 2, Jalan PJU 1A/3A",
+      "Ara Damansara, Petaling Jaya",
+      "47301 Selangor"
+    ],
     color: "from-emerald-400 to-emerald-600",
-    link: "https://maps.google.com/?q=Phoenix+Packaging+Sdn+Bhd"
+    link: "https://maps.google.com/?q=Glaspak+Solutions+Sdn+Bhd+E-2-32+Taipan+2+Jalan+PJU+1A/3A+Ara+Damansara"
   },
   {
     icon: MdOutlineEmail,
@@ -80,7 +85,12 @@ const ContactCard = memo(({ info, index }: { info: ContactInfo; index: number })
   );
 
   return info.link ? (
-    <a href={info.link} className="block hover:scale-[1.02] transition-transform duration-300">
+    <a 
+      href={info.link} 
+      className="block hover:scale-[1.02] transition-transform duration-300"
+      target={info.title === "Location" ? "_blank" : undefined}
+      rel={info.title === "Location" ? "noopener noreferrer" : undefined}
+    >
       {content}
     </a>
   ) : content;

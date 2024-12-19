@@ -8,7 +8,7 @@ const HeroImage = memo(({ num, current, priority = false }: {
   priority?: boolean;
 }) => (
   <div className="absolute inset-0 flex items-center justify-center">
-    <div className={`absolute w-[80%] h-[80%] bg-emerald-500/20
+    <div className={`absolute w-[80%] h-[80%] bg-gradient-to-br from-emerald-300/30 via-rose-200/20 to-amber-300/30
                      blur-2xl transition-all duration-500
                      ${current === num ? 'opacity-70 scale-100' : 'opacity-0 scale-95'}`} />
     
@@ -41,7 +41,8 @@ const Thumbnail = memo(({ num, current, onClick }: {
     className={`rounded-lg w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px]
                 transition-all duration-300 transform hover:scale-105
                 ${current === num ? 'ring-2 ring-emerald-500' : ''}
-                bg-gradient-to-br from-lightBgColor/90 to-headingColor/90`}
+                bg-gradient-to-br from-amber-100/80 via-emerald-50/70 to-rose-100/80
+                shadow-sm hover:shadow-md backdrop-blur-sm`}
   >
     <Image
       alt={`Thumbnail ${num}`}
@@ -76,7 +77,7 @@ function HeroImageContent() {
             width={480}
             src="/herobg.png"
             className="absolute inset-0 w-full h-full object-cover 
-                     object-center rounded-md z-10"
+                     object-center z-10 rounded-[2rem] overflow-hidden"
             priority
             quality={90}
             sizes="(max-width: 768px) 100vw, 480px"

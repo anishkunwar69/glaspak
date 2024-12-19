@@ -40,14 +40,13 @@ module.exports = {
         sm: '4px',
       },
       animation: {
-        'float-slow': 'float 8s ease-in-out infinite',
-        'float-slow-reverse': 'float 8s ease-in-out infinite reverse',
+        shimmer: 'shimmer 2s infinite linear',
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' },
-        }
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       boxShadow: {
         'premium': '0 4px 20px -2px rgba(0, 0, 0, 0.2)',

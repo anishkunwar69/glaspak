@@ -1,132 +1,98 @@
+// OurSupportContent.tsx
 "use client"
-import React, { memo, useCallback, useState } from 'react'
-import Container from './Container'
+import React, { memo } from 'react'
 import Image from 'next/image'
-import { FaStar, FaChevronCircleDown } from "react-icons/fa"
 import { useInView } from 'react-intersection-observer'
 
 const supportDetails = [
   {
     title: "Pre-Sales Support",
-    subtitle: "We seek information from our customers regarding:",
+    subtitle: "Our team offers thorough pre-sales assistance and support:",
     items: [
-      "Product to package and where to market",
-      "Contents, ml/gram",
-      "Constraints of plant equipment on design",
-      "A desired profile of the product packaging",
-      "Closure systems for opening/product stability"
+      <span key="1">
+        <strong className="text-emerald-300">Requirements Analysis:</strong>{" "}
+        Conducting consultations to understand your product needs and specifications for optimal packaging solutions.
+      </span>,
+      <span key="2">
+        <strong className="text-emerald-300">Custom Solutions:</strong>{" "}
+        Creating tailored packaging recommendations that align perfectly with your brand identity and manufacturing requirements.
+      </span>,
+      <span key="3">
+        <strong className="text-emerald-300">Strategic Planning:</strong>{" "}
+        Developing implementation strategies and ensuring clear communication throughout the process
+      </span>
     ]
   },
   {
     title: "After Sales Support",
-    subtitle: "We work on these criteria:",
+    subtitle: "Our commitment continues after the sale, focusing on:",
     items: [
-      "Performance & yield, product handling",
-      "Training on glass packaging",
-      "Continuous improvement (Kaizen)"
+      <span key="1">
+        <strong className="text-emerald-300">Performance Optimization:</strong>{" "}
+        Implementing advanced tracking systems to monitor product handling and maintain consistent quality metrics.
+      </span>,
+      <span key="2">
+        <strong className="text-emerald-300">Technical Excellence:</strong>{" "}
+        Providing comprehensive training programs on glass packaging best practices and advanced handling techniques.
+      </span>,
+      <span key="3">
+        <strong className="text-emerald-300">Continuous Enhancement:</strong>{" "}
+        Applying Kaizen principles to consistently improve processes and maximize operational efficiency.
+      </span>
     ]
   }
 ] as const;
 
-const SupportAccordion = memo(({ title, subtitle, items, delay }: {
+const SupportCard = memo(({ title, subtitle, items, delay }: {
   title: string;
   subtitle: string;
-  items: readonly string[];
+  items: readonly React.ReactNode[];
   delay: number;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    const details = e.currentTarget.parentElement as HTMLDetailsElement;
-    const content = details?.querySelector('.supportList') as HTMLDivElement;
-    
-    if (details) {
-      content.style.transition = 'height 400ms cubic-bezier(0.4, 0, 0.2, 1)';
-      
-      if (details.hasAttribute('open')) {
-        content.style.height = `${content.scrollHeight}px`;
-        requestAnimationFrame(() => {
-          content.style.height = '0px';
-          setIsOpen(false);
-        });
-        
-        setTimeout(() => {
-          details.removeAttribute('open');
-          content.style.transition = '';
-        }, 400);
-      } else {
-        details.setAttribute('open', '');
-        setIsOpen(true);
-        const height = content.scrollHeight;
-        content.style.height = '0px';
-        requestAnimationFrame(() => {
-          content.style.height = `${height}px`;
-        });
-        
-        setTimeout(() => {
-          content.style.height = 'auto';
-          content.style.transition = '';
-        }, 400);
-      }
-    }
-  }, []);
-
   return (
-    <details 
+    <div 
       ref={ref}
-      className={`support-detail w-full rounded-[26px] p-4 sm:p-6 lg:p-8 
-                bg-gradient-to-br from-lightBgColor via-lightBgColor to-lightBgColor/80
-                backdrop-blur-md shadow-lg border-t border-l border-white/5
-                transition-all duration-700 group
-                relative isolate overflow-hidden animate-float
-                before:absolute before:w-[200%] before:h-full
-                before:bg-gradient-to-r before:from-transparent 
-                before:via-darkYellow/20 before:to-transparent
-                before:-left-full before:top-0 before:z-[-1]
-                before:animate-shimmer
-                hover:scale-[1.01] cursor-pointer
+      className={`w-full rounded-2xl p-6 sm:p-8 lg:p-10
+                bg-gradient-to-br from-emerald-900/20 to-darkBgColor/90 
+                backdrop-blur-sm border border-emerald-500/10
+                hover:border-emerald-500/20 transition-all duration-500
+                group hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/10
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      style={{ 
-        transitionDelay: `${delay}ms`,
-        transform: 'translateZ(0)',
-        animationDelay: `${delay}ms`,
-      }}
+      style={{ transitionDelay: `${delay}ms` }}
     >
-      <summary 
-        onClick={handleClick}
-        className={`headingBox w-full flex items-center justify-between relative
-                   transition-all duration-300 hover:brightness-110
-                   ${isOpen ? 'open' : ''}`}
-      >
-        <div className='flex gap-x-4 items-center'>
-          <FaStar className='text-darkYellow sm:size-[25px] max-sm:size-[20px]'/>
-          <h3 className='font-merriweather sm:text-2xl max-sm:text-xl text-darkYellow'>
-            {title}
-          </h3>
-        </div>
-        <FaChevronCircleDown className='text-darkYellow sm:size-[25px] max-sm:size-[20px] transition-transform duration-300 group-open:rotate-180'/>
-      </summary>
-
-      <div className='supportList mt-[26px] ml-1 mb-2 overflow-hidden will-change-[height]'>
-        <h4 className='font-merriweather text-lightYellow sm:text-xl max-sm:text-lg mb-3'>
+      <div className="relative mb-6 pb-4 border-b border-emerald-500/10">
+        <h2 className='font-merriweather text-2xl sm:text-3xl text-transparent 
+                      bg-clip-text bg-gradient-to-r from-emerald-300 to-amber-300 
+                      font-bold'>
+          {title}
+        </h2>
+        <h3 className='font-poppins text-white/80 text-base sm:text-lg mt-2'>
           {subtitle}
-        </h4>
-        <ul className='flex flex-col items-start list-disc marker:text-darkYellow pl-4 space-y-2'>
-          {items.map((item, index) => (
-            <li key={index} className='font-poppins max-sm:text-sm'>{item}</li>
-          ))}
-        </ul>
+        </h3>
       </div>
-    </details>
+
+      <ul className='space-y-6'>
+        {items.map((item, index) => (
+          <li key={index} 
+              className='font-poppins text-emerald-100/80 flex items-start gap-4
+                       group-hover:text-emerald-100 transition-colors duration-300 
+                       leading-relaxed text-[15px] sm:text-base'>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2.5 
+                         flex-shrink-0"></span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 });
 
-SupportAccordion.displayName = 'SupportAccordion';
+SupportCard.displayName = 'SupportCard';
 
 const OurSupportContent = memo(() => {
   const { ref: imageRef, inView: imageInView } = useInView({
@@ -135,44 +101,40 @@ const OurSupportContent = memo(() => {
   });
 
   return (
-    <Container>
-      <div className='w-full flex justify-center items-center text-white py-4'>
-        <div className='w-full grid grid-cols-12 gap-x-4 gap-y-8 relative z-[1]'>
-          <div ref={imageRef} 
-               className={`imgBox lg:col-span-6 max-lg:col-span-12 my-auto
-                          transition-all duration-700
-                          ${imageInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <div className="relative my-auto">
-              <Image
-                alt='Professional glass packaging support services'
-                height={382}
-                width={575}
-                src='/oursupport.jpg'
-                className='relative rounded-[26px] object-cover object-center w-full h-auto 
-                         shadow-[0_0_15px_rgba(0,0,0,0.2)]'
-                priority
-              />
-            </div>
-          </div>
-
-          <div className='lg:col-span-6 col-span-12 flex flex-col items-start justify-center gap-y-4'>
-            <div className="float-up w-full">
-              <SupportAccordion
-                {...supportDetails[0]}
-                delay={0}
-              />
-            </div>
-            
-            <div className="float-down w-full">
-              <SupportAccordion
-                {...supportDetails[1]}
-                delay={200}
-              />
-            </div>
-          </div>
+    <div className='grid lg:grid-cols-12 gap-8 lg:gap-12'>
+      <div 
+        ref={imageRef} 
+        className={`lg:col-span-5 relative transition-all duration-700
+                   ${imageInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+      >
+        <div className="relative rounded-2xl overflow-hidden shadow-xl">
+          <Image
+            alt='Professional glass packaging support services at Glaspak'
+            height={600}
+            width={800}
+            src='/oursupport.jpg'
+            className='w-full h-[400px] sm:h-[500px] object-cover object-center 
+                     transition-transform duration-700 group-hover:scale-105'
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-darkBgColor/90 
+                       via-darkBgColor/20 to-transparent"></div>
         </div>
+        <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 
+                     to-amber-500/20 blur-2xl opacity-30 -z-10"></div>
       </div>
-    </Container>
+
+      <div className='lg:col-span-7 flex flex-col gap-6'>
+        {supportDetails.map((detail, index) => (
+          <SupportCard
+            key={detail.title}
+            {...detail}
+            delay={index * 100}
+          />
+        ))}
+      </div>
+    </div>
   );
 });
 

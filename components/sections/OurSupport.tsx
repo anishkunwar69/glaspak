@@ -1,41 +1,31 @@
+// OurSupport.tsx
 'use client'
 import React, { memo } from 'react'
 import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer'
 
-// Dynamic import with loading state
 const OurSupportContent = dynamic(() => import('../OurSupportContent'), {
   ssr: true,
-  loading: () => <div className="animate-pulse bg-lightBgColor/20 min-h-[600px]" />
+  loading: () => (
+    <div 
+      className="animate-pulse bg-lightBgColor/20 min-h-[600px] rounded-[26px]"
+      role="progressbar"
+      aria-label="Loading support content"
+    />
+  )
 })
 
-// Memoized background component for better performance
 const BackgroundEffects = memo(() => (
   <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-    {/* Main gradient sphere */}
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-                   w-[130vw] max-w-[1400px] aspect-square rounded-full 
-                   bg-gradient-to-tr from-emerald-950/40 via-amber-950/30 to-emerald-950/40 blur-3xl" />
-    
-    {/* Floating orbs */}
-    <div className="absolute top-[15%] left-[10%] w-[30vw] h-[30vw] max-w-[400px] max-h-[400px]
-                   rounded-full bg-emerald-500/5 blur-2xl" />
-    <div className="absolute bottom-[20%] right-[5%] w-[25vw] h-[25vw] max-w-[350px] max-h-[350px]
-                   rounded-full bg-amber-500/5 blur-2xl" />
-    <div className="absolute top-[40%] right-[15%] w-[20vw] h-[20vw] max-w-[250px] max-h-[250px]
-                   rounded-full bg-emerald-600/5 blur-2xl" />
-    <div className="absolute bottom-[35%] left-[20%] w-[22vw] h-[22vw] max-w-[300px] max-h-[300px]
-                   rounded-full bg-amber-600/5 blur-2xl" />
-    
-    {/* All other background effects remain exactly the same */}
-    <div className="absolute inset-0 opacity-[0.05]"
+    <div className="absolute inset-0 bg-gradient-to-b from-darkBgColor/50 via-transparent to-darkBgColor/50" />
+    <div className="absolute inset-0"
          style={{
            backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.1) 0.5px, transparent 0.5px)`,
-           backgroundSize: '16px 16px'
+           backgroundSize: '24px 24px'
          }} />
-    {/* ... rest of the background effects ... */}
   </div>
 ));
+
 BackgroundEffects.displayName = 'BackgroundEffects';
 
 const OurSupport = memo(() => {
@@ -46,36 +36,35 @@ const OurSupport = memo(() => {
 
   return (
     <section 
-      id="support"
-      className='relative min-h-screen w-full bg-gradient-to-b from-darkBgColor via-[#1A2B25] to-darkBgColor py-20 overflow-hidden'
-      aria-label="Customer Support Services"
-    >
+  id="support"
+  className='relative min-h-screen w-full bg-gradient-to-b from-darkBgColor via-[#1A2B25] via-50% to-[#1A2429]/90 py-24 sm:py-28 lg:py-32 overflow-hidden'
+  aria-label="Customer Support Services"
+>
       <BackgroundEffects />
 
-      <div className="relative z-[1]">
+      <div className="relative z-[1] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           ref={titleRef} 
-          className={`text-center mb-8 transition-all duration-700
+          className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-500
                      ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
         >
-          <span className="block text-sm md:text-base font-poppins tracking-[0.3em] 
+          <span className="inline-block text-sm md:text-base font-poppins tracking-[0.3em] 
                          text-transparent bg-clip-text bg-gradient-to-r 
                          from-emerald-300 to-amber-300 mb-4 uppercase">
             Customer Support
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 
-                        font-bold font-merriweather text-center mb-4 sm:mb-6 
-                        relative px-4 sm:px-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 
+                        font-bold font-merriweather text-center mb-6 
+                        relative px-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r 
-                           from-emerald-300 via-amber-300 to-emerald-400
-                           whitespace-normal sm:whitespace-pre-wrap">
+                           from-emerald-300 via-amber-300 to-emerald-400">
               Elevating Your Experience
             </span>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 
-                          h-px bg-gradient-to-r from-transparent via-emerald-500 
-                          to-transparent w-full max-w-[300px] mx-auto" />
-          </h2>
-          <p className="font-poppins text-emerald-100/60 max-w-2xl mx-auto text-sm md:text-base">
+          </h1>
+          <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent 
+                       via-emerald-500 to-transparent mb-6" />
+          <p className="font-poppins text-emerald-100/70 max-w-2xl mx-auto 
+                     text-sm sm:text-base lg:text-lg">
             Dedicated support and innovative solutions for your glass packaging needs
           </p>
         </div>

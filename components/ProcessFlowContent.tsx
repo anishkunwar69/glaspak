@@ -1,43 +1,64 @@
 "use client"
 import React, { memo } from 'react'
 import Container from './Container'
-import { HiLightBulb, HiCube, HiBeaker, HiCog, HiTruck } from 'react-icons/hi'
-import { useInView } from 'react-intersection-observer'
+import { 
+  HiLightBulb, 
+  HiCube, 
+  HiCog, 
+  HiTruck, 
+  HiPencil, 
+  HiTemplate, 
+  HiClipboardCheck 
+} from 'react-icons/hi';import { useInView } from 'react-intersection-observer'
 
 // Pre-defined process steps data
 const steps = [
   {
     icon: HiLightBulb,
-    title: "Idea",
-    description: "The customer develops a glass design concept and checks for any functional or practical limitations.",
+    title: "Initial Consultation",
+    description: "Engage with the customer to understand their brand identity, product requirements, and specific packaging needs, including size, shape, and closure systems.",
     color: "from-emerald-400 via-amber-400 to-emerald-500",
     glow: "hover:shadow-emerald-500/50"
   },
   {
-    icon: HiCube,
-    title: "3D Design/2D Mockup",
-    description: "A digital mockup is created to visualize the design in 3D or 2D. If not approved, changes are made until it meets expectations.",
+    icon: HiPencil, // You'll need to import this
+    title: "Concept Development",
+    description: "Convert customer ideas into technical drawings with embossed logos or unique shapes, using 2D or 3D renderings for visualization.",
     color: "from-amber-400 via-emerald-400 to-amber-500",
     glow: "hover:shadow-amber-500/50"
   },
   {
-    icon: HiBeaker,
-    title: "Trial Mould",
-    description: "A prototype mould is produced to test the design and functionality. Revisions are made if necessary.",
+    icon: HiCube,
+    title: "Prototyping",
+    description: "Create prototypes with 3D-printed plastic to test design, label fit, and functionality, enabling adjustments before transitioning to glass production.",
     color: "from-emerald-400 via-amber-400 to-emerald-500",
     glow: "hover:shadow-emerald-500/50"
   },
   {
+    icon: HiTemplate, // You'll need to import this
+    title: "Mold Creation",
+    description: "Following prototype approval, design and produce molds required for manufacturing glass components in alignment with the finalized design.",
+    color: "from-amber-400 via-emerald-400 to-amber-500",
+    glow: "hover:shadow-amber-500/50"
+  },
+  {
     icon: HiCog,
-    title: "Production",
-    description: "Once the trial mould is finalized and approved, full-scale production of the glass begins.",
+    title: "Mass Production",
+    description: "Start producing custom glass bottles with finalized molds, ensuring quality and consistency by closely monitoring the entire manufacturing process.",
+    color: "from-emerald-400 via-amber-400 to-emerald-500",
+    glow: "hover:shadow-emerald-500/50"
+  },
+  {
+    icon: HiClipboardCheck, // You'll need to import this
+    title: "Quality Inspection",
+    description: "Apply strict automated and manual quality control to ensure all bottles meet standards before packaging and shipment.",
     color: "from-amber-400 via-emerald-400 to-amber-500",
     glow: "hover:shadow-amber-500/50"
   },
   {
     icon: HiTruck,
     title: "Shipment",
-    description: "The completed glass products are packaged carefully and shipped to the customer.",
+    description: "Package the final products per customer specifications, ensuring all custom design details are met and preparing for market launch.",
     color: "from-emerald-400 via-amber-400 to-emerald-500",
     glow: "hover:shadow-emerald-500/50"
   }
