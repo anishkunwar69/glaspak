@@ -199,3 +199,27 @@ html, body {
   opacity: 1 !important;
   transform: translate(0, 0) !important;
 }
+
+/* Example usage in your CSS */
+.some-heading {
+  font-family: var(--font-merriweather);
+}
+
+.some-text {
+  font-family: var(--font-poppins);
+}
+
+
+/* Set default fonts */
+body {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+/* Utility classes for using specific fonts */
+.font-merriweather {
+  font-family: var(--font-merriweather), serif;
+}
+
+.font-poppins {
+  font-family: var(--font-poppins), sans-serif;
+}

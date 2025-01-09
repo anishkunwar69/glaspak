@@ -14,7 +14,7 @@ const OurServicesContent = memo(() => {
         <Container>
             <div 
                 ref={contentRef} 
-                className={`transition-all duration-700
+                className={`transition-all duration-700 py-8 sm:py-12 lg:py-16
                            ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
             >
                 <div className="relative">

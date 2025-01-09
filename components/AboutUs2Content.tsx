@@ -29,32 +29,53 @@ const ContentSection = memo(({ title, content, titleLetter, delay }: {
   });
 
   return (
-    <div className='lg:col-span-6 col-span-12'>
-      <div ref={ref} 
-           className={`textContent w-full
-                    bg-gradient-to-br from-lightBgColor/90 to-lightBgColor/70
-                    backdrop-blur-md border border-white/5
+    <div ref={ref} 
+         className={`h-full w-full
+                    bg-[#336B44]
+                    backdrop-blur-md border border-[#7BAF7B]/30
                     shadow-[0_8px_30px_rgb(0,0,0,0.12)]
-                    rounded-xl py-8 px-6 relative overflow-hidden
-                    transition-all duration-700
+                    rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
+                    transition-all duration-700 hover:shadow-2xl
+                    hover:scale-[1.02] hover:border-[#A8D9AC]/40 group
                     ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}
-           style={{ transitionDelay: `${delay}ms` }}>
-        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-darkYellow/20 to-transparent" 
-             aria-hidden="true" />
-        <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-darkYellow/20 to-transparent" 
-             aria-hidden="true" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" 
-             aria-hidden="true" />
+         style={{ transitionDelay: `${delay}ms` }}>
+      
+      <div className="absolute top-0 right-0 w-32 h-32 
+                    bg-gradient-to-br from-[#A8D9AC]/15 to-transparent 
+                    transition-opacity duration-500 group-hover:opacity-50" 
+           aria-hidden="true" />
+      <div className="absolute -top-12 -right-12 w-32 h-32 
+                    bg-[#A8D9AC]/10 rounded-full blur-2xl
+                    transition-opacity duration-500 group-hover:opacity-70" 
+           aria-hidden="true" />
 
-        <h2 className='flex items-baseline gap-2'>
-          <span className='text-white font-merriweather md:text-[80px] text-[60px] leading-none'>
+      <div className="relative z-10">
+        <div className="flex items-center">
+          <span className='relative text-white font-merriweather 
+                         text-[40px] xs:text-[50px] sm:text-[60px] md:text-[70px] lg:text-[80px] 
+                         leading-none tracking-tighter mr-2 sm:mr-3
+                         drop-shadow-[0_2px_20px_rgba(154,205,158,0.2)]
+                         transition-all duration-500
+                         group-hover:scale-110
+                         bg-clip-text bg-gradient-to-b from-white to-white/80'>
             {titleLetter}
           </span>
-          <span className='text-darkYellow font-merriweather font-bold md:text-[40px] text-[32px] leading-none'>
+
+          <h3 className='font-merriweather font-bold 
+                      text-[20px] xs:text-[22px] sm:text-[26px] md:text-[30px] lg:text-[32px]
+                      leading-tight tracking-wide mt-4 xs:mt-6 mb-4 xs:mb-6 whitespace-normal
+                      drop-shadow-[0_2px_15px_rgba(154,205,158,0.2)]
+                      transition-all duration-500
+                      group-hover:translate-x-2
+                      bg-gradient-to-r from-[#FFD700] to-[#E5B700]
+                      bg-clip-text text-transparent'>
             {title}
-          </span>
-        </h2>
-        <p className='font-poppins text-base text-pretty hyphens-auto max-md:text-sm text-slate-200 mt-8'>
+          </h3>
+        </div>
+
+        <p className='font-poppins text-xs xs:text-sm sm:text-base lg:text-lg text-pretty hyphens-auto 
+                     text-white/90 leading-relaxed
+                     transition-all duration-500 group-hover:text-white'>
           {content}
         </p>
       </div>
@@ -65,24 +86,23 @@ ContentSection.displayName = 'ContentSection';
 
 function AboutUs2Content() {
   return (
-    <Container>
-      <div className='w-full flex justify-center items-center text-white py-4'>
-        <div className='parentBox w-full'>
-          <div className='w-full grid grid-cols-12 gap-4 sm:gap-6 lg:gap-8 mb-8'>
-            {contentSections.map((section, index) => (
-              <ContentSection
-                key={section.title}
-                {...section}
-                delay={index * 150}
-              />
-            ))}
-          </div>
-          <div className='w-full'>
-            <AboutUs2ImgContent/>
-          </div>
-        </div>
+    <div className='w-full relative'>
+      {/* Text Content Section */}
+      <div className='relative z-[2] grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 lg:mb-8'>
+        {contentSections.map((section, index) => (
+          <ContentSection
+            key={section.title}
+            {...section}
+            delay={index * 150}
+          />
+        ))}
       </div>
-    </Container>
+
+      {/* Image Section */}
+      <div className='relative z-[1] mb-8 sm:mb-12 lg:mb-16'>
+        <AboutUs2ImgContent />
+      </div>
+    </div>
   )
 }
 

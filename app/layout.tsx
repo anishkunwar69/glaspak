@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Merriweather, Poppins } from 'next/font/google';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/sections/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,15 +16,19 @@ const geistMono = localFont({
   weight: "100 900",
 });
 const merriweather = Merriweather({
+  weight: ['300', '400', '700', '900'],
   subsets: ['latin'],
   variable: '--font-merriweather',
-  weight: ['300','400','700','900'], 
-})
+  display: 'swap',
+  fallback: ['serif'],
+});
 const poppins = Poppins({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
   variable: '--font-poppins',
-  weight: ['100', '200','300','400','500','600','700','800','900'], 
-})
+  display: 'swap',
+  fallback: ['sans-serif'],
+});
 
 export const metadata: Metadata = {
   title: "Grand Versatiles Holding (GVH) | Premium Glass Packaging Solutions",
@@ -58,14 +64,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${merriweather.variable} ${poppins.variable} ${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <link rel="icon" href="/mainlogo.ico" sizes="any" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${merriweather.variable} ${poppins.variable} antialiased`}
-      >
-          {children}
+      <body className="antialiased">
+        {children}
       </body>
     </html>
   );

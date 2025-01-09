@@ -62,28 +62,31 @@ function OurServicesTextContent() {
   }, []);
 
   return (
-    <div ref={servicesRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+    <div ref={servicesRef} 
+         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                   gap-4 xs:gap-6 sm:gap-8 lg:gap-12 
+                   mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
       {services.map((service, index) => (
-        <div
-          key={index}
-          className="service-card opacity-0 translate-y-10 transition-all duration-700"
-        >
-          <div className="group h-full p-8 rounded-2xl bg-gradient-to-br from-lightBgColor/40 to-lightBgColor/20 
+        <div key={index}
+             className="service-card opacity-0 translate-y-10 transition-all duration-700">
+          <div className="group h-full p-4 xs:p-6 sm:p-8 rounded-xl xs:rounded-2xl 
+                         bg-gradient-to-br from-lightBgColor/40 to-lightBgColor/20 
                          backdrop-blur-sm border border-white/5 hover:border-darkYellow/30
                          relative overflow-hidden">
             {/* Icon container */}
-            <div className="size-16 rounded-xl bg-darkYellow/10 text-darkYellow
-                         flex items-center justify-center mb-6">
+            <div className="size-12 xs:size-14 sm:size-16 rounded-lg xs:rounded-xl 
+                          bg-darkYellow/10 text-darkYellow
+                          flex items-center justify-center mb-4 xs:mb-5 sm:mb-6">
               {service.icon}
             </div>
 
             {/* Content */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-merriweather font-bold text-darkYellow">
+            <div className="space-y-3 xs:space-y-4">
+              <h3 className="text-lg xs:text-xl sm:text-2xl font-merriweather font-bold text-darkYellow">
                 {service.title}
               </h3>
               
-              <p className="text-white/70 font-poppins leading-relaxed">
+              <p className="text-sm xs:text-base text-white/70 font-poppins leading-relaxed">
                 {service.description}
               </p>
             </div>

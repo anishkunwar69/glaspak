@@ -13,32 +13,32 @@ const strengthCards = [
   {
     Icon: LuPackageCheck,
     title: "Total Package Solution",
-    description: "We offer a complete packaging solution for bottles, closures, and labels. Our team takes full accountability for ensuring the quality and performance of every package"
+    description: "We offer complete packaging services for bottles, closures, and labels. We guarantee the quality and performance of each package, taking full responsibility to ensure it meets your needs."
   },
   {
     Icon: HiMiniWrenchScrewdriver,
     title: "Customizable",
-    description: "We provide customized products designed to meet the unique needs of each target market segment, taking full responsibility for their effectiveness and alignment with customer requirements."
+    description: "We create custom products tailored to meet each market's needs. We ensure they perform well and fully match customer expectations, taking complete responsibility for their success."
   },
   {
     Icon: TbBulbFilled,
     title: "Smart Design",
-    description: "We provide smart design solutions for your packaging, ensuring compatibility with your existing filling line tolerances and eliminating the need for additional equipment investments."
+    description: "We design smart packaging that fits your existing filling lines, helping you save money by avoiding extra equipment and ensuring everything works together without issues or delays."
   },
   {
     Icon: GiRunningShoe,
     title: "Agile",
-    description: "We provide the capability for short production runs, taking full accountability for meeting your specific requirements with precision and quality."
+    description: "We offer short production runs, taking full responsibility for meeting your exact needs with precision and ensuring high quality in every product we deliver to you."
   },
   {
     Icon: FaMoneyCheckAlt,
     title: "Low Investment",
-    description: "We offer low investment costs by providing molds directly to glass plants, taking full accountability for ensuring efficiency and quality in the process"
+    description: "We provide molds directly to glass plants, reducing investment costs. We take full responsibility for ensuring the process is efficient and the quality meets your expectations."
   },
   {
     Icon: FaShieldAlt,
     title: "Security And Network",
-    description: "We ensure a secure and reliable supply through multiple plant locations, taking full accountability for meeting your production needs with consistency and efficiency"
+    description: "We guarantee a reliable supply from multiple plant locations, taking full responsibility for meeting your production needs with consistent quality and efficiency, ensuring your satisfaction every time."
   }
 ] as const;
 
@@ -55,22 +55,96 @@ const StrengthCard = memo(({ Icon, title, description, delay }: {
   });
 
   return (
-    <div 
-      ref={ref}
-      className={`strength-card group flex flex-col p-6 rounded-xl 
-                bg-gradient-to-br from-lightBgColor/90 to-lightBgColor/70
-                backdrop-blur-sm border border-white/5 shadow-lg
-                relative overflow-hidden transition-all duration-700
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-darkYellow/20 to-transparent -z-[1]" />
+    <div ref={ref} 
+         className={`h-full w-full
+                    bg-[#336B44]
+                    backdrop-blur-md border border-[#7BAF7B]/30
+                    shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+                    rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
+                    transition-all duration-700 hover:shadow-2xl
+                    hover:scale-[1.02] hover:border-[#A8D9AC]/40 group
+                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+         style={{ transitionDelay: `${delay}ms` }}>
       
-      <div className='bg-darkGreen/30 self-start p-4 rounded-xl mb-4'>
-        <Icon size={30} className="text-darkYellow"/>
+      {/* Decorative elements remain same */}
+      <div className="absolute top-0 right-0 w-32 h-32 
+                    bg-gradient-to-br from-[#A8D9AC]/15 to-transparent 
+                    transition-opacity duration-500 group-hover:opacity-50" 
+           aria-hidden="true" />
+      <div className="absolute -top-12 -right-12 w-32 h-32 
+                    bg-[#A8D9AC]/10 rounded-full blur-2xl
+                    transition-opacity duration-500 group-hover:opacity-70" 
+           aria-hidden="true" />
+
+      <div className="relative z-10">
+        {/* New Premium Icon Styling */}
+        <div className="relative w-16 h-16 group/icon">
+          {/* Outer rotating ring */}
+          <div className="absolute inset-[-4px] rounded-xl border border-[#A8D9AC]/20
+                       transition-transform duration-700 ease-out
+                       group-hover/icon:rotate-45" />
+          
+          {/* Inner rotating ring */}
+          <div className="absolute inset-[-2px] rounded-xl border border-[#A8D9AC]/30
+                       transition-transform duration-500 ease-out
+                       group-hover/icon:rotate-90" />
+          
+          {/* Main icon background with glass effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#A8D9AC]/10 to-transparent
+                       backdrop-blur-md rounded-xl
+                       transition-all duration-500
+                       group-hover/icon:from-[#A8D9AC]/20" />
+          
+          {/* Icon container */}
+          <div className="relative h-full w-full flex items-center justify-center
+                       bg-gradient-to-br from-[#2A5A36]/90 to-[#336B44]/90
+                       rounded-xl border border-[#A8D9AC]/20
+                       transition-all duration-500
+                       group-hover/icon:border-[#A8D9AC]/40
+                       group-hover/icon:shadow-[0_0_20px_rgba(168,217,172,0.2)]">
+            
+            {/* Animated background effect */}
+            <div className="absolute inset-0 rounded-xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#A8D9AC]/10 to-transparent
+                           translate-x-[-100%] group-hover/icon:translate-x-[100%]
+                           transition-transform duration-1000 ease-in-out" />
+            </div>
+            
+            {/* Icon with glow effect */}
+            <Icon size={28} className="relative z-10 text-[#FFD700]
+                                   transition-all duration-500
+                                   group-hover/icon:scale-110
+                                   drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
+          </div>
+          
+          {/* Corner accents */}
+          <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2
+                       border-[#A8D9AC]/40 rounded-tl-md" />
+          <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2
+                       border-[#A8D9AC]/40 rounded-tr-md" />
+          <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2
+                       border-[#A8D9AC]/40 rounded-bl-md" />
+          <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2
+                       border-[#A8D9AC]/40 rounded-br-md" />
+        </div>
+
+        {/* Updated title styling to prevent breaking */}
+        <h3 className='font-merriweather font-bold text-[24px] sm:text-[28px] md:text-[32px]
+                    leading-tight tracking-wide mt-6 mb-6 whitespace-normal
+                    drop-shadow-[0_2px_15px_rgba(154,205,158,0.2)]
+                    transition-all duration-500
+                    group-hover:translate-x-2
+                    bg-gradient-to-r from-[#FFD700] to-[#E5B700]
+                    bg-clip-text text-transparent'>
+          {title}
+        </h3>
+
+        <p className='font-poppins text-sm sm:text-base lg:text-lg text-pretty hyphens-auto 
+                   text-white/90 leading-relaxed
+                   transition-all duration-500 group-hover:text-white'>
+          {description}
+        </p>
       </div>
-      <h3 className='font-merriweather font-medium text-darkYellow text-2xl mb-3'>{title}</h3>
-      <p className='font-poppins text-white/90 leading-relaxed'>{description}</p>
     </div>
   );
 });
@@ -78,21 +152,22 @@ StrengthCard.displayName = 'StrengthCard';
 
 const OurStrengthsContent = memo(() => {
   return (
-    <Container>
-      <div className='w-full min-h-screen relative py-6'>
-        <div className='relative z-[2] grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[1200px] mx-auto'>
-          {strengthCards.map((card, index) => (
-            <StrengthCard
-              key={card.title}
-              Icon={card.Icon}
-              title={card.title}
-              description={card.description}
-              delay={index * 150}
-            />
-          ))}
-        </div>
+    <div className='w-full relative'>
+      {/* Grid with matched bottom spacing from AboutUs2 */}
+      <div className='relative z-[2] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
+                    gap-4 xs:gap-6 sm:gap-8 lg:gap-10
+                    mb-6 xs:mb-8 sm:mb-12 lg:mb-16'>
+        {strengthCards.map((card, index) => (
+          <StrengthCard
+            key={card.title}
+            Icon={card.Icon}
+            title={card.title}
+            description={card.description}
+            delay={index * 150}
+          />
+        ))}
       </div>
-    </Container>
+    </div>
   )
 });
 
