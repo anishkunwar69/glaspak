@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect, useCallback, memo, useReducer } from 'react'
+import React, { useEffect, useCallback, memo, useReducer } from 'react'
 import Container from '../Container'
 import Image from 'next/image'
 import { IoArrowForward, IoArrowBack, IoLanguage, IoMenu } from "react-icons/io5"
