@@ -4,14 +4,19 @@ import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: {
-    categoryName: string
+    categoryName: string | string[]
   }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 // Dynamic Metadata Generation
 export function generateMetadata({ params }: PageProps): Metadata {
-  if (typeof params.categoryName !== "string") return notFound()
-  const { categoryName } = params;
+  const categoryName = Array.isArray(params.categoryName) 
+    ? params.categoryName[0] 
+    : params.categoryName;
+    
+  if (!categoryName) return notFound();
+  
   return {
     title: `${categoryName} Products | Phoenix Packaging`,
     description: `Explore the best ${categoryName} products available in our store.`,
@@ -19,7 +24,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { categoryName } = params;
+  const categoryName = Array.isArray(params.categoryName) 
+    ? params.categoryName[0] 
+    : params.categoryName;
 
   return <ProductsList categoryName={categoryName} />;
 }
