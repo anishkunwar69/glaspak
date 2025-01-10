@@ -86,8 +86,9 @@ const ServiceCard = memo(({ image, title, delay }: {
             className="object-cover transition-transform duration-700
                      group-hover/image:scale-110"
             sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, 200px"
-            quality={90}
-            unoptimized={true}
+            quality={75}
+            loading="eager"
+            unoptimized
           />
           
           {/* Enhanced overlay gradient */}

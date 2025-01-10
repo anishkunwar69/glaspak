@@ -100,14 +100,14 @@ const SupportCard = memo(({ title, subtitle, items, delay }: {
         </h3>
       </div>
 
-      {/* Updated list styling */}
+      {/* Updated list styling with consistent padding */}
       <ul className='space-y-6 xl:space-y-8 mt-8 xl:mt-10'>
         {items.map((item, index) => (
           <li key={index} 
               className='font-poppins text-sm sm:text-base lg:text-lg text-pretty 
                        hyphens-auto text-white/90 leading-relaxed
                        transition-all duration-500 group-hover:text-white
-                       relative pl-6 before:content-[""] before:absolute 
+                       relative pl-6 pr-4 before:content-[""] before:absolute 
                        before:left-0 before:top-[0.6em] before:w-3 before:h-[2px]
                        before:bg-[#A8D9AC]/50 group-hover:before:bg-[#A8D9AC]
                        before:transition-colors before:duration-500'>

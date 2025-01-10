@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useCallback, memo, useReducer } from 'react'
+import React, { useEffect, useCallback, memo, useReducer, useState } from 'react'
 import Container from '../Container'
 import Image from 'next/image'
 import { IoArrowForward, IoArrowBack, IoLanguage, IoMenu } from "react-icons/io5"
@@ -286,36 +286,38 @@ const HeroContent = memo(() => {
 });
 HeroContent.displayName = 'HeroContent';
 
-const HeroSlide = memo(({ 
-  img, 
-  isActive, 
-  priority 
-}: { 
+const HeroSlide = memo(({ img, isActive, priority }: { 
   img: HeroImage;
   isActive: boolean;
   priority: boolean;
-}) => (
-  <div
-    className={`absolute inset-0 transition-all duration-1000 ease-out
-                ${isActive ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-full scale-110'}`}
-  >
-    <Image
-      src={img.src}
-      alt={img.alt}
-      fill
-      className="object-cover object-center transform scale-105"
-      priority={priority || img.loading === 0}
-      sizes="100vw"
-      quality={90}
-      loading={priority || img.loading === 0 ? 'eager' : 'lazy'}
-      unoptimized={true}
-    />
-    <div className="absolute inset-0 bg-gradient-to-b 
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div className={`absolute inset-0 transition-all duration-1000 ease-out
+                    ${isActive ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-full scale-110'}`}>
+      {isLoading && (
+        <div className="absolute inset-0 bg-emerald-900/50 animate-pulse" />
+      )}
+      <Image
+        src={img.src}
+        alt={img.alt}
+        fill
+        className="object-cover object-center transform scale-105"
+        priority={true}
+        sizes="100vw"
+        quality={75}
+        loading="eager"
+        unoptimized
+        onLoadingComplete={() => setIsLoading(false)}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b 
                   from-amber-900/10 via-emerald-800/20 to-emerald-900/30" />
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(251,191,36,0.03),transparent,rgba(251,191,36,0.03))]" />
-    <div className="absolute inset-0 bg-black/5" />
-  </div>
-));
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(251,191,36,0.03),transparent,rgba(251,191,36,0.03))]" />
+      <div className="absolute inset-0 bg-black/5" />
+    </div>
+  );
+});
 HeroSlide.displayName = 'HeroSlide';
 
 type State = {
