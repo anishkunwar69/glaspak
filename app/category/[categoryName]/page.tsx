@@ -1,24 +1,19 @@
-import { Suspense } from 'react';
+import { Metadata } from 'next';
 import ProductsList from './products-list';
 
-interface PageProps {
+type Props = {
   params: {
     categoryName: string;
   };
-  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+// Remove async since we're not doing any async operations in the component itself
+export default function Page({ params }: Props) {
+  return <ProductsList categoryName={params.categoryName} />;
 }
 
-export default async function CategoryPage({ params, searchParams }: PageProps) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProductsList categoryName={params.categoryName} />
-    </Suspense>
-  );
-}
-
-// Optionally, add generateMetadata if needed
-export async function generateMetadata({ params }: PageProps) {
-  return {
-    title: `${params.categoryName.charAt(0).toUpperCase() + params.categoryName.slice(1)} - Phoenix Packaging`,
-  };
-}
+// Metadata generation
+export const metadata: Metadata = {
+  title: 'Products | Phoenix Packaging',
+  description: 'Browse our product categories',
+};
