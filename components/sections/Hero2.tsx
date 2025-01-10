@@ -304,10 +304,11 @@ const HeroSlide = memo(({
       alt={img.alt}
       fill
       className="object-cover object-center transform scale-105"
-      priority={priority}
+      priority={priority || img.loading === 0}
       sizes="100vw"
-      quality={85}
-      loading={img.loading === 0 ? 'eager' : 'lazy'}
+      quality={90}
+      loading={priority || img.loading === 0 ? 'eager' : 'lazy'}
+      unoptimized={true}
     />
     <div className="absolute inset-0 bg-gradient-to-b 
                   from-amber-900/10 via-emerald-800/20 to-emerald-900/30" />
@@ -347,13 +348,7 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-// Define the prop types
-interface HeroProps {
-  prevProps?: () => void;  // or the specific type you need
-  nextProps?: () => void;  // or the specific type you need
-}
-
-const Hero2: React.FC<HeroProps> = ({ prevProps, nextProps }) => {
+function Hero2() {
   const [state, dispatch] = useReducer(reducer, {
     currentSlide: 0,
     currentLang: 'EN',
@@ -500,7 +495,7 @@ const Hero2: React.FC<HeroProps> = ({ prevProps, nextProps }) => {
       </div>
     </section>
   );
-};
+}
 
 Hero2.displayName = 'Hero2';
 
@@ -512,4 +507,4 @@ export const metadata = {
   },
 };
 
-export default Hero2;
+export default memo(Hero2);
