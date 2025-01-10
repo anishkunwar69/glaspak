@@ -1,25 +1,28 @@
 import { Metadata } from 'next';
-// Update the import to use the local products-list file
 import ProductsList from './products-list';
 
-export async function generateMetadata({
-  params,
-}: {
+// Remove the incorrect PageProps import and just use the type directly
+type Props = {
   params: { categoryName: string };
-}): Promise<Metadata> {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata(
+  props: Props
+): Promise<Metadata> {
   return {
-    title: `${params.categoryName} | GLASPAK SOLUTIONS SDN BHD`,
+    title: `${props.params.categoryName} | GLASPAK SOLUTIONS SDN BHD`,
   };
 }
 
-export default function Page({
-  params,
-}: {
-  params: { categoryName: string };
-}) {
+export default async function CategoryPage(
+  props: Props
+): Promise<JSX.Element> {
+  const { categoryName } = props.params;
+  
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB]">
-      <ProductsList categoryName={params.categoryName} />
+      <ProductsList categoryName={categoryName} />
     </main>
   );
 }
