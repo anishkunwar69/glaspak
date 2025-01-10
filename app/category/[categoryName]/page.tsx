@@ -1,21 +1,24 @@
-import { Metadata } from 'next';
+import { Suspense } from 'react';
 import ProductsList from './products-list';
 
-// Add proper type definition for the page props
-type PageProps = {
+interface PageProps {
   params: {
     categoryName: string;
   };
-};
-
-export default function CategoryPage({ params }: PageProps) {
-  return <ProductsList categoryName={params.categoryName} />;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata(
-  props: PageProps
-): Promise<Metadata> {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsList categoryName={params.categoryName} />
+    </Suspense>
+  );
+}
+
+// Optionally, add generateMetadata if needed
+export async function generateMetadata({ params }: PageProps) {
   return {
-    title: `${props.params.categoryName} | GLASPAK SOLUTIONS SDN BHD`,
+    title: `${params.categoryName.charAt(0).toUpperCase() + params.categoryName.slice(1)} - Phoenix Packaging`,
   };
 }
