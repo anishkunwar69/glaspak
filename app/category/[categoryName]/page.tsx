@@ -16,7 +16,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { categoryName } = params;
 
   return <ProductsList categoryName={categoryName} />;
