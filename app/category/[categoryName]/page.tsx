@@ -5,8 +5,8 @@ import { notFound } from 'next/navigation';
 interface PageProps {
   params: Promise<{
     categoryName: string | string[]
-  }>
-  searchParams?: { [key: string]: string | string[] | undefined }
+  }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 // Dynamic Metadata Generation
