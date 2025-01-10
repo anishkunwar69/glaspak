@@ -400,7 +400,7 @@ function Hero2() {
           <div className="flex justify-between items-center py-2 lg:py-3">
             <div className="w-[280px] lg:w-[320px] relative">
               <Image
-                src="/logo.PNG"
+                src="/logo.png"
                 alt="Glaspak Logo"
                 width={320}
                 height={80}
