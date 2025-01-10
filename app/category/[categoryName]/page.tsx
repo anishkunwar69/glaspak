@@ -1,28 +1,28 @@
 import { Metadata } from 'next';
 import ProductsList from './products-list';
 
-// Remove the incorrect PageProps import and just use the type directly
-type Props = {
-  params: { categoryName: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export async function generateMetadata(
-  props: Props
-): Promise<Metadata> {
-  return {
-    title: `${props.params.categoryName} | GLASPAK SOLUTIONS SDN BHD`,
+// Add proper type definition for the page props
+type PageProps = {
+  params: {
+    categoryName: string;
   };
-}
+};
 
-export default async function CategoryPage(
-  props: Props
-): Promise<JSX.Element> {
-  const { categoryName } = props.params;
+// Update your page component to use the correct type
+export default function CategoryPage({ params }: PageProps) {
+  const { categoryName } = params;
   
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB]">
       <ProductsList categoryName={categoryName} />
     </main>
   );
+}
+
+export async function generateMetadata(
+  props: PageProps
+): Promise<Metadata> {
+  return {
+    title: `${props.params.categoryName} | GLASPAK SOLUTIONS SDN BHD`,
+  };
 }
