@@ -50,42 +50,42 @@ type HeroImage = {
 // Update the images array with the proper type
 const images: HeroImage[] = [
     { 
-      src: '/hero/0013.png',
+      src: '/hero/0013.PNG',
       alt: 'Glass packaging solutions showcase - Premium bottle designs',
       width: 1920,
       height: 1080,
       loading: 0
     },
     { 
-      src: '/hero/0014.png',
+      src: '/hero/0014.PNG',
       alt: 'Innovative glass container designs - Custom packaging solutions',
       width: 1920,
       height: 1080,
       loading: false
     },
     { 
-      src: '/hero/0021.png',
+      src: '/hero/0021.PNG',
       alt: 'Sustainable glass packaging - Eco-friendly bottle designs',
       width: 1920,
       height: 1080,
       loading: false
     },
     { 
-      src: '/hero/0027.png',
+      src: '/hero/0027.PNG',
       alt: 'Premium glass bottle collection - Quality packaging solutions',
       width: 1920,
       height: 1080,
       loading: false
     },
     { 
-      src: '/hero/0018.png',
+      src: '/hero/0018.PNG',
       alt: 'Luxury glass containers - High-end packaging solutions',
       width: 1920,
       height: 1080,
       loading: false
     },
     { 
-      src: '/hero/0019.png',
+      src: '/hero/0019.PNG',
       alt: 'Artisanal glass bottles - Crafted packaging designs',
       width: 1920,
       height: 1080,
@@ -400,7 +400,7 @@ function Hero2() {
           <div className="flex justify-between items-center py-2 lg:py-3">
             <div className="w-[280px] lg:w-[320px] relative">
               <Image
-                src="/logo.png"
+                src="/logo.PNG"
                 alt="Glaspak Logo"
                 width={320}
                 height={80}
@@ -505,7 +505,7 @@ export const metadata = {
   title: 'Glaspak - Your Total Packaging Solution Partner',
   description: 'Elevating brands through exceptional glass packaging solutions, where precision meets artistry in every design.',
   openGraph: {
-    images: ['/hero/0013.png'],
+    images: ['/hero/0013.PNG'],
   },
 };
 

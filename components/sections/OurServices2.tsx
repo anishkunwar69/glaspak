@@ -7,27 +7,27 @@ import { useInView } from 'react-intersection-observer'
 // Pre-defined services data
 const services = [
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Creative Design Solutions Service"
   },
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Glass Filling Process Support"
   },
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Filling Line Equipment Support"
   },
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Glass Handling Technical Support"
   },
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Customer-Driven Packaging Services"
   },
   {
-    image: "/prodcat1.png",
+    image: "/prodcat1.PNG",
     title: "Quality Excellence and Control"
   }
 ] as const;
