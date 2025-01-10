@@ -3,17 +3,18 @@ import ProductsList from './products-list';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryName: string | string[]
-  }
+  }>
   searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 // Dynamic Metadata Generation
-export function generateMetadata({ params }: PageProps): Metadata {
-  const categoryName = Array.isArray(params.categoryName) 
-    ? params.categoryName[0] 
-    : params.categoryName;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const categoryName = Array.isArray(resolvedParams.categoryName) 
+    ? resolvedParams.categoryName[0] 
+    : resolvedParams.categoryName;
     
   if (!categoryName) return notFound();
   
@@ -24,9 +25,10 @@ export function generateMetadata({ params }: PageProps): Metadata {
 }
 
 export default async function Page({ params }: PageProps) {
-  const categoryName = Array.isArray(params.categoryName) 
-    ? params.categoryName[0] 
-    : params.categoryName;
+  const resolvedParams = await params;
+  const categoryName = Array.isArray(resolvedParams.categoryName) 
+    ? resolvedParams.categoryName[0] 
+    : resolvedParams.categoryName;
 
   return <ProductsList categoryName={categoryName} />;
 }
