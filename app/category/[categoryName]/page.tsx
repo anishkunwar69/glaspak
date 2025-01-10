@@ -1,19 +1,23 @@
 import { Metadata } from 'next';
 import ProductsList from './products-list';
 
-type Props = {
+type PageProps = {
   params: {
     categoryName: string;
   };
 };
 
-// Remove async since we're not doing any async operations in the component itself
-export default function Page({ params }: Props) {
-  return <ProductsList categoryName={params.categoryName} />;
+// Dynamic Metadata Generation
+export function generateMetadata({ params }: PageProps): Metadata {
+  const { categoryName } = params;
+  return {
+    title: `${categoryName} Products | Phoenix Packaging`,
+    description: `Explore the best ${categoryName} products available in our store.`,
+  };
 }
 
-// Metadata generation
-export const metadata: Metadata = {
-  title: 'Products | Phoenix Packaging',
-  description: 'Browse our product categories',
-};
+export default function Page({ params }: PageProps) {
+  const { categoryName } = params;
+
+  return <ProductsList categoryName={categoryName} />;
+}
