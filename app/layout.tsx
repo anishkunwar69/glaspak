@@ -31,25 +31,25 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Grand Versatiles Holding (GVH) | Premium Glass Packaging Solutions",
+  title: "GLASPAK SOLUTIONS SDN BHD",
   description: "Leading glass packaging manufacturer in Southeast Asia. Specializing in innovative design, custom solutions, and premium glass packaging for various industries. Quality assured manufacturing excellence.",
   keywords: "glass packaging, custom glass solutions, premium packaging, Southeast Asia, manufacturing excellence, innovative design, quality assurance, sustainable packaging",
-  authors: [{ name: "Grand Versatiles Holding (GVH)" }],
+  authors: [{ name: "GLASPAK SOLUTIONS SDN BHD" }],
   icons: {
-    icon: '/mainlogo.ico',
-    shortcut: '/mainlogo.ico',
-    apple: '/mainlogo.ico',
+    icon: '/logo.ico',
+    shortcut: '/logo.ico',
+    apple: '/logo.ico',
   },
   openGraph: {
-    title: "Grand Versatiles Holding (GVH) | Premium Glass Packaging Solutions",
+    title: "GLASPAK SOLUTIONS SDN BHD",
     description: "Leading glass packaging manufacturer in Southeast Asia. Innovative design, custom solutions, and premium glass packaging for various industries.",
     type: "website",
     locale: "en_US",
-    siteName: "Grand Versatiles Holding (GVH)"
+    siteName: "GLASPAK SOLUTIONS SDN BHD"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grand Versatiles Holding (GVH) | Premium Glass Packaging",
+    title: "GLASPAK SOLUTIONS SDN BHD",
     description: "Leading glass packaging manufacturer in Southeast Asia. Innovative design and custom solutions."
   },
   robots: {
@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${merriweather.variable} ${poppins.variable} ${geistSans.variable} ${geistMono.variable}`}>
       <head>
-        <link rel="icon" href="/mainlogo.ico" sizes="any" />
+        <link rel="icon" href="/logo.ico" sizes="any" />
       </head>
       <body className="antialiased">
         {children}
