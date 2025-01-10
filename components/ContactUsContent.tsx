@@ -137,7 +137,7 @@ const ContactUsContent = memo(() => {
                    text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed
                    drop-shadow-[0_1px_2px_rgba(42,90,54,0.1)]
                    font-medium">
-          Reach out anytime—we're here to provide outstanding assistance
+          Reach out anytime&mdash;we&apos;re here to provide outstanding assistance
         </p>
       </div>
 
@@ -147,10 +147,10 @@ const ContactUsContent = memo(() => {
                     bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
                     bg-clip-text text-transparent
                     drop-shadow-[0_2px_4px_rgba(42,90,54,0.2)] mb-4">
-          Let's Create Something Extraordinary Together
+          Let&apos;s Create Something Extraordinary Together
         </h3>
         <p className="text-[#2A5A36]/80 text-sm sm:text-base md:text-lg font-poppins leading-relaxed mb-6">
-          Whether you're looking for innovative glass packaging solutions or have questions about our services,
+          Whether you&apos;re looking for innovative glass packaging solutions or have questions about our services,
           our team is ready to assist you in bringing your vision to life.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
@@ -199,7 +199,7 @@ const ContactUsContent = memo(() => {
         </a>
 
         <p className="mt-6 text-[#2A5A36]/80 text-sm sm:text-base font-poppins">
-          Have a specific inquiry? We'd love to hear from you!
+          Have a specific inquiry? We&apos;d love to hear from you!
           <br />
           Our team typically responds within an hour.
         </p>

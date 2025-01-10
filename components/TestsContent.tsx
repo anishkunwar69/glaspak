@@ -127,7 +127,7 @@ const ImageSlider = memo(() => {
     }, 3000); // Change image every 3 seconds
 
     return () => clearInterval(timer);
-  }, []);
+  }, [images.length]);
 
   const { ref, inView } = useInView({
     threshold: 0.1,

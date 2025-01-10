@@ -347,7 +347,13 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-function Hero2() {
+// Define the prop types
+interface HeroProps {
+  prevProps?: () => void;  // or the specific type you need
+  nextProps?: () => void;  // or the specific type you need
+}
+
+const Hero2: React.FC<HeroProps> = ({ prevProps, nextProps }) => {
   const [state, dispatch] = useReducer(reducer, {
     currentSlide: 0,
     currentLang: 'EN',
@@ -494,7 +500,7 @@ function Hero2() {
       </div>
     </section>
   );
-}
+};
 
 Hero2.displayName = 'Hero2';
 
@@ -506,4 +512,4 @@ export const metadata = {
   },
 };
 
-export default memo(Hero2);
+export default Hero2;

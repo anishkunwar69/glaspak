@@ -1,7 +1,6 @@
 "use client"
 import { memo } from "react";
 import AboutUs2ImgContent from './AboutUs2ImgContent';
-import Container from './Container';
 import { useInView } from 'react-intersection-observer';
 
 const contentSections = [
