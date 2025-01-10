@@ -1,14 +1,16 @@
 import { Metadata } from 'next';
 import ProductsList from './products-list';
+import { notFound } from 'next/navigation';
 
-type PageProps = {
+interface PageProps {
   params: {
-    categoryName: string;
-  };
-};
+    categoryName: string
+  }
+}
 
 // Dynamic Metadata Generation
 export function generateMetadata({ params }: PageProps): Metadata {
+  if (typeof params.categoryName !== "string") return notFound()
   const { categoryName } = params;
   return {
     title: `${categoryName} Products | Phoenix Packaging`,
