@@ -8,15 +8,8 @@ type PageProps = {
   };
 };
 
-// Update your page component to use the correct type
 export default function CategoryPage({ params }: PageProps) {
-  const { categoryName } = params;
-  
-  return (
-    <main className="min-h-screen bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB]">
-      <ProductsList categoryName={categoryName} />
-    </main>
-  );
+  return <ProductsList categoryName={params.categoryName} />;
 }
 
 export async function generateMetadata(
