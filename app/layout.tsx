@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Merriweather, Poppins } from 'next/font/google';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/sections/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,6 +19,7 @@ const merriweather = Merriweather({
   variable: '--font-merriweather',
   display: 'swap',
   fallback: ['serif'],
+  preload: true,
 });
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -28,6 +27,7 @@ const poppins = Poppins({
   variable: '--font-poppins',
   display: 'swap',
   fallback: ['sans-serif'],
+  preload: true,
 });
 
 export const metadata: Metadata = {
