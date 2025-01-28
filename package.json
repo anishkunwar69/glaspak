@@ -12,6 +12,7 @@
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "chart.js": "^4.4.7",
+    "critters": "^0.0.25",
     "framer-motion": "^11.13.1",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
