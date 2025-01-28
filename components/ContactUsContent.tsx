@@ -28,7 +28,7 @@ const contactInfo: readonly ContactInfo[] = [
       "47301 Selangor"
     ],
     color: "from-emerald-400 to-emerald-600",
-    link: "https://maps.google.com/?q=Glaspak+Solutions+Sdn+Bhd+E-2-32+Taipan+2+Jalan+PJU+1A/3A+Ara+Damansara"
+    link: "https://www.google.com/maps/place/Phoenix+Packaging/@3.1193187,101.5760569,16.58z/data=!4m6!3m5!1s0x31cc4e8401555555:0x66cf29db1968e0d0!8m2!3d3.1196575!4d101.5756887!16s%2Fg%2F11h9hbfjg9"
   },
   {
     icon: MdOutlineEmail,
