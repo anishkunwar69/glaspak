@@ -93,7 +93,8 @@ const BackgroundEffects = memo(() => (
 const Tests = memo(() => {
   const { ref: titleRef, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true
+    triggerOnce: true,
+    rootMargin: '50px 0px'  // Trigger slightly before element comes into view
   });
 
   return (
@@ -107,8 +108,9 @@ const Tests = memo(() => {
       <Container>
         <div className="relative z-[1]">
           <div ref={titleRef} 
-               className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4 transition-all duration-700 
-                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+               className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4 
+                          transition-transform duration-1000 ease-out will-change-transform
+                          ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
             <span className="text-xs sm:text-sm md:text-base font-poppins 
                          tracking-[0.4em] text-[#2A5A36] mb-4 sm:mb-5 
                          uppercase relative inline-block

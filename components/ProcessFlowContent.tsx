@@ -9,7 +9,9 @@ import {
   HiPencil, 
   HiTemplate, 
   HiClipboardCheck 
-} from 'react-icons/hi';import { useInView } from 'react-intersection-observer'
+} from 'react-icons/hi';
+import { useInView } from 'react-intersection-observer'
+import { motion } from 'framer-motion'
 
 // Pre-defined process steps data
 const steps = [
@@ -44,7 +46,7 @@ const steps = [
   {
     icon: HiCog,
     title: "Mass Production",
-    description: "We begin making custom glass bottles using the final molds, closely watching every step of the process. This ensures each bottle is made with high quality, consistent results, and meets the customer’s requirements and expectations throughout production.",
+    description: "We begin making custom glass bottles using the final molds, closely watching every step of the process. This ensures each bottle is made with high quality, consistent results, and meets the customer's requirements and expectations throughout production.",
     color: "from-emerald-400 via-amber-400 to-emerald-500",
     glow: "hover:shadow-emerald-500/50"
   },
@@ -58,7 +60,7 @@ const steps = [
   {
     icon: HiTruck,
     title: "Shipment",
-    description: "We package the final products according to the customer’s specifications, making sure all custom design details are included. This ensures the products are ready for market launch, meeting all requirements and ensuring the customer’s satisfaction with the result.",
+    description: "We package the final products according to the customer's specifications, making sure all custom design details are included. This ensures the products are ready for market launch, meeting all requirements and ensuring the customer's satisfaction with the result.",
     color: "from-emerald-400 via-amber-400 to-emerald-500",
     glow: "hover:shadow-emerald-500/50"
   }
@@ -76,16 +78,60 @@ const ProcessStep = memo(({ step, index, isLast, delay }: {
     triggerOnce: true
   });
 
+  const stepVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: delay * 0.2
+      }
+    }
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+        delay: delay * 0.2 + 0.2
+      }
+    }
+  };
+
+  const contentVariants = {
+    hidden: { opacity: 0, x: index % 2 === 0 ? -20 : 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: delay * 0.2 + 0.3
+      }
+    }
+  };
+
   return (
-    <div ref={ref}
-         className={`process-step relative flex flex-col 
-                    ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} 
-                    items-center gap-4 xs:gap-6 sm:gap-8 lg:gap-10 transition-all duration-700
-                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-         style={{ transitionDelay: `${delay}ms` }}>
-      
+    <motion.div
+      ref={ref}
+      variants={stepVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className={`process-step relative flex flex-col 
+                ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} 
+                items-center gap-4 xs:gap-6 sm:gap-8 lg:gap-10`}
+    >
       {/* Icon Section */}
-      <div className="w-full md:w-1/5 relative">
+      <motion.div 
+        variants={iconVariants}
+        className="w-full md:w-1/5 relative"
+      >
         <div className="absolute inset-[-50%] opacity-75">
           <div className="absolute inset-0 bg-gradient-radial from-[#336B44]/10 via-transparent to-transparent 
                          animate-pulse-slow" />
@@ -135,10 +181,13 @@ const ProcessStep = memo(({ step, index, isLast, delay }: {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
       
       {/* Content Section */}
-      <div className="w-full md:w-4/5">
+      <motion.div 
+        variants={contentVariants}
+        className="w-full md:w-4/5"
+      >
         <div className="bg-[#336B44] backdrop-blur-md border border-[#7BAF7B]/30
                      shadow-[0_8px_30px_rgb(0,0,0,0.12)]
                      rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
@@ -189,25 +238,52 @@ const ProcessStep = memo(({ step, index, isLast, delay }: {
           <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2
                          border-[#A8D9AC]/20 rounded-br-xl" />
         </div>
-      </div>
+      </motion.div>
       
-      {/* Connector Line */}
+      {/* Connector Line with Animation */}
       {!isLast && (
-        <div className="absolute left-1/2 -translate-x-1/2 mt-4 xs:mt-6 sm:mt-8 hidden md:block">
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: inView ? 1 : 0 }}
+          transition={{ duration: 0.6, delay: delay * 0.2 + 0.4 }}
+          className="absolute left-1/2 -translate-x-1/2 mt-4 xs:mt-6 sm:mt-8 hidden md:block"
+        >
           <div className="w-0.5 h-12 xs:h-14 sm:h-16 lg:h-20 bg-gradient-to-b from-[#336B44]/40 to-transparent
                        after:content-[''] after:absolute after:inset-0
                        after:bg-gradient-to-b after:from-[#336B44]/40 after:to-transparent
                        after:animate-pulse-slow" />
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 });
 ProcessStep.displayName = 'ProcessStep';
 
 const ProcessFlowContent = memo(() => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.1
+      }
+    }
+  };
+
   return (
-    <div className='w-full relative max-w-[1900px] mx-auto'>
+    <motion.div
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className='w-full relative max-w-[1900px] mx-auto'
+    >
       <div className="flex flex-col gap-8 xs:gap-12 sm:gap-16 lg:gap-20">
         {steps.map((step, index) => (
           <ProcessStep
@@ -215,11 +291,11 @@ const ProcessFlowContent = memo(() => {
             step={step}
             index={index}
             isLast={index === steps.length - 1}
-            delay={index * 150}
+            delay={index}
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 });
 

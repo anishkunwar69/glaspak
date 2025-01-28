@@ -63,6 +63,7 @@ module.exports = {
       'slow-pulse': 'pulse 8s ease-in-out infinite',
       'slow-breathe': 'breathe 12s ease-in-out infinite',
       'float-subtle': 'float-subtle 18s ease-in-out infinite',
+      'spin-slow': 'spin 3s linear infinite',
       'float-subtle-reverse': 'float-subtle 18s ease-in-out infinite reverse',
       'shimmer-slow': 'shimmer 10s ease-in-out infinite',
       },

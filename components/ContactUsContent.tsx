@@ -66,6 +66,7 @@ const ContactCard = memo(({ info, index }: { info: ContactInfo; index: number })
                 backdrop-blur-sm rounded-2xl p-6 lg:p-8
                 border border-[#2A5A36]/10 hover:border-[#2A5A36]/20
                 transition-all duration-700 overflow-hidden h-full
+                flex flex-col items-center
                 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
@@ -74,19 +75,23 @@ const ContactCard = memo(({ info, index }: { info: ContactInfo; index: number })
                    opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className={`relative w-16 h-16 rounded-xl bg-gradient-to-r ${info.color} 
-                    flex items-center justify-center mb-4 mx-auto
+                    flex items-center justify-center mb-4
                     transition-transform duration-300 group-hover:scale-110
                     shadow-lg shadow-[#2A5A36]/10`}>
         <info.icon size={28} className="text-white" aria-hidden="true" />
       </div>
 
-      <div className='relative text-center'>
+      <div className='relative text-center flex-1 w-full'>
         <h3 className='text-xl font-merriweather font-bold text-[#2A5A36] mb-3'>{info.title}</h3>
-        {info.details.map((detail, idx) => (
-          <p key={idx} className='font-poppins text-[#2A5A36]/80 text-sm leading-relaxed mb-1'>
-            {detail}
-          </p>
-        ))}
+        <div className="space-y-1">
+          {info.details.map((detail, idx) => (
+            <p key={idx} 
+               className='font-poppins text-[#2A5A36]/80 text-sm leading-relaxed
+                         break-words hyphens-auto px-2'>
+              {detail}
+            </p>
+          ))}
+        </div>
       </div>
     </div>
   );

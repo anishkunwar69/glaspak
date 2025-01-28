@@ -37,7 +37,8 @@ const images = [
 const AboutUs2ImgContent = memo(() => {
     const { ref, inView } = useInView({
         threshold: 0.1,
-        triggerOnce: true
+        triggerOnce: true,
+        rootMargin: '50px 0px'
     });
 
     const renderImage = useCallback(({ src, alt, width, height }: typeof images[number]) => (
@@ -56,8 +57,8 @@ const AboutUs2ImgContent = memo(() => {
     return (
         <div ref={ref} 
              className={`relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] xl:h-[800px] 
-                        transition-all duration-700 group
-                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                        transition-transform duration-700 ease-out will-change-transform
+                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
              aria-label="Gallery of our glass packaging solutions border">
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
                  style={{

@@ -3,6 +3,7 @@
 import React, { memo } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
+import { motion } from 'framer-motion'
 
 const supportDetails = [
   {
@@ -54,18 +55,42 @@ const SupportCard = memo(({ title, subtitle, items, delay }: {
     triggerOnce: true
   });
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: delay * 0.2
+      }
+    }
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <div ref={ref} 
-         className={`h-full w-full
-                    bg-[#336B44] 
-                    backdrop-blur-md border border-[#7BAF7B]/30
-                    shadow-[0_8px_30px_rgb(0,0,0,0.12)]
-                    rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
-                    transition-all duration-700 hover:shadow-2xl
-                    hover:scale-[1.02] hover:border-[#A8D9AC]/40 group
-                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-         style={{ transitionDelay: `${delay}ms` }}>
-      
+    <motion.div
+      ref={ref}
+      variants={cardVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      whileHover={{ scale: 1.02 }}
+      className="w-full bg-[#336B44] backdrop-blur-md border border-[#7BAF7B]/30
+               shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-xl relative overflow-hidden
+               transition-all duration-700 hover:shadow-2xl hover:border-[#A8D9AC]/40 group"
+    >
       {/* Updated decorative elements */}
       <div className="absolute top-0 right-0 w-32 h-32 
                     bg-gradient-to-br from-[#A8D9AC]/15 to-transparent 
@@ -76,45 +101,54 @@ const SupportCard = memo(({ title, subtitle, items, delay }: {
                     transition-opacity duration-500 group-hover:opacity-70" 
            aria-hidden="true" />
 
-      <div className="relative">
-        {/* Updated divider styling */}
-        <div className="absolute left-0 top-[45px] sm:top-[55px] md:top-[65px] w-full h-[1px]
-                     bg-gradient-to-r from-[#A8D9AC]/40 via-transparent to-[#A8D9AC]/40" 
-             aria-hidden="true" />
-        
-        {/* Updated title styling with increased boldness */}
-        <h2 className='font-merriweather font-extrabold text-[28px] sm:text-[32px] md:text-[36px]
-                    leading-none tracking-wide mb-4
+      {/* Added consistent padding wrapper */}
+      <div className="p-6 xs:p-8 sm:p-10 lg:p-12">
+        <motion.div className="relative">
+          {/* Updated divider styling */}
+          <div className="absolute left-0 top-[40px] sm:top-[45px] md:top-[50px] w-full h-[1px]
+                       bg-gradient-to-r from-[#A8D9AC]/40 via-transparent to-[#A8D9AC]/40" 
+               aria-hidden="true" />
+          
+          {/* Updated title styling to match OurStrengthsContent */}
+          <motion.h2 
+            className="font-merriweather font-bold text-[24px] sm:text-[28px] md:text-[32px]
+                    leading-tight tracking-wide mb-4
                     drop-shadow-[0_2px_15px_rgba(154,205,158,0.2)]
-                    transition-all duration-500
-                    group-hover:translate-x-2
+                    transition-all duration-500 group-hover:translate-x-2
                     bg-gradient-to-r from-[#FFD700] to-[#E5B700]
-                    bg-clip-text text-transparent'>
-          {title}
-        </h2>
-        
-        {/* Updated subtitle styling */}
-        <h3 className='font-poppins text-[#A8D9AC]/90 text-base sm:text-lg
-                    transition-all duration-500 group-hover:text-[#A8D9AC]'>
-          {subtitle}
-        </h3>
-      </div>
+                    bg-clip-text text-transparent"
+          >
+            {title}
+          </motion.h2>
+          
+          {/* Updated subtitle styling */}
+          <motion.h3 
+            className="font-poppins text-[#A8D9AC]/90 text-sm sm:text-base
+                    transition-all duration-500 group-hover:text-[#A8D9AC]"
+          >
+            {subtitle}
+          </motion.h3>
+        </motion.div>
 
-      {/* Updated list styling with consistent padding */}
-      <ul className='space-y-6 xl:space-y-8 mt-8 xl:mt-10'>
-        {items.map((item, index) => (
-          <li key={index} 
-              className='font-poppins text-sm sm:text-base lg:text-lg text-pretty 
+        <motion.ul className="space-y-4 xs:space-y-5 sm:space-y-6 mt-6 xs:mt-7 sm:mt-8">
+          {items.map((item, index) => (
+            <motion.li
+              key={index}
+              variants={listItemVariants}
+              className="font-poppins text-sm sm:text-base text-pretty 
                        hyphens-auto text-white/90 leading-relaxed
                        transition-all duration-500 group-hover:text-white
-                       relative pl-6 pr-4 before:content-[""] before:absolute 
+                       relative pl-6 xs:pl-7 sm:pl-8 pr-2 xs:pr-3 sm:pr-4 
+                       before:content-[''] before:absolute 
                        before:left-0 before:top-[0.6em] before:w-3 before:h-[2px]
                        before:bg-[#A8D9AC]/50 group-hover:before:bg-[#A8D9AC]
-                       before:transition-colors before:duration-500'>
-            {item}
-          </li>
-        ))}
-      </ul>
+                       before:transition-colors before:duration-500"
+            >
+              {item}
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
 
       {/* Added corner accents */}
       <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2
@@ -125,24 +159,54 @@ const SupportCard = memo(({ title, subtitle, items, delay }: {
                    border-[#A8D9AC]/40 rounded-bl-md" />
       <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2
                    border-[#A8D9AC]/40 rounded-br-md" />
-    </div>
+    </motion.div>
   );
 });
 
 SupportCard.displayName = 'SupportCard';
 
 const OurSupportContent = memo(() => {
-  const { ref: imageRef, inView: imageInView } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <div className='w-full relative'>
-      <div className='grid lg:grid-cols-12 gap-6 xs:gap-8 sm:gap-10 lg:gap-12 max-w-[1800px] mx-auto'>
-        <div ref={imageRef} 
-             className={`lg:col-span-5 relative transition-all duration-700
-                        ${imageInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+    <motion.div
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className="w-full relative"
+    >
+      <div className="grid lg:grid-cols-12 gap-6 xs:gap-8 sm:gap-10 lg:gap-12 max-w-[1800px] mx-auto">
+        <motion.div 
+          variants={imageVariants}
+          className="lg:col-span-5 relative"
+        >
           <div className="relative rounded-xl xs:rounded-2xl overflow-hidden 
                          aspect-[4/3] lg:aspect-[3/4] group">
             <Image
@@ -158,19 +222,19 @@ const OurSupportContent = memo(() => {
             <div className="absolute inset-0 bg-gradient-to-t from-[#2A3A2E]/95 
                          via-[#336B44]/40 to-transparent"></div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className='lg:col-span-7 flex flex-col gap-4 xs:gap-6 sm:gap-8 lg:gap-10'>
+        <div className="lg:col-span-7 flex flex-col gap-6 xs:gap-8 sm:gap-10 lg:gap-12">
           {supportDetails.map((detail, index) => (
             <SupportCard
               key={detail.title}
               {...detail}
-              delay={index * 150}
+              delay={index}
             />
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 });
 

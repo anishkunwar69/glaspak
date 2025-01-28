@@ -33,7 +33,7 @@ importers:
         specifier: 19.0.0-rc-66855b96-20241106
         version: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
       react-icons:
-        specifier: ^5.3.0
+        specifier: ^5.4.0
         version: 5.4.0(react@19.0.0-rc-66855b96-20241106)
       react-intersection-observer:
         specifier: ^9.13.1

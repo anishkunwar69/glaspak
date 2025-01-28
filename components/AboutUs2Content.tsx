@@ -25,6 +25,7 @@ const ContentSection = memo(({ title, content, titleLetter, delay }: {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
+    rootMargin: '50px 0px'
   });
 
   return (
@@ -34,9 +35,10 @@ const ContentSection = memo(({ title, content, titleLetter, delay }: {
                     backdrop-blur-md border border-[#7BAF7B]/30
                     shadow-[0_8px_30px_rgb(0,0,0,0.12)]
                     rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
-                    transition-all duration-700 hover:shadow-2xl
+                    hover:shadow-2xl
                     hover:scale-[1.02] hover:border-[#A8D9AC]/40 group
-                    ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}
+                    transition-transform duration-700 ease-out will-change-transform
+                    ${inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}
          style={{ transitionDelay: `${delay}ms` }}>
       
       <div className="absolute top-0 right-0 w-32 h-32 

@@ -52,6 +52,7 @@ const StrengthCard = memo(({ Icon, title, description, delay }: {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
+    rootMargin: '50px 0px'  // Trigger slightly before element comes into view
   });
 
   return (
@@ -61,9 +62,10 @@ const StrengthCard = memo(({ Icon, title, description, delay }: {
                     backdrop-blur-md border border-[#7BAF7B]/30
                     shadow-[0_8px_30px_rgb(0,0,0,0.12)]
                     rounded-xl p-4 xs:p-6 sm:p-8 lg:p-10 relative overflow-hidden
-                    transition-all duration-700 hover:shadow-2xl
+                    hover:shadow-2xl
                     hover:scale-[1.02] hover:border-[#A8D9AC]/40 group
-                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                    transition-transform duration-1000 ease-out will-change-transform
+                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
          style={{ transitionDelay: `${delay}ms` }}>
       
       {/* Decorative elements remain same */}
@@ -163,7 +165,7 @@ const OurStrengthsContent = memo(() => {
             Icon={card.Icon}
             title={card.title}
             description={card.description}
-            delay={index * 150}
+            delay={index * 100} // Reduced delay between cards for smoother sequence
           />
         ))}
       </div>

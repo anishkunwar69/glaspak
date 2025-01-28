@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer'
 import Container from '../Container'
+import { motion } from 'framer-motion'
 // Dynamic import with loading state
 const OurStrengthsContent = dynamic(() => import('../OurStrengthsContent'), {
   ssr: true,
@@ -55,7 +56,8 @@ BackgroundEffects.displayName = 'BackgroundEffects';
 const OurStrengths = memo(() => {
   const { ref: titleRef, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true
+    triggerOnce: true,
+    rootMargin: '50px 0px'  // Trigger slightly before element comes into view
   });
 
   return (
@@ -67,40 +69,39 @@ const OurStrengths = memo(() => {
       <BackgroundEffects />
       
       <Container>
-        <div className="relative z-[1]">
-          <div 
-            ref={titleRef} 
-            className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4 transition-all duration-700
-                       ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-          >
-            <span className="text-[10px] xs:text-xs sm:text-sm md:text-base font-poppins tracking-[0.3em] xs:tracking-[0.4em] 
-                         text-[#2A5A36] mb-3 xs:mb-4 sm:mb-5 uppercase relative inline-block
-                         before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
-                         before:-translate-x-1/2 before:w-8 xs:before:w-12 before:h-0.5 
-                         before:bg-gradient-to-r before:from-transparent 
-                         before:via-[#2A5A36]/70 before:to-transparent">
-              What Makes Us Different
-            </span>
-            
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 
-                        font-bold font-merriweather text-center mb-2 xs:mb-3 sm:mb-4
-                        bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
-                        bg-clip-text text-transparent relative
-                        animate-gradient-x bg-[length:200%_auto]
-                        drop-shadow-[0_2px_4px_rgba(42,90,54,0.2)]">
-              Our Strengths
-            </h2>
-            
-            <p className="font-poppins text-[#2A5A36] max-w-2xl mx-auto 
-                       text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed
-                       drop-shadow-[0_1px_2px_rgba(42,90,54,0.1)]
-                       font-medium">
-              Discover what sets us apart in the glass packaging industry
-            </p>
-          </div>
-
-          <OurStrengthsContent />
+        <div
+          ref={titleRef}
+          className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4
+                     transition-transform duration-1000 ease-out will-change-transform
+                     ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
+        >
+          <span className="text-[10px] xs:text-xs sm:text-sm md:text-base font-poppins tracking-[0.3em] xs:tracking-[0.4em] 
+                       text-[#2A5A36] mb-3 xs:mb-4 sm:mb-5 uppercase relative inline-block
+                       before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
+                       before:-translate-x-1/2 before:w-8 xs:before:w-12 before:h-0.5 
+                       before:bg-gradient-to-r before:from-transparent 
+                       before:via-[#2A5A36]/70 before:to-transparent">
+            What Makes Us Different
+          </span>
+          
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 
+                      font-bold font-merriweather text-center mb-2 xs:mb-3 sm:mb-4
+                      bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
+                      bg-clip-text text-transparent relative
+                      animate-gradient-x bg-[length:200%_auto]
+                      drop-shadow-[0_2px_4px_rgba(42,90,54,0.2)]">
+            Our Strengths
+          </h2>
+          
+          <p className="font-poppins text-[#2A5A36] max-w-2xl mx-auto 
+                     text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed
+                     drop-shadow-[0_1px_2px_rgba(42,90,54,0.1)]
+                     font-medium">
+            Discover what sets us apart in the glass packaging industry
+          </p>
         </div>
+
+        <OurStrengthsContent />
       </Container>
     </section>
   )

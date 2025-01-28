@@ -2,38 +2,33 @@
 import React, { useEffect, useCallback, memo, useReducer, useState } from 'react'
 import Container from '../Container'
 import Image from 'next/image'
-import { IoArrowForward, IoArrowBack, IoLanguage, IoMenu } from "react-icons/io5"
+import { IoArrowForward, IoArrowBack, IoLanguage, IoMenu, IoArrowUp } from "react-icons/io5"
 import { useInView } from 'react-intersection-observer'
+import Link from 'next/link'
 
 const navLinks = [
   { 
-    title: 'Home', 
-    href: '#hero', 
-    ariaLabel: 'Navigate to home section',
-    loading: 'eager'
-  },
-  { 
-    title: 'About', 
-    href: '#about-us', 
-    ariaLabel: 'Learn more about us',
+    title: 'Our Products', 
+    href: '/category/glass-bottles', 
+    ariaLabel: 'View our products',
     loading: 'lazy'
   },
   { 
-    title: 'Services', 
-    href: '#services', 
-    ariaLabel: 'View our services',
+    title: 'Custom Designs', 
+    href: '/custom-design', 
+    ariaLabel: 'Explore custom designs',
     loading: 'lazy'
   },
   { 
-    title: 'Products', 
-    href: '#products', 
-    ariaLabel: 'Explore our products',
+    title: 'Our Story', 
+    href: '/our-story', 
+    ariaLabel: 'Learn our story',
     loading: 'lazy'
   },
   { 
     title: 'Contact', 
-    href: '#contact', 
-    ariaLabel: 'Get in touch with us',
+    href: '/contact-us', 
+    ariaLabel: 'Contact us',
     loading: 'lazy'
   }
 ] as const;
@@ -93,30 +88,128 @@ const images: HeroImage[] = [
     },
 ] as const;
 
-const Navigation = memo(() => (
-  <nav className="hidden lg:flex justify-center flex-1 px-6 xl:px-12">
-    <ul className="flex gap-6 xl:gap-10">
-      {navLinks.map(({ href, title, ariaLabel }) => (
-        <li key={href}>
-          <a href={href}
-             aria-label={ariaLabel}
-             className={`font-poppins font-bold text-[15px] xl:text-[17px] 
-                        transition-all duration-300 relative group
-                        ${title === 'Contact' 
-                          ? 'bg-amber-400 text-white px-5 xl:px-6 py-2 rounded hover:bg-amber-500' 
-                          : 'text-white hover:text-amber-300'}`}>
-            {title}
-            {title !== 'Contact' && (
-              <span className="absolute -bottom-1 left-0 w-full h-[2px] 
-                             bg-amber-300 transform origin-left scale-x-0 
-                             group-hover:scale-x-100 transition-transform duration-300"/>
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-), (prevProps, nextProps) => true);
+const ScrollToTop = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full 
+                 bg-amber-400 hover:bg-amber-500 text-white
+                 shadow-lg transform transition-all duration-300
+                 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+      aria-label="Scroll to top"
+    >
+      <IoArrowUp className="w-6 h-6" />
+    </button>
+  );
+};
+
+// Modify the Navigation component to be sticky
+const Navigation = memo(({ currentLang, setCurrentLang }: { 
+  currentLang: string; 
+  setCurrentLang: (lang: string) => void 
+}) => {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 100) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav className={`hidden lg:block transition-all duration-300
+                    ${isSticky 
+                      ? 'fixed top-0 left-0 right-0 bg-[#E5DED4]/95 backdrop-blur-md shadow-lg z-50 py-2' 
+                      : ''}`}>
+      <Container>
+        <div className={`flex items-center justify-between py-2 transition-all duration-300
+                        ${isSticky ? 'lg:py-2' : ''}`}>
+          {/* Logo */}
+          <Link href="/" className="relative">
+            <Image
+              src="/logo.png"
+              alt="Glaspak Logo"
+              width={250}
+              height={60}
+              className={`transition-all duration-300 w-auto
+                         ${isSticky ? 'h-[75px]' : 'h-0 opacity-0'}`}
+              priority
+            />
+          </Link>
+
+          {/* Navigation Links */}
+          <ul className="flex gap-6 xl:gap-10">
+            {navLinks.map(({ href, title, ariaLabel }) => (
+              <li key={href}>
+                <Link href={href}
+                   aria-label={ariaLabel}
+                   className={`font-poppins text-base xl:text-lg font-semibold 
+                              transition-all duration-300 relative group whitespace-nowrap
+                              ${isSticky 
+                                ? (title === 'Contact' 
+                                    ? 'bg-amber-400 text-white px-5 xl:px-6 py-2 rounded hover:bg-amber-500' 
+                                    : 'text-[#2A5A36] hover:text-amber-500')
+                                : (title === 'Contact'
+                                    ? 'bg-amber-400 text-white px-5 xl:px-6 py-2 rounded hover:bg-amber-500'
+                                    : 'text-white hover:text-amber-300')
+                              }`}>
+                  {title}
+                  {title !== 'Contact' && (
+                    <span className={`absolute -bottom-1 left-0 w-full h-[2px] 
+                                    transform origin-left scale-x-0 
+                                    group-hover:scale-x-100 transition-transform duration-300
+                                    ${isSticky ? 'bg-amber-400' : 'bg-amber-300'}`} />
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Language Toggle */}
+          <button
+            onClick={() => setCurrentLang(currentLang === 'EN' ? 'MY' : 'EN')}
+            className={`flex items-center gap-2 text-[#2A5A36] hover:text-amber-500
+                       transition-all duration-300 font-poppins
+                       px-4 py-2 rounded-full border border-[#2A5A36]/20
+                       hover:border-amber-400/50 ${isSticky ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <IoLanguage size={24} />
+            <span className="font-medium">{currentLang}</span>
+          </button>
+        </div>
+      </Container>
+    </nav>
+  );
+}, (prevProps, nextProps) => true);
 Navigation.displayName = 'Navigation';
 
 const MobileNav = memo(({ 
@@ -159,7 +252,7 @@ const MobileNav = memo(({
         <ul className="flex flex-col">
           {navLinks.map(({ href, title, ariaLabel }) => (
             <li key={href} className="group">
-              <a href={href}
+              <Link href={href}
                  onClick={onClose}
                  aria-label={ariaLabel}
                  className={`flex items-center px-8 py-4 transition-all duration-300
@@ -178,7 +271,7 @@ const MobileNav = memo(({
                                  transform -translate-x-full group-hover:translate-x-0
                                  transition-transform duration-300"/>
                 )}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -256,30 +349,29 @@ const HeroContent = memo(() => {
       <div className={`flex flex-wrap gap-4 sm:gap-6 justify-center
                       transition-all duration-700 delay-500
                       ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <a href="#about-us"
-           className="group relative transform hover:scale-105 transition-all duration-300">
+        <Link href="/category/glass-bottles" className='group relative transform hover:scale-105 transition-all duration-300'>
           <span className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
           <span className="relative inline-block px-8 sm:px-10 py-4 sm:py-5 
                                  bg-gradient-to-r from-amber-500 to-amber-400
                                  text-white text-sm sm:text-base tracking-wider font-semibold
                                  overflow-hidden">
-            <span className="relative z-10">About Us</span>
+            <span className="relative z-10">View Products</span>
             <span className="absolute inset-0 bg-gradient-to-r 
                                    from-white/0 via-white/20 to-white/0
                                    translate-x-[-100%] group-hover:translate-x-[100%]
                                    transition-transform duration-700" />
           </span>
-        </a>
-        <a href="#services"
+        </Link>
+        <Link href="/contact-us"
            className="group relative transform hover:scale-105 transition-all duration-300">
           <span className="relative inline-block px-8 sm:px-10 py-3.5 sm:py-[18px]
                                  border-2 border-white/80 text-white
                                  text-sm sm:text-base tracking-wider font-semibold
                                  hover:bg-white/10
                                  transition-all duration-300">
-            <span className="relative z-10">Our Services</span>
+            <span className="relative z-10">Get a Quote</span>
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -309,7 +401,7 @@ const HeroSlide = memo(({ img, isActive, priority }: {
         quality={75}
         loading="eager"
         unoptimized
-        onLoadingComplete={() => setIsLoading(false)}
+        onLoad={() => setIsLoading(false)}
       />
       <div className="absolute inset-0 bg-gradient-to-b 
                   from-amber-900/10 via-emerald-800/20 to-emerald-900/30" />
@@ -350,7 +442,9 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-function Hero2() {
+const Hero2 = () => {
+  const [currentLang, setCurrentLang] = useState('EN');
+
   const [state, dispatch] = useReducer(reducer, {
     currentSlide: 0,
     currentLang: 'EN',
@@ -359,10 +453,6 @@ function Hero2() {
 
   const handleSlideChange = useCallback((direction: 'next' | 'prev' | number) => {
     dispatch({ type: 'CHANGE_SLIDE', payload: direction });
-  }, []);
-
-  const setCurrentLang = useCallback((lang: string) => {
-    dispatch({ type: 'SET_LANGUAGE', payload: lang });
   }, []);
 
   const setIsMobileMenuOpen = useCallback((isOpen: boolean) => {
@@ -394,110 +484,115 @@ function Hero2() {
   }, [handleSlideChange]);
 
   return (
-    <section className="relative" aria-label="Hero Section">
-      <div className="w-full bg-transparent absolute top-0 z-50">
-        <Container>
-          <div className="flex justify-between items-center py-2 lg:py-3">
-            <div className="w-[280px] lg:w-[320px] relative">
-              <Image
-                src="/logo.png"
-                alt="Glaspak Logo"
-                width={320}
-                height={80}
-                className="w-auto h-[50px] lg:h-[64px] relative brightness-0 invert"
-                priority
-              />
-            </div>
-
-            <Navigation />
-
-            <button
-              className="lg:hidden text-white p-2"
-              onClick={() => setIsMobileMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <IoMenu size={28} />
-            </button>
-
-            <button
-              onClick={() => setCurrentLang(state.currentLang === 'EN' ? 'MY' : 'EN')}
-              className="hidden lg:flex items-center gap-2 text-white hover:text-amber-300
-                       transition-colors duration-300 font-poppins
-                       px-4 py-2 rounded-full border border-white/20
-                       hover:border-amber-300/50"
-            >
-              <IoLanguage size={24} />
-              <span className="font-medium">{state.currentLang}</span>
-            </button>
-          </div>
-        </Container>
-      </div>
-
-      <MobileNav 
-        isOpen={state.isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        currentLang={state.currentLang}
-        setCurrentLang={setCurrentLang}
-      />
-
-      <div className="relative h-[85vh] sm:h-[90vh] lg:h-[96vh] 2xl:h-[98vh] w-full overflow-hidden">
-        {images.map((img, index) => (
-          <HeroSlide
-            key={img.src}
-            img={img}
-            isActive={state.currentSlide === index}
-            priority={index === 0}
-          />
-        ))}
-
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-3 z-20">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleSlideChange(index)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300
-                        ${state.currentSlide === index 
-                          ? 'bg-white w-8' 
-                          : 'bg-white/50 hover:bg-white/80'}`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        <div className="absolute bottom-4 left-12 z-20 bg-white/10 backdrop-blur-sm 
-                       px-4 py-2 rounded-full text-white font-medium
-                       hidden md:block">
-          <span className="text-amber-300">{state.currentSlide + 1}</span>
-          <span className="mx-1">/</span>
-          <span>{images.length}</span>
-        </div>
-
-        <div className="absolute bottom-4 right-12 hidden md:flex gap-4 z-20">
-          {[
-            { icon: IoArrowBack, action: handlePrevSlide, label: "Previous" },
-            { icon: IoArrowForward, action: handleNextSlide, label: "Next" }
-          ].map((control, idx) => (
-            <button 
-              key={idx}
-              onClick={control.action}
-              className="p-2 bg-white/80 rounded-full hover:bg-white
-                       transition-all duration-300"
-              aria-label={`${control.label} slide`}
-            >
-              <control.icon className="text-emerald-900 text-xl" />
-            </button>
-          ))}
-        </div>
-
-        <div className="absolute inset-0 flex items-center justify-center z-10">
+    <>
+      <section className="relative" aria-label="Hero Section">
+        <div className="w-full bg-transparent absolute top-0 z-50">
           <Container>
-            <HeroContent />
+            <div className="flex justify-between items-center py-2 lg:py-3">
+              <div className="w-[360px] lg:w-[400px] relative">
+              <Link href={"/"}>
+                <Image
+                  src="/logo.png"
+                  alt="Glaspak Logo"
+                  width={400}
+                  height={100}
+                  className="w-auto h-[70px] lg:h-[84px] relative brightness-0 invert"
+                  priority
+                />
+                </Link>
+              </div>
+
+              <Navigation currentLang={currentLang} setCurrentLang={setCurrentLang} />
+
+              <button
+                className="lg:hidden text-white p-2"
+                onClick={() => setIsMobileMenuOpen(true)}
+                aria-label="Open menu"
+              >
+                <IoMenu size={28} />
+              </button>
+
+              <button
+                onClick={() => setCurrentLang(currentLang === 'EN' ? 'MY' : 'EN')}
+                className="hidden lg:flex items-center gap-2 text-white hover:text-amber-300
+                         transition-colors duration-300 font-poppins
+                         px-4 py-2 rounded-full border border-white/20
+                         hover:border-amber-300/50"
+              >
+                <IoLanguage size={24} />
+                <span className="font-medium">{currentLang}</span>
+              </button>
+            </div>
           </Container>
         </div>
-      </div>
-    </section>
+
+        <MobileNav 
+          isOpen={state.isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+          currentLang={currentLang}
+          setCurrentLang={setCurrentLang}
+        />
+
+        <div className="relative h-[85vh] sm:h-[90vh] lg:h-[96vh] 2xl:h-[98vh] w-full overflow-hidden">
+          {images.map((img, index) => (
+            <HeroSlide
+              key={img.src}
+              img={img}
+              isActive={state.currentSlide === index}
+              priority={index === 0}
+            />
+          ))}
+
+          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-3 z-20">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handleSlideChange(index)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300
+                          ${state.currentSlide === index 
+                            ? 'bg-white w-8' 
+                            : 'bg-white/50 hover:bg-white/80'}`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <div className="absolute bottom-4 left-12 z-20 bg-white/10 backdrop-blur-sm 
+                         px-4 py-2 rounded-full text-white font-medium
+                         hidden md:block">
+            <span className="text-amber-300">{state.currentSlide + 1}</span>
+            <span className="mx-1">/</span>
+            <span>{images.length}</span>
+          </div>
+
+          <div className="absolute bottom-4 right-12 hidden md:flex gap-4 z-20">
+            {[
+              { icon: IoArrowBack, action: handlePrevSlide, label: "Previous" },
+              { icon: IoArrowForward, action: handleNextSlide, label: "Next" }
+            ].map((control, idx) => (
+              <button 
+                key={idx}
+                onClick={control.action}
+                className="p-2 bg-white/80 rounded-full hover:bg-white
+                         transition-all duration-300"
+                aria-label={`${control.label} slide`}
+              >
+                <control.icon className="text-emerald-900 text-xl" />
+              </button>
+            ))}
+          </div>
+
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <Container>
+              <HeroContent />
+            </Container>
+          </div>
+        </div>
+      </section>
+      <ScrollToTop />
+    </>
   );
-}
+};
 
 Hero2.displayName = 'Hero2';
 
@@ -509,4 +604,4 @@ export const metadata = {
   },
 };
 
-export default memo(Hero2);
+export default Hero2;

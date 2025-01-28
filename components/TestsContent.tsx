@@ -45,7 +45,8 @@ const TestCard = memo(({ card, delay }: {
 }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true
+    triggerOnce: true,
+    rootMargin: '50px 0px'
   });
 
   const isDark = card.theme === 'dark';
@@ -57,11 +58,12 @@ const TestCard = memo(({ card, delay }: {
                 ${isDark ? 'bg-[#336B44]' : 'bg-[#336B44]'} 
                 backdrop-blur-md border border-[#7BAF7B]/30
                 shadow-[0_8px_30px_rgb(0,0,0,0.12)]
-                relative overflow-hidden transition-all duration-700
+                relative overflow-hidden
                 hover:shadow-2xl hover:scale-[1.02] hover:border-[#A8D9AC]/40
                 group
                 ${card.isWide ? 'lg:col-span-2' : ''}
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                transition-transform duration-1000 ease-out will-change-transform
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {/* Enhanced premium glass effect */}
@@ -131,7 +133,8 @@ const ImageSlider = memo(() => {
 
   const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true
+    triggerOnce: true,
+    rootMargin: '50px 0px'
   });
 
   return (
@@ -140,8 +143,9 @@ const ImageSlider = memo(() => {
       className={`relative w-full h-full rounded-[26px] 
                 bg-[#336B44] backdrop-blur-md border border-[#7BAF7B]/30
                 shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden
-                transition-all duration-700 group
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                group
+                transition-transform duration-1000 ease-out will-change-transform
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
     >
       {/* Premium glass effect */}
       <div className="absolute top-0 right-0 w-32 h-32 
@@ -208,24 +212,24 @@ const TestsContent = memo(() => {
   return (
     <div className='w-full relative max-w-[1900px] mx-auto'>
       <div className='w-full flex flex-col gap-4 xs:gap-6 sm:gap-8 lg:gap-10'>
-        {/* First row - 2 cards with responsive gap and padding */}
+        {/* First row */}
         <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 lg:gap-10'>
           {testCards.slice(0, 2).map((card, index) => (
             <TestCard 
               key={card.title} 
               card={card} 
-              delay={index * 150} 
+              delay={index * 100} // Reduced delay for smoother sequence
             />
           ))}
         </div>
         
-        {/* Second row - 1 card with responsive width */}
+        {/* Second row */}
         <div className='w-full flex justify-center'>
           <div className='w-full md:w-2/3 lg:w-1/2'>
             <TestCard 
               key={testCards[2].title} 
               card={testCards[2]} 
-              delay={300} 
+              delay={200} // Adjusted delay for smoother sequence
             />
           </div>
         </div>

@@ -28,7 +28,9 @@ BackgroundEffects.displayName = 'BackgroundEffects';
 // Memoized title component
 const SectionTitle = memo(({ titleRef }: { titleRef: React.RefObject<HTMLDivElement> }) => (
   <div ref={titleRef} 
-       className="text-center mb-8 sm:mb-12 lg:mb-16 px-4 opacity-0 translate-y-10 transition-all duration-700 
+       className="text-center mb-8 sm:mb-12 lg:mb-16 px-4 
+                opacity-0 translate-y-10 
+                transition-transform duration-700 ease-out will-change-transform
                 show:opacity-100 show:translate-y-0">
     <span className="text-xs sm:text-sm md:text-base font-poppins tracking-[0.4em] 
                    text-[#2A5A36] mb-4 sm:mb-5 uppercase relative inline-block
@@ -88,7 +90,10 @@ function AboutUs2() {
           }
         });
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px 0px'
+      }
     );
 
     if (titleRef.current) {

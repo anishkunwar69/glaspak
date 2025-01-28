@@ -4,6 +4,7 @@ import React, { memo } from 'react'
 import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer'
 import Container from '../Container'
+import { motion } from 'framer-motion'
 
 const OurSupportContent = dynamic(() => import('../OurSupportContent'), {
   ssr: true,
@@ -53,53 +54,92 @@ const BackgroundEffects = memo(() => (
 BackgroundEffects.displayName = 'BackgroundEffects';
 
 const OurSupport = memo(() => {
-  const { ref: titleRef, inView } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <section id="support"
-             className="relative w-full bg-[#EDE5DB] py-8 sm:py-12 lg:py-16 overflow-hidden scroll-mt-20"
-             aria-label="Customer Support Services">
-      
+    <motion.section
+      id="support"
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={containerVariants}
+      className="relative w-full bg-[#EDE5DB] py-8 sm:py-12 lg:py-16 overflow-hidden scroll-mt-20"
+      aria-label="Customer Support Services"
+    >
       <BackgroundEffects />
 
       <Container>
         <div className="relative z-[1]">
-          {/* Title Section - Matching AboutUs2 spacing */}
-          <div ref={titleRef} 
-               className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4 transition-all duration-700
-                        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <span className="text-xs sm:text-sm md:text-base font-poppins tracking-[0.4em] 
-                         text-[#2A5A36] mb-4 sm:mb-5 uppercase relative inline-block
-                         before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
-                         before:-translate-x-1/2 before:w-12 before:h-0.5 
-                         before:bg-gradient-to-r before:from-transparent 
-                         before:via-[#2A5A36]/70 before:to-transparent">
+          <motion.div 
+            variants={titleVariants}
+            className="text-center mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4"
+          >
+            <motion.span 
+              variants={titleVariants}
+              className="text-sm sm:text-base font-poppins tracking-[0.4em] 
+                     text-[#2A5A36] mb-5 uppercase relative inline-block
+                     before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
+                     before:-translate-x-1/2 before:w-12 before:h-0.5 
+                     before:bg-gradient-to-r before:from-transparent 
+                     before:via-[#2A5A36]/70 before:to-transparent"
+            >
               Customer Support
-            </span>
+            </motion.span>
 
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 
-                        font-bold font-merriweather text-center mb-2 xs:mb-3 sm:mb-4
-                        bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
-                        bg-clip-text text-transparent">
+            <motion.h2 
+              variants={titleVariants}
+              className="text-3xl sm:text-4xl lg:text-5xl 
+                      font-bold font-merriweather text-center mb-6
+                      bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
+                      bg-clip-text text-transparent"
+            >
               Elevating Your Experience
-            </h2>
+            </motion.h2>
 
-            <p className="font-poppins text-[#2A5A36]/90 max-w-2xl mx-auto 
-                       text-[10px] xs:text-xs sm:text-sm md:text-base leading-relaxed">
+            <motion.p 
+              variants={titleVariants}
+              className="font-poppins text-[#2A5A36]/90 max-w-2xl mx-auto 
+                     text-sm sm:text-base leading-relaxed"
+            >
               Dedicated support and innovative solutions for your glass packaging needs
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          {/* Content with matched bottom spacing */}
-          <div className="mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
+          <motion.div 
+            variants={titleVariants}
+            className="mb-6 xs:mb-8 sm:mb-12 lg:mb-16"
+          >
             <OurSupportContent />
-          </div>
+          </motion.div>
         </div>
       </Container>
-    </section>
+    </motion.section>
   )
 });
 

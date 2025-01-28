@@ -3,18 +3,32 @@ import React, { useState } from 'react'
 import Container from '@/components/Container'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import Footer from '@/components/sections/Footer'
-import { IoArrowBack, IoMenu, IoWineOutline, IoBeakerOutline, IoLockClosedOutline, IoLanguage, IoMailOutline, IoCloseOutline, IoChevronBack, IoChevronForward } from "react-icons/io5"
+import { IoArrowBack, IoMenu, IoWineOutline, IoBeakerOutline, IoLockClosedOutline, IoMailOutline, IoCloseOutline, IoChevronBack, IoChevronForward, IoCallOutline } from "react-icons/io5"
 import Link from 'next/link'
 
 // Navigation links (same as Hero2)
 const navLinks = [
-  { title: 'Home', href: '#hero', ariaLabel: 'Navigate to home section' },
-  { title: 'About', href: '#about-us', ariaLabel: 'Learn more about us' },
-  { title: 'Services', href: '#services', ariaLabel: 'View our services' },
-  { title: 'Products', href: '#products', ariaLabel: 'Explore our products' },
-  { title: 'Contact', href: '#contact', ariaLabel: 'Get in touch with us' }
-];
+  { 
+    title: 'Our Products', 
+    href: '/category/glass-bottles', 
+    ariaLabel: 'View our products',
+  },
+  { 
+    title: 'Custom Designs', 
+    href: '/custom-design', 
+    ariaLabel: 'Explore custom designs',
+  },
+  { 
+    title: 'Our Story', 
+    href: '/our-story', 
+    ariaLabel: 'Learn our story',
+  },
+  { 
+    title: 'Contact', 
+    href: '/contact-us', 
+    ariaLabel: 'Contact us',
+  }
+] as const;
 
 // Product categories configuration
 const categories = [
@@ -227,7 +241,6 @@ const productsByCategory = {
 
 function ProductsList({ categoryName }: { categoryName: string }) {
   const router = useRouter();
-  const [currentLang, setCurrentLang] = useState('EN');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
@@ -261,7 +274,7 @@ function ProductsList({ categoryName }: { categoryName: string }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB]">
+    <main className="flex-1 min-h-screen bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB]">
       {/* Main Content Area */}
       <div className="pt-0 flex min-h-screen relative">
         {/* Mobile Sidebar Toggle Button - Changed from fixed to absolute positioning */}
@@ -274,8 +287,8 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                             ${isSidebarOpen ? 'rotate-90' : ''}`} />
         </button>
 
-        {/* Enhanced Responsive Sidebar - Updated breakpoint to lg */}
-        <aside className={`w-full lg:w-72 bg-white/90 backdrop-blur-lg fixed 
+        {/* Enhanced Responsive Sidebar - Updated width from w-80 to w-96 */}
+        <aside className={`w-full lg:w-[360px] bg-white/90 backdrop-blur-lg fixed 
                         lg:top-0 bottom-0 left-0 z-30
                         border-r border-[#2A5A36]/10 shadow-lg flex flex-col
                         transform transition-transform duration-300
@@ -293,33 +306,97 @@ function ProductsList({ categoryName }: { categoryName: string }) {
 
           {/* Categories Section */}
           <div className="flex-1 p-4 xs:p-5 sm:p-6 overflow-y-auto">
-            <div className="space-y-6">
-              <h2 className="font-merriweather text-2xl text-[#2A5A36] relative pb-4
-                           after:content-[''] after:absolute after:bottom-0 after:left-0 
-                           after:w-24 after:h-[3px] after:bg-gradient-to-r 
-                           after:from-[#2A5A36] after:to-[#44875A]">
-                Categories
-              </h2>
-              
-              {/* Category Buttons */}
-              <div className="space-y-3">
-                {categories.map((category) => (
-                  <button
-                    key={category.slug}
-                    onClick={() => router.push(`/category/${category.slug}`)}
-                    className={`w-full flex items-center space-x-4 px-5 py-4 rounded-xl 
-                              transition-all duration-500 group relative overflow-hidden
-                              ${category.slug === categoryName 
-                                ? 'bg-gradient-to-r from-[#2A5A36] to-[#44875A] text-white shadow-lg scale-105' 
-                                : 'hover:bg-[#2A5A36]/5 text-[#2A5A36] hover:scale-102'}`}
-                  >
-                    <category.icon className={`text-2xl transition-all duration-500
-                                           ${category.slug === categoryName 
-                                             ? 'transform rotate-12 scale-110' 
-                                             : 'group-hover:scale-125 group-hover:rotate-12'}`} />
-                    <span className="font-medium tracking-wide">{category.title}</span>
-                  </button>
-                ))}
+            <div className="space-y-8">
+              {/* Categories */}
+              <div className="space-y-6">
+                <h2 className="font-merriweather text-2xl text-[#2A5A36] relative pb-4
+                             after:content-[''] after:absolute after:bottom-0 after:left-0 
+                             after:w-24 after:h-[3px] after:bg-gradient-to-r 
+                             after:from-[#2A5A36] after:to-[#44875A]">
+                  Categories
+                </h2>
+                
+                {/* Category Buttons */}
+                <div className="space-y-3">
+                  {categories.map((category) => (
+                    <button
+                      key={category.slug}
+                      onClick={() => router.push(`/category/${category.slug}`)}
+                      className={`w-full flex items-center space-x-4 px-5 py-4 rounded-xl 
+                                transition-all duration-500 group relative overflow-hidden
+                                ${category.slug === categoryName 
+                                  ? 'bg-gradient-to-r from-[#2A5A36] to-[#44875A] text-white shadow-lg scale-105' 
+                                  : 'hover:bg-[#2A5A36]/5 text-[#2A5A36] hover:scale-102'}`}
+                    >
+                      <category.icon className={`text-2xl transition-all duration-500
+                                             ${category.slug === categoryName 
+                                               ? 'transform rotate-12 scale-110' 
+                                               : 'group-hover:scale-125 group-hover:rotate-12'}`} />
+                      <span className="font-medium tracking-wide">{category.title}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigation Links Section */}
+              <div className="space-y-6">
+                <h2 className="font-merriweather text-2xl text-[#2A5A36] relative pb-4
+                             after:content-[''] after:absolute after:bottom-0 after:left-0 
+                             after:w-24 after:h-[3px] after:bg-gradient-to-r 
+                             after:from-[#2A5A36] after:to-[#44875A]">
+                  Quick Links
+                </h2>
+                
+                <div className="space-y-3">
+                  {navLinks.map((link) => (
+                    link.title === 'Contact' ? (
+                      // Special Contact Link Design
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        aria-label={link.ariaLabel}
+                        className="w-full block relative group"
+                      >
+                        <div className="relative overflow-hidden rounded-xl 
+                                      bg-gradient-to-r from-amber-400 to-amber-500
+                                      shadow-lg hover:shadow-xl
+                                      transform transition-all duration-500
+                                      hover:-translate-y-1 hover:scale-[1.02]">
+                          <div className="px-5 py-4 flex items-center justify-between">
+                            <span className="font-medium tracking-wide text-white">
+                              {link.title}
+                            </span>
+                            <div className="flex items-center space-x-2">
+                              <IoMailOutline className="text-xl text-white 
+                                                  transform group-hover:rotate-12 
+                                                  transition-transform duration-300" />
+                              <IoChevronForward className="text-white opacity-0 group-hover:opacity-100 
+                                                     -translate-x-2 group-hover:translate-x-0
+                                                     transition-all duration-300" />
+                            </div>
+                          </div>
+                          {/* Animated background effect */}
+                          <div className="absolute inset-0 bg-white/20 
+                                         transform -skew-x-12 -translate-x-full
+                                         group-hover:translate-x-full
+                                         transition-transform duration-1000" />
+                        </div>
+                      </Link>
+                    ) : (
+                      // Regular Navigation Links - Unchanged
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        aria-label={link.ariaLabel}
+                        className="w-full flex items-center space-x-4 px-5 py-4 rounded-xl 
+                                  transition-all duration-500 group relative overflow-hidden
+                                  hover:bg-[#2A5A36]/5 text-[#2A5A36]"
+                      >
+                        <span className="font-medium tracking-wide">{link.title}</span>
+                      </Link>
+                    )
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -351,8 +428,8 @@ function ProductsList({ categoryName }: { categoryName: string }) {
           />
         )}
 
-        {/* Main Content - Updated margin for lg breakpoint */}
-        <main className="flex-1 lg:ml-72 min-h-screen w-full">
+        {/* Main Content - Update margin to match new sidebar width */}
+        <div className="flex-1 lg:ml-[320px] min-h-screen w-full">
           <Container>
             <div className="py-6 xs:py-8 sm:py-12 lg:py-16 px-4 xs:px-6 sm:px-8">
               {/* Header Section */}
@@ -502,23 +579,177 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                 </div>
               )}
 
-              {/* Customer Notice - Responsive padding and text */}
-              <div className="mt-8 xs:mt-12 sm:mt-16 bg-white/80 backdrop-blur-sm 
-                           p-4 xs:p-5 sm:p-6 rounded-xl border border-[#2A5A36]/10 w-full">
-                <div className="flex items-center justify-center gap-2 xs:gap-3 text-[#2A5A36]">
-                  <IoMailOutline className="text-xl xs:text-2xl" />
-                  <p className="text-xs xs:text-sm sm:text-base">
-                    For product inquiries or assistance, please email us at{' '}
-                    <a href="mailto:enquiry@phoenix-pac.com" 
-                       className="font-medium underline hover:text-[#44875A]">
-                      enquiry@phoenix-pac.com
-                    </a>
+              {/* Visual Separator */}
+              <div className="relative my-10 sm:my-14 md:my-18">
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                  <div className="w-full border-t border-[#2A5A36]/10"></div>
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-gradient-to-b from-[#F5F0EA] to-[#EDE5DB] px-4">
+                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#2A5A36]/30 to-[#44875A]/30"></div>
+                  </span>
+                </div>
+              </div>
+
+              {/* Customer Notice - Enhanced with Contact Form */}
+              <div className="mt-8 xs:mt-12 sm:mt-16">
+                {/* Section Header */}
+                <div className="text-center mb-8">
+                  <span className="text-xs sm:text-sm tracking-[0.4em] text-[#2A5A36] uppercase relative inline-block
+                                  before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
+                                  before:-translate-x-1/2 before:w-12 before:h-0.5 
+                                  before:bg-gradient-to-r before:from-transparent 
+                                  before:via-[#2A5A36]/70 before:to-transparent">
+                    Get in Touch
+                  </span>
+                  <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-bold font-merriweather 
+                                 bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
+                                 bg-clip-text text-transparent
+                                 animate-gradient-x bg-[length:200%_auto]">
+                    Interested in Our {formattedTitle}?
+                  </h2>
+                  <p className="mt-2 text-sm sm:text-base text-[#2A5A36]/80 max-w-2xl mx-auto">
+                    Fill out the form below and our team will get back to you with detailed information and pricing.
                   </p>
+                </div>
+
+                {/* Contact Form - Updated to match product grid width */}
+                <div className="w-full">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      const subject = encodeURIComponent(`Inquiry about ${formattedTitle}`);
+                      const body = encodeURIComponent(`
+Name: ${formData.get("name")}
+Email: ${formData.get("email")}
+Phone: ${formData.get("phone")}
+Message: ${formData.get("message")}
+Category: ${formattedTitle}
+                  `);
+                      window.location.href = `mailto:enquiry@phoenix-pac.com?subject=${subject}&body=${body}`;
+                    }}
+                    className="space-y-4 p-6 sm:p-8 rounded-2xl
+                               bg-white/80 backdrop-blur-sm
+                               border border-[#7BAF7B]/20
+                               shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-[#2A5A36]">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          required
+                          className="mt-1 block w-full px-4 py-3 bg-white/80 
+                                   border border-[#7BAF7B]/30 rounded-lg
+                                   focus:ring-[#336B44] focus:border-[#336B44]
+                                   transition-all duration-300"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-[#2A5A36]">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          required
+                          className="mt-1 block w-full px-4 py-3 bg-white/80 
+                                   border border-[#7BAF7B]/30 rounded-lg
+                                   focus:ring-[#336B44] focus:border-[#336B44]
+                                   transition-all duration-300"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-[#2A5A36]">
+                        Phone (Optional)
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        className="mt-1 block w-full px-4 py-3 bg-white/80 
+                                 border border-[#7BAF7B]/30 rounded-lg
+                                 focus:ring-[#336B44] focus:border-[#336B44]
+                                 transition-all duration-300"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-[#2A5A36]">
+                        Message
+                      </label>
+                      <textarea
+                        name="message"
+                        id="message"
+                        rows={4}
+                        required
+                        placeholder={`I'm interested in learning more about your ${formattedTitle.toLowerCase()}...`}
+                        className="mt-1 block w-full px-4 py-3 bg-white/80 
+                                 border border-[#7BAF7B]/30 rounded-lg
+                                 focus:ring-[#336B44] focus:border-[#336B44]
+                                 transition-all duration-300 resize-none"
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                      <p className="text-sm text-[#2A5A36]/70 flex items-center">
+                        <IoMailOutline className="mr-2" />
+                        We typically respond within 24 hours
+                      </p>
+                      <button
+                        type="submit"
+                        className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#336B44] to-[#2A5A36]
+                                 text-white font-medium rounded-lg
+                                 hover:from-[#2A5A36] hover:to-[#336B44]
+                                 transition-all duration-300 shadow-lg
+                                 hover:shadow-xl hover:scale-[1.02]
+                                 focus:ring-2 focus:ring-offset-2 focus:ring-[#336B44]
+                                 flex items-center justify-center space-x-2"
+                      >
+                        <span>Send Inquiry</span>
+                        <IoMailOutline className="text-xl" />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Quick Contact Options - Updated to match form width */}
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                  <a href="tel:+60378426269"
+                     className="flex items-center space-x-3 p-4 rounded-lg
+                              bg-white/80 backdrop-blur-sm border border-[#7BAF7B]/20
+                              hover:border-[#7BAF7B]/40 transition-all duration-300
+                              hover:bg-white/90">
+                    <IoCallOutline className="text-2xl text-[#2A5A36]" />
+                    <div>
+                      <p className="text-sm font-medium text-[#2A5A36]">Call Us</p>
+                      <p className="text-[#2A5A36]/70">+603-7842 6269</p>
+                    </div>
+                  </a>
+                  <a href="mailto:enquiry@phoenix-pac.com"
+                     className="flex items-center space-x-3 p-4 rounded-lg
+                              bg-white/80 backdrop-blur-sm border border-[#7BAF7B]/20
+                              hover:border-[#7BAF7B]/40 transition-all duration-300
+                              hover:bg-white/90">
+                    <IoMailOutline className="text-2xl text-[#2A5A36]" />
+                    <div>
+                      <p className="text-sm font-medium text-[#2A5A36]">Email Us</p>
+                      <p className="text-[#2A5A36]/70">enquiry@phoenix-pac.com</p>
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>
           </Container>
-        </main>
+        </div>
       </div>
 
       {/* Product Modal - Image with Elegant CTA */}
@@ -578,7 +809,7 @@ function ProductsList({ categoryName }: { categoryName: string }) {
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }
 
