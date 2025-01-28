@@ -206,7 +206,7 @@ const WhyGlass = () => {
                                transform hover:scale-105 transition-all duration-500
                                shadow-xl shadow-[#2A5A36]/10">
                     <Image
-                      src={`/whyglass/${index === 1 ? '0013' : '0010'}.png`}
+                      src={`/whyglass/${index === 1 ? '0013' : '0010'}.PNG`}
                       alt={`Sustainable glass packaging ${index === 1 ? 'with 80% recycled glass' : 'with 2-3% energy cost drop'}`}
                       fill
                       className="object-cover object-center"
