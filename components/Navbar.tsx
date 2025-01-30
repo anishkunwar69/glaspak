@@ -8,7 +8,7 @@ import { IoLanguage } from "react-icons/io5"
 const navLinks = [
   { 
     title: 'Our Products', 
-    href: '/category/glass-bottles', 
+    href: '/category',
     ariaLabel: 'View our products',
   },
   { 

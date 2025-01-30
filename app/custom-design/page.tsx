@@ -6,11 +6,11 @@ import React from 'react'
 function Page() {
   return (
     <>
-    <Navbar/>
     <main className="pt-[95px]">
+      <Navbar/>
       <ProcessFlow/>
+      <Footer/>
     </main>
-    <Footer/>
     </>
   )
 }

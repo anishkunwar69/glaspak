@@ -9,7 +9,7 @@ import Link from 'next/link'
 const navLinks = [
   { 
     title: 'Our Products', 
-    href: '/category/glass-bottles', 
+    href: '/category',
     ariaLabel: 'View our products',
     loading: 'lazy'
   },
@@ -349,7 +349,7 @@ const HeroContent = memo(() => {
       <div className={`flex flex-wrap gap-4 sm:gap-6 justify-center
                       transition-all duration-700 delay-500
                       ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <Link href="/category/glass-bottles" className='group relative transform hover:scale-105 transition-all duration-300'>
+        <Link href="/category" className='group relative transform hover:scale-105 transition-all duration-300'>
           <span className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 blur-sm opacity-50 group-hover:opacity-75 transition-opacity" />
           <span className="relative inline-block px-8 sm:px-10 py-4 sm:py-5 
                                  bg-gradient-to-r from-amber-500 to-amber-400
