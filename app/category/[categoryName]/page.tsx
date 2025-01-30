@@ -3,21 +3,24 @@ import Footer from "@/components/sections/Footer"
 import ProductsList from './products-list'
 import { Metadata } from 'next'
 
-interface PageProps {
+// Replace the interface with the correct type
+type Props = {
   params: {
     categoryName: string
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-// Dynamic Metadata Generation
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// Update the type here
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${params.categoryName} Products | Phoenix Packaging`,
     description: `Explore the best ${params.categoryName} products available in our store.`,
   };
 }
 
-export default function Page({ params }: PageProps) {
+// Update the type here
+export default function Page({ params }: Props) {
   return (
     <>
       <Navbar />
