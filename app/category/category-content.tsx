@@ -7,13 +7,13 @@ import Container from '@/components/Container';
 const categories = [
   {
     id: 'glass-bottles',
-    image: '/prodcat1.png',
+    image: '/prodcat1.PNG',
     title: 'Glass',
     description: 'Explore our premium glass bottle collection, featuring elegant designs and superior quality for your beverage packaging needs.'
   },
   {
     id: 'glass-jars',
-    image: '/prodcat2.png',
+    image: '/prodcat2.PNG',
     title: 'Jars',
     description: 'Discover our versatile jar collection, perfect for food packaging, preserves, and specialty products, combining style with functionality.'
   },
