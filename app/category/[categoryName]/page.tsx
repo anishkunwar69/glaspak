@@ -2,30 +2,41 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/sections/Footer"
 import ProductsList from './products-list'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
-// Replace the interface with the correct type
-type Props = {
-  params: {
-    categoryName: string
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
+interface PageProps {
+  params: Promise<{
+    categoryName: string | string[]
+  }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-// Update the type here
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+// Dynamic Metadata Generation
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const categoryName = Array.isArray(resolvedParams.categoryName) 
+    ? resolvedParams.categoryName[0] 
+    : resolvedParams.categoryName;
+    
+  if (!categoryName) return notFound();
+  
   return {
-    title: `${params.categoryName} Products | Phoenix Packaging`,
-    description: `Explore the best ${params.categoryName} products available in our store.`,
+    title: `${categoryName} Products | Phoenix Packaging`,
+    description: `Explore the best ${categoryName} products available in our store.`,
   };
 }
 
-// Update the type here
-export default function Page({ params }: Props) {
+export default async function Page({ params }: PageProps) {
+  const resolvedParams = await params;
+  const categoryName = Array.isArray(resolvedParams.categoryName) 
+    ? resolvedParams.categoryName[0] 
+    : resolvedParams.categoryName;
+
   return (
     <>
       <Navbar />
       <div className="pt-[87px]">
-        <ProductsList categoryName={params.categoryName} />
+        <ProductsList categoryName={categoryName} />
       </div>
       <Footer />
     </>
