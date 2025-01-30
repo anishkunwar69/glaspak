@@ -86,7 +86,7 @@ function CategoryContent() {
               <span className="relative inline-block w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-1 group" 
                     onClick={() => setSelectedCategory('glass-bottles')}>
                 <Image 
-                  src="/prodcat1.png"
+                  src="/prodcat1.PNG"
                   alt="Glass Category 1"
                   fill
                   className="object-cover rounded-full cursor-pointer 
@@ -100,7 +100,7 @@ function CategoryContent() {
               <span className="relative inline-block w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-1 group"
                     onClick={() => setSelectedCategory('glass-jars')}>
                 <Image 
-                  src="/prodcat2.png"
+                  src="/prodcat2.PNG"
                   alt="Glass Category 2"
                   fill
                   className="object-cover rounded-full cursor-pointer 
