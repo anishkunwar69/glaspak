@@ -1,242 +1,261 @@
-"use client"
-import React, { useState } from 'react'
-import Container from '@/components/Container'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { IoArrowBack, IoMenu, IoWineOutline, IoBeakerOutline, IoLockClosedOutline, IoMailOutline, IoCloseOutline, IoChevronBack, IoChevronForward, IoCallOutline } from "react-icons/io5"
-import Link from 'next/link'
+"use client";
+import Container from "@/components/Container";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  IoBeakerOutline,
+  IoCallOutline,
+  IoChevronBack,
+  IoChevronForward,
+  IoCloseOutline,
+  IoFlaskOutline,
+  IoMailOutline,
+  IoWineOutline
+} from "react-icons/io5";
+import { GiBottleCap } from "react-icons/gi";
 
 // Navigation links (same as Hero2)
 const navLinks = [
-  { 
-    title: 'Our Products', 
-    href: '/category/glass-bottles', 
-    ariaLabel: 'View our products',
+  {
+    title: "Our Products",
+    href: "/category/glass-bottles",
+    ariaLabel: "View our products",
   },
-  { 
-    title: 'Custom Designs', 
-    href: '/custom-design', 
-    ariaLabel: 'Explore custom designs',
+  {
+    title: "Custom Designs",
+    href: "/custom-design",
+    ariaLabel: "Explore custom designs",
   },
-  { 
-    title: 'Our Story', 
-    href: '/our-story', 
-    ariaLabel: 'Learn our story',
+  {
+    title: "Our Story",
+    href: "/our-story",
+    ariaLabel: "Learn our story",
   },
-  { 
-    title: 'Contact', 
-    href: '/contact-us', 
-    ariaLabel: 'Contact us',
-  }
+  {
+    title: "Contact",
+    href: "/contact-us",
+    ariaLabel: "Contact us",
+  },
 ] as const;
 
 // Product categories configuration
 const categories = [
-  { 
-    slug: 'glass-bottles', 
-    title: 'Glass Bottles',
-    icon: IoWineOutline 
+  {
+    slug: "glass-bottles",
+    title: "Luxury Glass Bottles",
+    icon: IoWineOutline,
   },
-  { 
-    slug: 'glass-jars', 
-    title: 'Glass Jars',
-    icon: IoBeakerOutline 
+  {
+    slug: "glass-jars",
+    title: "Premium Glass Jars",
+    icon: IoBeakerOutline,
   },
-  { 
-    slug: 'closures', 
-    title: 'Closures',
-    icon: IoLockClosedOutline 
+  {
+    slug: "closures",
+    title: "High-End Closures",
+    icon: GiBottleCap,
   },
 ];
 
 // Updated products mapping based on category
 const productsByCategory = {
-  'glass-bottles': [
+  "glass-bottles": [
     {
       id: 1,
-      name: 'Premium Glass Bottle 250ml',
-      image: '/bottles/bottle1.jpg',
+      name: "Premium Glass Bottle 250ml",
+      image: "/bottles/bottle1.jpg",
     },
     {
       id: 2,
-      name: 'Premium Glass Bottle 500ml',
-      image: '/bottles/bottle2.jpg',
+      name: "Premium Glass Bottle 500ml",
+      image: "/bottles/bottle2.jpg",
     },
     {
       id: 3,
-      name: 'Premium Glass Bottle 750ml',
-      image: '/bottles/bottle3.jpg',
+      name: "Premium Glass Bottle 750ml",
+      image: "/bottles/bottle3.jpg",
     },
     {
       id: 4,
-      name: 'Premium Glass Bottle 1L',
-      image: '/bottles/bottle4.jpg',
+      name: "Premium Glass Bottle 1L",
+      image: "/bottles/bottle4.jpg",
     },
     {
       id: 5,
-      name: 'Glass Bottle Square 250ml',
-      image: '/bottles/bottle5.jpg',
+      name: "Glass Bottle Square 250ml",
+      image: "/bottles/bottle5.jpg",
     },
     {
       id: 6,
-      name: 'Glass Bottle Square 500ml',
-      image: '/bottles/bottle3.jpg',
+      name: "Glass Bottle Square 500ml",
+      image: "/bottles/bottle3.jpg",
     },
     {
       id: 7,
-      name: 'Glass Bottle Square 750ml',
-      image: '/bottles/bottle7.jpg',
+      name: "Glass Bottle Square 750ml",
+      image: "/bottles/bottle7.jpg",
     },
     {
       id: 8,
-      name: 'Glass Bottle Square 1L',
-      image: '/bottles/bottle8.jpg',
+      name: "Glass Bottle Square 1L",
+      image: "/bottles/bottle8.jpg",
     },
     {
       id: 9,
-      name: 'Premium Glass Jar 250ml',
-      image: '/bottles/bottle9.jpg',
+      name: "Premium Glass Jar 250ml",
+      image: "/bottles/bottle9.jpg",
     },
     {
       id: 10,
-      name: 'Premium Glass Jar 500ml',
-      image: '/bottles/bottle10.jpg',
+      name: "Premium Glass Jar 500ml",
+      image: "/bottles/bottle10.jpg",
     },
     {
       id: 11,
-      name: 'Premium Glass Jar 750ml',
-      image: '/bottles/bottle11.jpg',
+      name: "Premium Glass Jar 750ml",
+      image: "/bottles/bottle11.jpg",
     },
     {
       id: 12,
-      name: 'Premium Glass Jar 1L',
-      image: '/bottles/bottle12.jpg',
-    }
-  ],
-  'glass-jars': [
-    {
-      id: 1,
-      name: 'Premium Glass Jar 250ml',
-      image: '/jars/jar1.jpg',
-    },
-    {
-      id: 2,
-      name: 'Premium Glass Jar 500ml',
-      image: '/jars/jar2.jpg',
-    },
-    {
-      id: 3,
-      name: 'Premium Glass Jar 750ml',
-      image: '/jars/jar3.jpg',
-    },
-    {
-      id: 4,
-      name: 'Glass Jar Square 250ml',
-      image: '/jars/jar4.jpg',
-    },
-    {
-      id: 5,
-      name: 'Glass Jar Square 500ml',
-      image: '/jars/jar5.jpg',
-    },
-    {
-      id: 6,
-      name: 'Glass Jar Square 750ml',
-      image: '/jars/jar6.jpg',
-    },
-    {
-      id: 7,
-      name: 'Glass Jar Round 250ml',
-      image: '/jars/jar7.jpg',
-    },
-    {
-      id: 8,
-      name: 'Glass Jar Round 500ml',
-      image: '/jars/jar8.jpg',
-    },
-    {
-      id: 9,
-      name: 'Glass Jar Round 750ml',
-      image: '/jars/jar9.jpg',
-    },
-    {
-      id: 10,
-      name: 'Premium Glass Jar 250ml',
-      image: '/jars/jar1.jpg',
-    },
-    {
-      id: 11,
-      name: 'Premium Glass Jar 500ml',
-      image: '/jars/jar2.jpg',
-    },
-    {
-      id: 12,
-      name: 'Premium Glass Jar 750ml',
-      image: '/jars/jar3.jpg',
+      name: "Premium Glass Jar 1L",
+      image: "/bottles/bottle12.jpg",
     },
   ],
-  'closures': [
+  "glass-jars": [
     {
       id: 1,
-      name: 'Premium Closure Type A',
-      image: '/closures/closure1.jpg',
+      name: "Premium Glass Jar 250ml",
+      image: "/jars/jar1.jpg",
     },
     {
       id: 2,
-      name: 'Premium Closure Type B',
-      image: '/closures/closure2.jpg',
+      name: "Premium Glass Jar 500ml",
+      image: "/jars/jar2.jpg",
     },
     {
       id: 3,
-      name: 'Premium Closure Type C',
-      image: '/closures/closure3.jpg',
+      name: "Premium Glass Jar 750ml",
+      image: "/jars/jar3.jpg",
     },
     {
       id: 4,
-      name: 'Premium Closure Type D',
-      image: '/closures/closure4.jpg',
+      name: "Glass Jar Square 250ml",
+      image: "/jars/jar4.jpg",
     },
     {
       id: 5,
-      name: 'Standard Closure Type A',
-      image: '/closures/closure5.jpg',
+      name: "Glass Jar Square 500ml",
+      image: "/jars/jar5.jpg",
     },
     {
       id: 6,
-      name: 'Standard Closure Type B',
-      image: '/closures/closure6.jpg',
+      name: "Glass Jar Square 750ml",
+      image: "/jars/jar6.jpg",
     },
     {
       id: 7,
-      name: 'Standard Closure Type C',
-      image: '/closures/closure7.jpg',
+      name: "Glass Jar Round 250ml",
+      image: "/jars/jar7.jpg",
     },
     {
       id: 8,
-      name: 'Standard Closure Type D',
-      image: '/closures/closure8.jpg',
+      name: "Glass Jar Round 500ml",
+      image: "/jars/jar8.jpg",
     },
     {
       id: 9,
-      name: 'Special Closure Type A',
-      image: '/closures/closure9.jpg',
+      name: "Glass Jar Round 750ml",
+      image: "/jars/jar9.jpg",
     },
     {
       id: 10,
-      name: 'Special Closure Type B',
-      image: '/closures/closure10.jpg',
+      name: "Premium Glass Jar 250ml",
+      image: "/jars/jar1.jpg",
     },
     {
       id: 11,
-      name: 'Special Closure Type C',
-      image: '/closures/closure11.jpg',
+      name: "Premium Glass Jar 500ml",
+      image: "/jars/jar2.jpg",
     },
     {
       id: 12,
-      name: 'Special Closure Type D',
-      image: '/closures/closure12.jpg',
+      name: "Premium Glass Jar 750ml",
+      image: "/jars/jar3.jpg",
     },
-  ]
+  ],
+  closures: [
+    {
+      id: 1,
+      name: "Premium Closure Type A",
+      image: "/closures/closure1.jpg",
+    },
+    {
+      id: 2,
+      name: "Premium Closure Type B",
+      image: "/closures/closure2.jpg",
+    },
+    {
+      id: 3,
+      name: "Premium Closure Type C",
+      image: "/closures/closure3.jpg",
+    },
+    {
+      id: 4,
+      name: "Premium Closure Type D",
+      image: "/closures/closure4.jpg",
+    },
+    {
+      id: 5,
+      name: "Standard Closure Type A",
+      image: "/closures/closure5.jpg",
+    },
+    {
+      id: 6,
+      name: "Standard Closure Type B",
+      image: "/closures/closure6.jpg",
+    },
+    {
+      id: 7,
+      name: "Standard Closure Type C",
+      image: "/closures/closure7.jpg",
+    },
+    {
+      id: 8,
+      name: "Standard Closure Type D",
+      image: "/closures/closure8.jpg",
+    },
+    {
+      id: 9,
+      name: "Special Closure Type A",
+      image: "/closures/closure9.jpg",
+    },
+    {
+      id: 10,
+      name: "Special Closure Type B",
+      image: "/closures/closure10.jpg",
+    },
+    {
+      id: 11,
+      name: "Special Closure Type C",
+      image: "/closures/closure11.jpg",
+    },
+    {
+      id: 12,
+      name: "Special Closure Type D",
+      image: "/closures/closure12.jpg",
+    },
+  ],
+};
+
+// Add category descriptions
+const categoryDescriptions = {
+  "glass-bottles":
+    "Discover our Luxury Glass Bottles, designed to elevate your products. Crafted from durable glass, these bottles offer exceptional clarity and come in various sizes. With elegant closures that ensure product integrity, they provide a stunning presentation.",
+  "glass-jars":
+    "Enhance your product display with our Premium Glass Jars. Made from high-quality, lead-free glass, these versatile jars feature an elegant design and airtight seals to keep contents fresh. Showcase your brand with style and sustainability.",
+  closures:
+    "Complete your packaging with our High-End Closures. Made from premium materials, these closures provide a secure seal while adding sophistication to your products. Available in various styles, they enhance both functionality and visual appeal.",
 };
 
 function ProductsList({ categoryName }: { categoryName: string }) {
@@ -246,15 +265,23 @@ function ProductsList({ categoryName }: { categoryName: string }) {
   const productsPerPage = 6;
 
   // Find current category details
-  const currentCategory = categories.find(cat => cat.slug === categoryName) || categories[0];
+  const currentCategory =
+    categories.find((cat) => cat.slug === categoryName) || categories[0];
   const formattedTitle = currentCategory.title;
+  const categoryDescription =
+    categoryDescriptions[categoryName as keyof typeof categoryDescriptions] ||
+    "";
 
   // Get products for current category
-  const currentProducts = productsByCategory[categoryName as keyof typeof productsByCategory] || [];
+  const currentProducts =
+    productsByCategory[categoryName as keyof typeof productsByCategory] || [];
   const totalPages = Math.ceil(currentProducts.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentPageProducts = currentProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentPageProducts = currentProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   // Handle product click
   const handleProductClick = (product: any) => {
@@ -264,7 +291,9 @@ function ProductsList({ categoryName }: { categoryName: string }) {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     // Smooth scroll to top of products
-    document.querySelector('.products-grid')?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .querySelector(".products-grid")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -272,7 +301,7 @@ function ProductsList({ categoryName }: { categoryName: string }) {
       <Container>
         <div className="py-4 xs:py-6 sm:py-8 md:py-12 lg:py-16 px-3 xs:px-4 sm:px-6 md:px-8">
           {/* Category Tabs - Responsive spacing and sizing */}
-          <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-6 xs:mb-8 sm:mb-10 md:mb-12">
+          <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-6 sm:mb-8 md:mb-10 mt-6">
             {categories.map((category) => (
               <button
                 key={category.slug}
@@ -282,62 +311,102 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                            py-2 xs:py-2.5 sm:py-3 
                            rounded-full text-sm xs:text-base
                            transition-all duration-300
-                           ${category.slug === categoryName 
-                             ? 'bg-[#2A5A36] text-white shadow-lg scale-105' 
-                             : 'bg-white hover:bg-[#2A5A36]/5 text-[#2A5A36]'}`}
+                           ${
+                             category.slug === categoryName
+                               ? "bg-[#2A5A36] text-white shadow-lg scale-105"
+                               : "bg-white hover:bg-[#2A5A36]/5 text-[#2A5A36]"
+                           }`}
               >
-                <category.icon className={`text-lg xs:text-xl ${category.slug === categoryName 
-                  ? 'rotate-12 scale-110' 
-                  : ''}`} />
-                <span className="font-medium whitespace-nowrap">{category.title}</span>
+                <category.icon
+                  className={`text-lg xs:text-xl ${
+                    category.slug === categoryName ? "rotate-12 scale-110" : ""
+                  }`}
+                />
+                <span className="font-medium whitespace-nowrap">
+                  {category.title}
+                </span>
               </button>
             ))}
           </div>
 
-          {/* Header Section - Improved responsive typography */}
-          <div className="mb-6 xs:mb-8 sm:mb-10 md:mb-12 lg:mb-16 text-center">
-            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl
-                          font-merriweather font-bold text-[#2A5A36] relative inline-block
-                          after:content-[''] after:absolute after:-bottom-2 xs:after:-bottom-3 sm:after:-bottom-4 
-                          after:left-0 after:w-3/4 after:h-0.5 xs:after:h-1
-                          after:bg-gradient-to-r after:from-[#2A5A36]/20 after:to-transparent">
+          {/* Updated Header Section with reduced margins */}
+          <div className="mb-4 xs:mb-6 sm:mb-8 md:mb-10 text-center max-w-5xl mx-auto">
+            {/* Decorative top element */}
+            <div className="mb-3 flex justify-center">
+              <div className="w-20 h-1 bg-gradient-to-r from-transparent via-[#2A5A36]/30 to-transparent"></div>
+            </div>
+
+            {/* Title with enhanced styling */}
+            <h1
+              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl
+                          font-merriweather font-bold 
+                          bg-gradient-to-r from-[#2A5A36] via-[#44875A] to-[#2A5A36]
+                          bg-clip-text text-transparent
+                          animate-gradient-x bg-[length:200%_auto]
+                          mb-3 sm:mb-4"
+            >
               {formattedTitle}
             </h1>
-            
-            <p className="mt-3 xs:mt-4 sm:mt-5 md:mt-6
-                         font-poppins text-[#2A5A36]/80 
-                         max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl 
-                         mx-auto px-2 xs:px-3 sm:px-4
-                         text-xs xs:text-sm sm:text-base md:text-lg 
-                         leading-relaxed">
-              Discover our premium selection of {formattedTitle.toLowerCase()}, 
-              crafted with precision and designed to meet your packaging needs.
+
+            {/* Decorative element between title and description */}
+            <div className="flex items-center justify-center gap-3 mb-3 sm:mb-4">
+              <div className="flex-grow h-px bg-gradient-to-r from-transparent via-[#2A5A36]/20 to-transparent max-w-[100px]"></div>
+              <div className="w-2 h-2 rounded-full bg-[#2A5A36]/20"></div>
+              <div className="flex-grow h-px bg-gradient-to-l from-transparent via-[#2A5A36]/20 to-transparent max-w-[100px]"></div>
+            </div>
+
+            {/* Enhanced description with reduced spacing */}
+            <p
+              className="font-poppins text-[#2A5A36]/80 
+                        max-w-prose mx-auto px-4
+                        text-sm xs:text-base sm:text-lg
+                        leading-relaxed
+                        tracking-wide"
+            >
+              {categoryDescription}
             </p>
+
+            {/* Decorative bottom element */}
+            <div className="mt-4 sm:mt-5 flex justify-center">
+              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#2A5A36]/20 to-transparent"></div>
+            </div>
           </div>
 
           {/* Products Grid - Optimized responsive grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
                          gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10 
-                         mt-4 xs:mt-6 sm:mt-8 md:mt-10 products-grid">
+                         mt-4 xs:mt-6 sm:mt-8 md:mt-10 products-grid"
+          >
             {currentPageProducts.map((product) => (
-              <div key={product.id}
-                   className="group cursor-pointer relative bg-white rounded-xl 
+              <div
+                key={product.id}
+                className="group cursor-pointer relative bg-white rounded-xl 
                             overflow-hidden shadow-lg hover:shadow-xl 
                             transition-all duration-300 hover:scale-[1.02]"
-                   onClick={() => handleProductClick(product)}>
+                onClick={() => handleProductClick(product)}
+              >
                 {/* Image Container - Responsive aspect ratio */}
-                <div className="relative w-full aspect-[4/5] xs:aspect-[3/4] overflow-hidden 
-                               bg-gradient-to-b from-[#F5F0EA]/30 to-white/80">
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 
+                <div
+                  className="relative w-full aspect-[4/5] xs:aspect-[3/4] overflow-hidden 
+                               bg-gradient-to-b from-[#F5F0EA]/30 to-white/80"
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 
                                transition-opacity duration-500 bg-gradient-to-t 
-                               from-[#2A5A36]/5 to-transparent" />
-                  
+                               from-[#2A5A36]/5 to-transparent"
+                  />
+
                   {/* Decorative Elements */}
-                  <div className="absolute top-0 left-0 w-full h-40 
-                               bg-gradient-to-b from-[#2A5A36]/3 to-transparent" />
-                  <div className="absolute bottom-0 left-0 w-full h-40 
-                               bg-gradient-to-t from-white to-transparent" />
-                  
+                  <div
+                    className="absolute top-0 left-0 w-full h-40 
+                               bg-gradient-to-b from-[#2A5A36]/3 to-transparent"
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 w-full h-40 
+                               bg-gradient-to-t from-white to-transparent"
+                  />
+
                   {/* Product Image */}
                   <div className="relative h-full w-full">
                     <Image
@@ -350,24 +419,28 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                       className="object-contain object-center transform 
                                group-hover:scale-105 transition-all duration-700 
                                drop-shadow-xl p-4"
-                      style={{ 
-                        filter: 'contrast(0.95) brightness(1.02)'
+                      style={{
+                        filter: "contrast(0.95) brightness(1.02)",
                       }}
                     />
                   </div>
                 </div>
 
                 {/* Product Title - Responsive padding and font size */}
-                <div className="px-3 xs:px-4 sm:px-6 -mt-2 xs:-mt-3 
+                <div
+                  className="px-3 xs:px-4 sm:px-6 -mt-2 xs:-mt-3 
                                my-1.5 xs:my-2 bg-white relative z-10 
                                h-[50px] xs:h-[60px] 
-                               flex items-center justify-center">
-                  <h3 className="font-poppins font-medium 
+                               flex items-center justify-center"
+                >
+                  <h3
+                    className="font-poppins font-medium 
                                 text-sm xs:text-base sm:text-lg 
                                 text-[#2A5A36] group-hover:text-[#44875A] 
                                 transition-colors duration-300 
                                 text-center leading-tight 
-                                max-w-[90%]">
+                                max-w-[90%]"
+                  >
                     {product.name}
                   </h3>
                 </div>
@@ -377,36 +450,50 @@ function ProductsList({ categoryName }: { categoryName: string }) {
 
           {/* Pagination - Responsive spacing and sizing */}
           {totalPages > 1 && (
-            <div className="mt-6 xs:mt-8 sm:mt-10 md:mt-12 lg:mt-16 
+            <div
+              className="mt-6 xs:mt-8 sm:mt-10 md:mt-12 lg:mt-16 
                            flex justify-center items-center 
-                           gap-1.5 xs:gap-2 sm:gap-3 md:gap-4">
+                           gap-1.5 xs:gap-2 sm:gap-3 md:gap-4"
+            >
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`flex items-center justify-center w-12 h-12 rounded-full
                            transition-all duration-300 group
-                           ${currentPage === 1 
-                             ? 'opacity-50 cursor-not-allowed bg-[#2A5A36]/10' 
-                             : 'hover:bg-[#2A5A36] bg-white shadow-lg hover:shadow-xl border border-[#2A5A36]/10'}`}
+                           ${
+                             currentPage === 1
+                               ? "opacity-50 cursor-not-allowed bg-[#2A5A36]/10"
+                               : "hover:bg-[#2A5A36] bg-white shadow-lg hover:shadow-xl border border-[#2A5A36]/10"
+                           }`}
               >
-                <IoChevronBack className={`text-xl transition-all duration-300
-                                        ${currentPage === 1 
-                                          ? 'text-[#2A5A36]/50' 
-                                          : 'text-[#2A5A36] group-hover:text-white'}`} />
+                <IoChevronBack
+                  className={`text-xl transition-all duration-300
+                                        ${
+                                          currentPage === 1
+                                            ? "text-[#2A5A36]/50"
+                                            : "text-[#2A5A36] group-hover:text-white"
+                                        }`}
+                />
               </button>
 
               <div className="flex items-center space-x-2">
                 {[...Array(totalPages)].map((_, index) => {
                   const pageNumber = index + 1;
                   const isActive = pageNumber === currentPage;
-                  const isNearCurrent = Math.abs(pageNumber - currentPage) <= 1 || 
-                                      pageNumber === 1 || 
-                                      pageNumber === totalPages;
+                  const isNearCurrent =
+                    Math.abs(pageNumber - currentPage) <= 1 ||
+                    pageNumber === 1 ||
+                    pageNumber === totalPages;
 
                   if (!isNearCurrent) {
                     if (pageNumber === 2 || pageNumber === totalPages - 1) {
                       return (
-                        <span key={pageNumber} className="w-12 text-center text-[#2A5A36]">...</span>
+                        <span
+                          key={pageNumber}
+                          className="w-12 text-center text-[#2A5A36]"
+                        >
+                          ...
+                        </span>
                       );
                     }
                     return null;
@@ -418,17 +505,23 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                       onClick={() => handlePageChange(pageNumber)}
                       className={`relative w-12 h-12 flex items-center justify-center
                                  font-medium rounded-full transition-all duration-500
-                                 ${isActive 
-                                   ? 'bg-gradient-to-r from-[#2A5A36] to-[#44875A] text-white scale-110 shadow-lg' 
-                                   : 'bg-white hover:bg-[#2A5A36]/5 text-[#2A5A36] border border-[#2A5A36]/10'}`}
+                                 ${
+                                   isActive
+                                     ? "bg-gradient-to-r from-[#2A5A36] to-[#44875A] text-white scale-110 shadow-lg"
+                                     : "bg-white hover:bg-[#2A5A36]/5 text-[#2A5A36] border border-[#2A5A36]/10"
+                                 }`}
                     >
-                      <span className={`transition-transform duration-300 
-                                      ${isActive ? 'transform scale-110' : ''}`}>
+                      <span
+                        className={`transition-transform duration-300 
+                                      ${isActive ? "transform scale-110" : ""}`}
+                      >
                         {pageNumber}
                       </span>
                       {isActive && (
-                        <span className="absolute inset-0 rounded-full bg-white opacity-20
-                                       animate-ping-slow"></span>
+                        <span
+                          className="absolute inset-0 rounded-full bg-white opacity-20
+                                       animate-ping-slow"
+                        ></span>
                       )}
                     </button>
                   );
@@ -440,21 +533,30 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                 disabled={currentPage === totalPages}
                 className={`flex items-center justify-center w-12 h-12 rounded-full
                            transition-all duration-300 group
-                           ${currentPage === totalPages 
-                             ? 'opacity-50 cursor-not-allowed bg-[#2A5A36]/10' 
-                             : 'hover:bg-[#2A5A36] bg-white shadow-lg hover:shadow-xl border border-[#2A5A36]/10'}`}
+                           ${
+                             currentPage === totalPages
+                               ? "opacity-50 cursor-not-allowed bg-[#2A5A36]/10"
+                               : "hover:bg-[#2A5A36] bg-white shadow-lg hover:shadow-xl border border-[#2A5A36]/10"
+                           }`}
               >
-                <IoChevronForward className={`text-xl transition-all duration-300
-                                           ${currentPage === totalPages 
-                                             ? 'text-[#2A5A36]/50' 
-                                             : 'text-[#2A5A36] group-hover:text-white'}`} />
+                <IoChevronForward
+                  className={`text-xl transition-all duration-300
+                                           ${
+                                             currentPage === totalPages
+                                               ? "text-[#2A5A36]/50"
+                                               : "text-[#2A5A36] group-hover:text-white"
+                                           }`}
+                />
               </button>
             </div>
           )}
 
           {/* Visual Separator */}
           <div className="relative my-10 sm:my-14 md:my-18">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
               <div className="w-full border-t border-[#2A5A36]/10"></div>
             </div>
             <div className="relative flex justify-center">
@@ -468,21 +570,26 @@ function ProductsList({ categoryName }: { categoryName: string }) {
           <div className="mt-8 xs:mt-10 sm:mt-12 md:mt-16 lg:mt-20">
             {/* Section Header */}
             <div className="text-center mb-8">
-              <span className="text-xs sm:text-sm tracking-[0.4em] text-[#2A5A36] uppercase relative inline-block
+              <span
+                className="text-xs sm:text-sm tracking-[0.4em] text-[#2A5A36] uppercase relative inline-block
                               before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
                               before:-translate-x-1/2 before:w-12 before:h-0.5 
                               before:bg-gradient-to-r before:from-transparent 
-                              before:via-[#2A5A36]/70 before:to-transparent">
+                              before:via-[#2A5A36]/70 before:to-transparent"
+              >
                 Get in Touch
               </span>
-              <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-bold font-merriweather 
+              <h2
+                className="mt-4 text-2xl sm:text-3xl md:text-4xl font-bold font-merriweather 
                              bg-gradient-to-r from-[#44875A] via-[#2A5A36] to-[#44875A] 
                              bg-clip-text text-transparent
-                             animate-gradient-x bg-[length:200%_auto]">
+                             animate-gradient-x bg-[length:200%_auto]"
+              >
                 Interested in Our {formattedTitle}?
               </h2>
               <p className="mt-2 text-sm sm:text-base text-[#2A5A36]/80 max-w-2xl mx-auto">
-                Fill out the form below and our team will get back to you with detailed information and pricing.
+                Fill out the form below and our team will get back to you with
+                detailed information and pricing.
               </p>
             </div>
 
@@ -492,7 +599,9 @@ function ProductsList({ categoryName }: { categoryName: string }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const formData = new FormData(e.currentTarget);
-                  const subject = encodeURIComponent(`Inquiry about ${formattedTitle}`);
+                  const subject = encodeURIComponent(
+                    `Inquiry about ${formattedTitle}`
+                  );
                   const body = encodeURIComponent(`
 Name: ${formData.get("name")}
 Email: ${formData.get("email")}
@@ -509,7 +618,10 @@ Category: ${formattedTitle}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-[#2A5A36]">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-[#2A5A36]"
+                    >
                       Name
                     </label>
                     <input
@@ -524,7 +636,10 @@ Category: ${formattedTitle}
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#2A5A36]">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-[#2A5A36]"
+                    >
                       Email
                     </label>
                     <input
@@ -541,7 +656,10 @@ Category: ${formattedTitle}
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-[#2A5A36]">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-[#2A5A36]"
+                  >
                     Phone (Optional)
                   </label>
                   <input
@@ -556,7 +674,10 @@ Category: ${formattedTitle}
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[#2A5A36]">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-[#2A5A36]"
+                  >
                     Message
                   </label>
                   <textarea
@@ -596,22 +717,26 @@ Category: ${formattedTitle}
 
             {/* Quick Contact Options - Updated to match form width */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              <a href="tel:+60378426269"
-                 className="flex items-center space-x-3 p-4 rounded-lg
+              <a
+                href="tel:+60378426269"
+                className="flex items-center space-x-3 p-4 rounded-lg
                           bg-white/80 backdrop-blur-sm border border-[#7BAF7B]/20
                           hover:border-[#7BAF7B]/40 transition-all duration-300
-                          hover:bg-white/90">
+                          hover:bg-white/90"
+              >
                 <IoCallOutline className="text-2xl text-[#2A5A36]" />
                 <div>
                   <p className="text-sm font-medium text-[#2A5A36]">Call Us</p>
                   <p className="text-[#2A5A36]/70">+603-7842 6269</p>
                 </div>
               </a>
-              <a href="mailto:enquiry@phoenix-pac.com"
-                 className="flex items-center space-x-3 p-4 rounded-lg
+              <a
+                href="mailto:enquiry@phoenix-pac.com"
+                className="flex items-center space-x-3 p-4 rounded-lg
                           bg-white/80 backdrop-blur-sm border border-[#7BAF7B]/20
                           hover:border-[#7BAF7B]/40 transition-all duration-300
-                          hover:bg-white/90">
+                          hover:bg-white/90"
+              >
                 <IoMailOutline className="text-2xl text-[#2A5A36]" />
                 <div>
                   <p className="text-sm font-medium text-[#2A5A36]">Email Us</p>
@@ -622,14 +747,14 @@ Category: ${formattedTitle}
           </div>
         </div>
       </Container>
-      
+
       {/* Product Modal */}
       {selectedProduct && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
           onClick={() => setSelectedProduct(null)}
         >
-          <div 
+          <div
             className="bg-white rounded-2xl w-full max-w-4xl overflow-hidden relative"
             onClick={(e) => e.stopPropagation()}
           >
@@ -681,7 +806,7 @@ Category: ${formattedTitle}
         </div>
       )}
     </main>
-  )
+  );
 }
 
-export default ProductsList
+export default ProductsList;
