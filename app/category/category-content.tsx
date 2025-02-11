@@ -1,182 +1,178 @@
 "use client"
-import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { useInView } from 'react-intersection-observer';
-import Container from '@/components/Container';
-
+import React, { memo } from 'react'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+import { useRouter } from 'next/navigation'
+import Container from '@/components/Container'
+// Pre-defined categories data
 const categories = [
   {
-    id: 'glass-bottles',
-    image: '/prodcat1.PNG',
-    title: 'Glass',
-    description: 'Explore our premium glass bottle collection, featuring elegant designs and superior quality for your beverage packaging needs.'
+    image: "/prodcat1.PNG",
+    title: "Glass Bottles",
+    description: "Premium glass bottles for beverages",
+    slug: "glass-bottles"
   },
   {
-    id: 'glass-jars',
-    image: '/prodcat2.PNG',
-    title: 'Jars',
-    description: 'Discover our versatile jar collection, perfect for food packaging, preserves, and specialty products, combining style with functionality.'
+    image: "/prodcat2.PNG",
+    title: "Glass Jars",
+    description: "Elegant jars for food packaging",
+    slug: "glass-jars"
   },
   {
-    id: 'closures',
-    image: '/prodcat3.jpg',
-    title: 'Closures',
-    description: 'Complete your packaging with our premium closure solutions, ensuring perfect sealing and preservation for all your container needs.'
+    image: "/prodcat3.jpg",
+    title: "Closures",
+    description: "Quality sealing solutions",
+    slug: "closures"
   }
 ] as const;
 
-function CategoryContent() {
-  const [selectedCategory, setSelectedCategory] = useState('glass-bottles');
-  const { ref: contentRef, inView } = useInView({
+// Background Effects Component
+const BackgroundEffects = memo(() => (
+  <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+                   w-[120vw] max-w-[1300px] aspect-square rounded-full 
+                   bg-gradient-to-tr from-[#2A5A36]/10 via-[#2A5A36]/5 to-[#2A5A36]/10 
+                   blur-3xl animate-slow-pulse" />
+    
+    <div className="absolute top-[10%] right-[5%] w-64 h-64 
+                   rounded-full bg-[#2A5A36]/5 blur-2xl animate-float-slow" />
+  </div>
+));
+BackgroundEffects.displayName = 'BackgroundEffects';
+
+// Category Card Component
+const CategoryCard = memo(({ image, title, description, slug, index }: {
+  image: string;
+  title: string;
+  description: string;
+  slug: string;
+  index: number;
+}) => {
+  const router = useRouter();
+  const { ref, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '50px 0px'
+    triggerOnce: true
   });
 
   return (
-    <section className="relative w-full bg-[#EDE5DB] py-6 xs:py-8 sm:py-12 lg:py-16 overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-                     w-[120vw] max-w-[1300px] aspect-square rounded-full 
-                     bg-gradient-to-tr from-[#E8DED4]/30 via-[#E5EFDC]/20 to-[#E8DED4]/30 
-                     blur-3xl animate-slow-pulse" />
-        
-        <div className="absolute inset-0 opacity-[0.04]"
-             style={{
-               backgroundImage: `radial-gradient(circle at center, rgba(62, 96, 71, 0.25) 0.5px, transparent 0.5px)`,
-               backgroundSize: '20px 20px'
-             }} />
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay: index * 0.2 }}
+      className="group relative w-full aspect-[4/5] overflow-hidden rounded-2xl"
+    >
+      <Image
+        src={image}
+        alt={title}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      
+      <div className="absolute bottom-0 left-0 right-0 p-6 transform transition-transform 
+                    duration-500 group-hover:translate-y-[-10px]">
+        <h3 className="text-white font-merriweather text-2xl mb-2">
+          {title}
+        </h3>
+        <p className="text-white/80 font-poppins text-sm mb-4">
+          {description}
+        </p>
+        <button 
+          onClick={() => router.push(`/category/${slug}`)}
+          className="px-6 py-2 bg-[#E5B700] text-white rounded-full 
+                    font-poppins text-sm font-medium transition-all duration-300 
+                    hover:shadow-lg hover:shadow-black/20 hover:bg-[#FFD700]"
+        >
+          View More
+        </button>
       </div>
+    </motion.div>
+  );
+});
+CategoryCard.displayName = 'CategoryCard';
 
-      {/* Border Decorations */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r 
-                   from-transparent via-[#3B7D46]/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r 
-                   from-transparent via-[#3B7D46]/20 to-transparent" />
+function CategoryContent() {
+  const router = useRouter();
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+
+  return (
+    <section className="relative w-full bg-[#E5DCD0] py-14 lg:py-18 overflow-hidden">
+      <BackgroundEffects />
 
       <Container>
-        <div ref={contentRef} 
-             className={`grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12
-                      transition-all duration-700 ease-out
-                      ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-          
-          {/* Left Side - Large Image */}
-          <div className="relative h-[300px] xs:h-[400px] sm:h-[600px] lg:h-[800px]">
-            <div className="absolute inset-3 border border-[#9ACD9E]/10 rounded-lg z-10" />
-            <div className="absolute inset-1 border border-[#4C724F]/10 rounded-lg z-10" />
-            
-            <Image 
-              src={categories.find(c => c.id === selectedCategory)?.image || ''}
-              alt="Selected Category"
-              fill
-              className="object-cover object-center rounded-lg shadow-xl"
-              priority
-            />
-            
-            <div className="absolute inset-0 bg-gradient-to-t 
-                         from-black/40 via-black/20 to-transparent rounded-lg" />
+        {/* Title Section */}
+        <div className="text-center mb-12">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-sm sm:text-base font-poppins tracking-[0.4em] 
+                     text-[#2A5A36] mb-5 uppercase relative inline-block
+                     before:content-[''] before:absolute before:-bottom-2 before:left-1/2 
+                     before:-translate-x-1/2 before:w-12 before:h-0.5 
+                     before:bg-gradient-to-r before:from-transparent 
+                     before:via-[#2A5A36]/70 before:to-transparent"
+          >
+            Our Products
+          </motion.span>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold font-merriweather 
+                    text-center mb-6 text-[#2A5A36]"
+          >
+            Explore Our Premium Collection
+          </motion.h1>
+
+          <div className="relative max-w-4xl mx-auto">
+            <span className="absolute -left-8 top-0 text-[80px] text-[#2A5A36]/20 font-serif">"</span>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="font-poppins text-[#2A5A36]/80 text-base sm:text-lg 
+                       leading-relaxed px-10"
+            >
+              At GlasPak, we offer an extensive range of premium packaging solutions 
+              tailored to meet diverse industry needs. Each category represents our 
+              commitment to quality and innovation.
+            </motion.p>
+            <span className="absolute -right-8 bottom-0 text-[80px] text-[#2A5A36]/20 font-serif">"</span>
           </div>
+        </div>
 
-          {/* Right Side - Content */}
-          <div className="flex flex-col justify-center">
-            <h1 className="relative font-merriweather text-4xl xs:text-5xl sm:text-6xl lg:text-7xl 
-                        font-bold mb-6 xs:mb-8 tracking-tight">
-              <span className="text-[#336B44]">CH</span>
-              <span className="relative inline-block w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-1 group" 
-                    onClick={() => setSelectedCategory('glass-bottles')}>
-                <Image 
-                  src="/prodcat1.PNG"
-                  alt="Glass Category 1"
-                  fill
-                  className="object-cover rounded-full cursor-pointer 
-                           hover:scale-110 transition-transform duration-300
-                           ring-2 ring-[#336B44]/30 hover:ring-[#336B44]
-                           group-hover:shadow-lg group-hover:shadow-[#336B44]/20"
-                />
-                <span className="absolute inset-0 rounded-full animate-ping 
-                             bg-[#336B44]/10 pointer-events-none"></span>
-              </span>
-              <span className="relative inline-block w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-1 group"
-                    onClick={() => setSelectedCategory('glass-jars')}>
-                <Image 
-                  src="/prodcat2.PNG"
-                  alt="Glass Category 2"
-                  fill
-                  className="object-cover rounded-full cursor-pointer 
-                           hover:scale-110 transition-transform duration-300
-                           ring-2 ring-[#336B44]/30 hover:ring-[#336B44]
-                           group-hover:shadow-lg group-hover:shadow-[#336B44]/20"
-                />
-                <span className="absolute inset-0 rounded-full animate-ping 
-                             bg-[#336B44]/10 pointer-events-none"></span>
-              </span>
-              <span className="text-[#336B44]">SE</span>
-              <br />
-              <span className="text-[#336B44]">CATEG</span>
-              <span className="relative inline-block w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-1 group"
-                    onClick={() => setSelectedCategory('closures')}>
-                <Image 
-                  src="/prodcat3.jpg"
-                  alt="Glass Category 3"
-                  fill
-                  className="object-cover rounded-full cursor-pointer 
-                           hover:scale-110 transition-transform duration-300
-                           ring-2 ring-[#336B44]/30 hover:ring-[#336B44]
-                           group-hover:shadow-lg group-hover:shadow-[#336B44]/20"
-                />
-                <span className="absolute inset-0 rounded-full animate-ping 
-                             bg-[#336B44]/10 pointer-events-none"></span>
-              </span>
-              <span className="text-[#336B44]">RY</span>
-            </h1>
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+          {categories.map((category, index) => (
+            <CategoryCard key={category.slug} {...category} index={index} />
+          ))}
+        </div>
 
-            <p className="font-poppins text-[#2A5A36] text-base xs:text-lg mb-6 xs:mb-8 leading-relaxed w-full">
-              Explore our extensive range of premium glass solutions. From elegant bottles 
-              to versatile jars and premium closures, our comprehensive collection represents 
-              our commitment to excellence and innovation in glass packaging.
-            </p>
-
-            <div className="grid grid-cols-3 gap-2 xs:gap-4 mb-6 xs:mb-8">
-              {categories.map((category) => (
-                <div
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer
-                           transition-all duration-300 hover:scale-105
-                           ${selectedCategory === category.id ? 'ring-2 ring-[#336B44]' : ''}`}
-                >
-                  <Image
-                    src={category.image}
-                    alt={category.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Selected Category Info */}
-            <div className="bg-[#336B44] rounded-xl p-4 xs:p-6 text-white">
-              <h2 className="font-merriweather text-xl xs:text-2xl font-bold mb-2 xs:mb-3">
-                {categories.find(c => c.id === selectedCategory)?.title}
-              </h2>
-              <p className="font-poppins text-white/90 text-sm xs:text-base mb-4">
-                {categories.find(c => c.id === selectedCategory)?.description}
-              </p>
-              <a href={`/category/${selectedCategory}`}>
-                <button className="bg-white text-[#336B44] font-poppins font-medium
-                               px-4 xs:px-6 py-2 xs:py-3 rounded-lg hover:bg-[#E5EFDC] 
-                               transition-colors duration-300 text-sm xs:text-base">
-                  Explore Collection
-                </button>
-              </a>
-            </div>
-          </div>
+        {/* CTA Button */}
+        <div className="text-center">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            onClick={() => router.push('/category/glass-bottles')}
+            className="px-8 py-3 bg-[#2A5A36] text-white rounded-full 
+                    font-poppins text-lg font-medium transition-all duration-300 
+                    hover:shadow-lg hover:shadow-[#2A5A36]/20 hover:bg-[#2A5A36]/90
+                    border-2 border-[#2A5A36] hover:border-[#2A5A36]/90"
+          >
+            View Full Collection
+          </motion.button>
         </div>
       </Container>
     </section>
-  );
+  )
 }
 
-export default CategoryContent;
+export default CategoryContent

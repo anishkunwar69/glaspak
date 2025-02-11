@@ -9,7 +9,6 @@ export default function(){
         <div className="pt-[87px]">
             <CategoryContent/>
         </div>
-        
         <Footer/>
         </>
     )
