@@ -15,29 +15,6 @@ import {
 } from "react-icons/io5";
 import { GiBottleCap } from "react-icons/gi";
 
-// Navigation links (same as Hero2)
-const navLinks = [
-  {
-    title: "Our Products",
-    href: "/category/glass-bottles",
-    ariaLabel: "View our products",
-  },
-  {
-    title: "Custom Designs",
-    href: "/custom-design",
-    ariaLabel: "Explore custom designs",
-  },
-  {
-    title: "Our Story",
-    href: "/our-story",
-    ariaLabel: "Learn our story",
-  },
-  {
-    title: "Contact",
-    href: "/contact-us",
-    ariaLabel: "Contact us",
-  },
-] as const;
 
 // Product categories configuration
 const categories = [
