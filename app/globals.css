@@ -209,7 +209,6 @@ html, body {
   font-family: var(--font-poppins);
 }
 
-
 /* Set default fonts */
 body {
   font-family: var(--font-poppins), sans-serif;
@@ -223,4 +222,5 @@ body {
 .font-poppins {
   font-family: var(--font-poppins), sans-serif;
 }
+
 

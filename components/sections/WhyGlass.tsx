@@ -191,6 +191,7 @@ const WhyGlass = () => {
 
           {/* Right Images */}
           <motion.div
+
             variants={itemVariants}
             className="relative"
           >

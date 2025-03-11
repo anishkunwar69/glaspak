@@ -1,16 +1,9 @@
 'use client'
 import React, { memo } from 'react'
-import dynamic from 'next/dynamic'
 import { useInView } from 'react-intersection-observer'
 import Container from '../Container'
-
-// Dynamic import with loading state
-const TestsContent = dynamic(() => import('../TestsContent'), {
-  ssr: true,
-  loading: () => <div className="animate-pulse bg-lightBgColor/20 min-h-[600px]" />
-})
-
-// Simplified BackgroundEffects component
+import PremiumTestGallery from '../PremiumTestGallery'
+// Keep the existing BackgroundEffects component
 const BackgroundEffects = memo(() => (
   <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
     {/* Unique layered gradient spheres */}
@@ -64,15 +57,6 @@ const BackgroundEffects = memo(() => (
            backgroundSize: '200px 200px'
          }} />
 
-    {/* Subtle gradient mesh */}
-    <div className="absolute inset-0 opacity-[0.1]"
-         style={{
-           backgroundImage: `radial-gradient(#7BAF7B 1px, transparent 1px), 
-                           radial-gradient(#44875A 1px, transparent 1px)`,
-           backgroundSize: '50px 50px, 40px 40px',
-           backgroundPosition: '0 0, 25px 25px'
-         }} />
-
     {/* Dynamic corner accents */}
     <div className="absolute top-0 left-0 w-64 h-64 
                    bg-gradient-to-br from-[#7BAF7B]/10 to-transparent 
@@ -80,27 +64,22 @@ const BackgroundEffects = memo(() => (
     <div className="absolute bottom-0 right-0 w-64 h-64 
                    bg-gradient-to-tl from-[#44875A]/10 to-transparent 
                    transform rotate-45" />
-
-    {/* Premium grain overlay */}
-    <div className="absolute inset-0 opacity-[0.2] mix-blend-overlay"
-         style={{
-           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-           backgroundSize: '150px 150px'
-         }} />
   </div>
 ));
+
+BackgroundEffects.displayName = 'BackgroundEffects';
 
 const Tests = memo(() => {
   const { ref: titleRef, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
-    rootMargin: '50px 0px'  // Trigger slightly before element comes into view
+    rootMargin: '50px 0px'
   });
 
   return (
     <section 
       id="tests"
-      className="relative w-full bg-[#EDE5DB] py-8 sm:py-12 lg:py-16 overflow-hidden scroll-mt-20"
+      className="relative w-full bg-[#EDE5DB] py-8 sm:py-12 lg:py-16 xl:py-20 overflow-hidden scroll-mt-20"
       aria-label="Quality Testing Standards"
     >
       <BackgroundEffects />
@@ -108,7 +87,7 @@ const Tests = memo(() => {
       <Container>
         <div className="relative z-[1]">
           <div ref={titleRef} 
-               className={`text-center mb-6 xs:mb-8 sm:mb-12 lg:mb-16 px-2 xs:px-4 
+               className={`text-center mb-10 lg:mb-16 px-2 xs:px-4 
                           transition-transform duration-1000 ease-out will-change-transform
                           ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
             <span className="text-xs sm:text-sm md:text-base font-poppins 
@@ -145,9 +124,7 @@ const Tests = memo(() => {
             </p>
           </div>
 
-          <div className="mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
-            <TestsContent />
-          </div>
+          <PremiumTestGallery />
         </div>
       </Container>
     </section>
