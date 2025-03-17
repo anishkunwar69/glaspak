@@ -1,241 +1,227 @@
 "use client"
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { HiOutlineCheck, HiChevronRight } from 'react-icons/hi'
 
-// Update the type definition to include isWide property
-type TestCard = {
-  type: string;
+type TestInfo = {
+  id: string;
   title: string;
+  subtitle: string;
   description: string;
   standard: string;
-  theme: 'light' | 'dark';
-  isWide?: boolean; // Make isWide optional
+  features: string[];
+  image: string;
+  standardIcon: string;
 }
 
-// Pre-defined test cards data
-const testCards: TestCard[] = [
+const tests: TestInfo[] = [
   {
-    type: "01",
-    title: "Impact Test",
-    description: "We test glass containers for impact resistance using standard manufacturing practices and an industry-approved Pendulum Impact Tester to ensure they meet required quality and safety standards.",
-    standard: "ASTM Standard",
-    theme: "light"
+    id: "01",
+    title: "Impact Resistance Testing",
+    subtitle: "QUALITY TESTING",
+    description: "Our comprehensive Impact testing evaluates glass container durability against external forces, ensuring products remain protected through manufacturing, shipping, and handling processes.",
+    standard: "ASTM C1256",
+    features: [
+      "Precision measurement",
+      "Detailed reporting",
+      "Certified standards",
+      "Quality certification"
+    ],
+    image: "/test-images/test1.jpg",
+    standardIcon: "ASTM"
   },
   {
-    type: "02",
-    title: "Thermal Shock Test",
-    description: "We test hot-filled or heat-treated glassware for thermal shock resistance using ASTM C149 and BS EN ISO 7459 standards, ensuring they meet industry practices and safety requirements effectively.",
-    standard: "ISO Certified",
-    theme: "dark"
+    id: "02",
+    title: "Thermal Shock Assessment",
+    subtitle: "QUALITY TESTING",
+    description: "We validate glass resilience against sudden temperature changes using advanced thermal shock methodology, crucial for products that undergo significant temperature variations.",
+    standard: "ISO 7459",
+    features: [
+      "Temperature control",
+      "Stress analysis",
+      "Industry compliance",
+      "Durability verification"
+    ],
+    image: "/test-images/test2.jpg",
+    standardIcon: "ISO"
   },
   {
-    type: "03",
-    title: "Internal Pressure Resistance",
-    description: "Carbonated beverage bottles are specially designed to withstand internal pressure. They undergo thorough testing to ensure they handle stress from the contents, keeping their strength and durability over time.",
-    standard: "Industry Standard",
-    theme: "light"
+    id: "03",
+    title: "Pressure Integrity Analysis",
+    subtitle: "QUALITY TESTING",
+    description: "Our pressure testing verifies structural integrity of containers designed for pressurized contents, ensuring long-term reliability and consumer safety across all conditions.",
+    standard: "BS-EN-ISO-7458",
+    features: [
+      "Pressure simulation",
+      "Containment rating",
+      "Safety validation",
+      "Performance testing"
+    ],
+    image: "/test-images/test3.jpg",
+    standardIcon: "ISO"
   }
 ];
 
-// Memoized test card component
-const TestCard = memo(({ card, delay }: { 
-  card: TestCard, 
-  delay: number 
-}) => {
+const TestCard = memo(({ test, index }: { test: TestInfo; index: number }) => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
-    rootMargin: '50px 0px'
+    rootMargin: "0px 0px -100px 0px"
   });
 
-  const isDark = card.theme === 'dark';
+  const isEven = index % 2 === 0;
   
   return (
-    <div 
+    <motion.div
       ref={ref}
-      className={`test-card w-full p-4 xs:p-6 sm:p-8 lg:p-10 rounded-[26px] 
-                ${isDark ? 'bg-[#336B44]' : 'bg-[#336B44]'} 
-                backdrop-blur-md border border-[#7BAF7B]/30
-                shadow-[0_8px_30px_rgb(0,0,0,0.12)]
-                relative overflow-hidden
-                hover:shadow-2xl hover:scale-[1.02] hover:border-[#A8D9AC]/40
-                group
-                ${card.isWide ? 'lg:col-span-2' : ''}
-                transition-transform duration-1000 ease-out will-change-transform
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.8, delay: 0.2 + (index * 0.1) }}
+      className="relative"
     >
-      {/* Enhanced premium glass effect */}
-      <div className="absolute top-0 right-0 w-32 h-32 
-                    bg-gradient-to-br from-[#A8D9AC]/15 to-transparent 
-                    transition-opacity duration-500 group-hover:opacity-50" 
-           aria-hidden="true" />
-      
-      {/* Additional decorative elements */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 
-                    bg-[#A8D9AC]/10 rounded-full blur-2xl
-                    transition-opacity duration-500 group-hover:opacity-70" 
-           aria-hidden="true" />
+      <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} 
+                    gap-8 lg:gap-12 items-center`}>
+        {/* Image Section */}
+        <div className="w-full lg:w-1/2">
+          <div className="relative h-[700px] w-full rounded-2xl overflow-hidden 
+                       shadow-2xl group-hover:shadow-3xl transition-shadow duration-500">
+            <Image
+              src={test.image}
+              alt={test.title}
+              fill
+              className="object-cover object-center transform transition-transform duration-700 
+                       group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            
+            {/* Premium Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent 
+                         opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
+            
+            {/* Test ID Badge */}
+            <div className="absolute top-6 right-6 px-4 py-2 bg-white/10 backdrop-blur-md 
+                         rounded-full border border-white/20 flex items-center gap-2">
+              <span className="text-[#FFD700] font-medium">Test</span>
+              <span className="text-white font-bold">{test.id}</span>
+            </div>
+          </div>
+        </div>
 
-      <div className="relative z-10 space-y-3 xs:space-y-4 sm:space-y-6 lg:space-y-8">
-        <span className="text-[10px] xs:text-xs font-poppins text-[#FFD700] 
-                       uppercase tracking-[0.2em] mb-2 block">
-          Test Type {card.type}
-        </span>
-        
-        <h3 className="mb-3 xs:mb-4 sm:mb-6 font-merriweather font-semibold 
-                      text-base xs:text-lg sm:text-xl md:text-2xl xl:text-3xl 
-                      bg-gradient-to-r from-[#FFD700] to-[#E5B700]
-                      bg-clip-text text-transparent
-                      inline-block border-b-2 border-[#A8D9AC]/40
-                      pb-2 relative z-10">
-          {card.title}
-        </h3>
-        
-        <p className='font-poppins text-xs xs:text-sm sm:text-base md:text-lg 
-                     leading-relaxed relative z-10 text-white/90'>
-          {card.description}
-        </p>
-        
-        <div className={`mt-6 flex items-center gap-2 text-[#FFD700]/90 text-sm relative z-10`}>
-          <span className="w-8 h-[1px] bg-[#A8D9AC]/40" />
-          <span>{card.standard}</span>
+        {/* Content Section */}
+        <div className="w-full lg:w-1/2">
+          <div className="relative">
+            {/* Subtitle */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-12 bg-gradient-to-r from-[#336B44] to-[#7BAF7B]" />
+              <span className="text-[#336B44] text-sm font-medium tracking-wider">
+                {test.subtitle}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-3xl sm:text-4xl font-bold font-merriweather mb-6 
+                       text-[#2A5A36] relative">
+              {test.title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-[#2A5A36]/90 text-base sm:text-lg leading-relaxed mb-8 
+                       font-poppins max-w-2xl">
+              {test.description}
+            </p>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {test.features.map((feature, idx) => (
+                <div key={idx} 
+                     className="flex items-center gap-3 p-3 rounded-xl
+                              bg-white/50 backdrop-blur-sm border border-[#7BAF7B]/20
+                              hover:border-[#7BAF7B]/40 transition-colors duration-300">
+                  <div className="w-8 h-8 rounded-full bg-[#336B44] flex items-center justify-center 
+                              shadow-lg">
+                    <HiOutlineCheck className="w-4 h-4 text-[#FFD700]" />
+                  </div>
+                  <span className="text-[#2A5A36] font-medium">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Standard Display - Replacing Learn More button */}
+            <div className="flex items-center gap-4">
+              <div className="px-6 py-3 bg-[#336B44] rounded-xl shadow-lg
+                           border border-[#7BAF7B]/30 hover:border-[#7BAF7B]/50
+                           transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <span className="text-[#FFD700] font-medium">{test.standardIcon}</span>
+                  <div className="w-px h-4 bg-[#7BAF7B]/30" />
+                  <span className="text-white/90">{test.standard}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Corner accents */}
-      <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2
-                   border-[#A8D9AC]/40 rounded-tl-md" />
-      <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2
-                   border-[#A8D9AC]/40 rounded-tr-md" />
-      <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2
-                   border-[#A8D9AC]/40 rounded-bl-md" />
-      <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2
-                   border-[#A8D9AC]/40 rounded-br-md" />
-    </div>
-  );
-});
-TestCard.displayName = 'TestCard';
-
-// New Image Slider Component
-const ImageSlider = memo(() => {
-  const [currentImage, setCurrentImage] = useState(0);
-  const images = ['/test/test1.png', '/test/test2.png', '/test/test3.png'];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(timer);
-  }, [images.length]);
-
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-    rootMargin: '50px 0px'
-  });
-
-  return (
-    <div 
-      ref={ref}
-      className={`relative w-full h-full rounded-[26px] 
-                bg-[#336B44] backdrop-blur-md border border-[#7BAF7B]/30
-                shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden
-                group
-                transition-transform duration-1000 ease-out will-change-transform
-                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
-    >
-      {/* Premium glass effect */}
-      <div className="absolute top-0 right-0 w-32 h-32 
-                    bg-gradient-to-br from-[#A8D9AC]/15 to-transparent 
-                    transition-opacity duration-500 group-hover:opacity-50" 
-           aria-hidden="true" />
-      
-      {/* Decorative blur effect */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 
-                    bg-[#A8D9AC]/10 rounded-full blur-2xl
-                    transition-opacity duration-500 group-hover:opacity-70" 
-           aria-hidden="true" />
-
-      {/* Corner accents */}
-      <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2
-                   border-[#A8D9AC]/40 rounded-tl-md" />
-      <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2
-                   border-[#A8D9AC]/40 rounded-tr-md" />
-      <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2
-                   border-[#A8D9AC]/40 rounded-bl-md" />
-      <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2
-                   border-[#A8D9AC]/40 rounded-br-md" />
-
-      {/* Images */}
-      <div className="relative w-full h-full">
-        {images.map((src, index) => (
-          <div
-            key={src}
-            className={`absolute inset-0 transition-opacity duration-1000
-                      ${currentImage === index ? 'opacity-100' : 'opacity-0'}`}
-          >
-            <Image
-              src={src}
-              alt={`Test image ${index + 1}`}
-              fill
-              className="object-cover object-center p-6 sm:p-8"
-              priority={index === 0}
-            />
+      {/* Enhanced Separator with Reduced Spacing */}
+      {index < tests.length - 1 && (
+        <div className="relative my-16">
+          {/* Center Decorative Element - Made Larger and More Prominent */}
+          <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2
+                       w-16 h-16 rounded-full bg-[#336B44]/10 
+                       flex items-center justify-center
+                       border border-[#336B44]/20">
+            <div className="w-8 h-8 rounded-full bg-[#336B44]/20 
+                         flex items-center justify-center
+                         border border-[#336B44]/30">
+              <div className="w-3 h-3 rounded-full bg-[#336B44]" />
+            </div>
           </div>
-        ))}
-      </div>
 
-      {/* Navigation dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentImage(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300
-                      ${currentImage === index 
-                        ? 'bg-[#FFD700] w-4' 
-                        : 'bg-[#A8D9AC]/40'}`}
-            aria-label={`Go to image ${index + 1}`}
-          />
-        ))}
-      </div>
-    </div>
+          {/* Gradient Lines - Made More Visible */}
+          <div className="flex items-center gap-6 max-w-[900px] mx-auto px-6">
+            <div className="h-[2px] flex-1 bg-gradient-to-r 
+                         from-transparent via-[#336B44]/40 to-transparent" />
+            <div className="h-[2px] flex-1 bg-gradient-to-r 
+                         from-transparent via-[#336B44]/40 to-transparent" />
+          </div>
+
+          {/* Enhanced Decorative Elements */}
+          <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-12">
+            <div className="w-2 h-2 rounded-full bg-[#336B44]" />
+            <div className="w-2 h-2 rounded-full bg-[#336B44]/60" />
+          </div>
+          <div className="absolute right-8 top-1/2 -translate-y-1/2 flex gap-12">
+            <div className="w-2 h-2 rounded-full bg-[#336B44]/60" />
+            <div className="w-2 h-2 rounded-full bg-[#336B44]" />
+          </div>
+
+          {/* Additional Decorative Lines */}
+          <div className="absolute left-24 top-1/2 -translate-y-1/2 w-12 h-[2px]
+                       bg-gradient-to-r from-[#336B44]/40 to-transparent 
+                       transform -rotate-45" />
+          <div className="absolute right-24 top-1/2 -translate-y-1/2 w-12 h-[2px]
+                       bg-gradient-to-l from-[#336B44]/40 to-transparent 
+                       transform rotate-45" />
+        </div>
+      )}
+    </motion.div>
   );
 });
 
-ImageSlider.displayName = 'ImageSlider';
+TestCard.displayName = 'TestCard';
 
 const TestsContent = memo(() => {
   return (
-    <div className='w-full relative max-w-[1900px] mx-auto'>
-      <div className='w-full flex flex-col gap-4 xs:gap-6 sm:gap-8 lg:gap-10'>
-        {/* First row */}
-        <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 lg:gap-10'>
-          {testCards.slice(0, 2).map((card, index) => (
-            <TestCard 
-              key={card.title} 
-              card={card} 
-              delay={index * 100} // Reduced delay for smoother sequence
-            />
-          ))}
-        </div>
-        
-        {/* Second row */}
-        <div className='w-full flex justify-center'>
-          <div className='w-full md:w-2/3 lg:w-1/2'>
-            <TestCard 
-              key={testCards[2].title} 
-              card={testCards[2]} 
-              delay={200} // Adjusted delay for smoother sequence
-            />
-          </div>
-        </div>
+    <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="space-y-8 sm:space-y-16 mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
+        {tests.map((test, index) => (
+          <TestCard key={test.id} test={test} index={index} />
+        ))}
       </div>
     </div>
-  )
+  );
 });
 
 TestsContent.displayName = 'TestsContent';
